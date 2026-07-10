@@ -1,0 +1,12 @@
+[
+  { "id": "f1", "intrebare": "Din ce material sunt fabricate produsele ArtyZawaz?", "raspuns": "Produsele noastre sunt fabricate din lemn natural de înaltă calitate, prelucrat manual și tratat cu uleiuri naturale pentru a asigura durabilitate și aspect premium." },
+  { "id": "f2", "intrebare": "Cât durează livrarea?", "raspuns": "Livrarea standard durează 2-4 zile lucrătoare în Moldova. Pentru comenzile urgente oferim livrare express în 24 de ore, cu o taxă suplimentară de 50 lei." },
+  { "id": "f3", "intrebare": "Produsele pot fi personalizate?", "raspuns": "Da! Oferim personalizare prin gravură laser — poți adăuga un mesaj, o dată sau un design personalizat. Contactează-ne pentru detalii și prețuri." },
+  { "id": "f4", "intrebare": "Care este politica de retur?", "raspuns": "Acceptăm retururi în 14 zile de la primirea coletului, dacă produsul este nefolosit și în ambalajul original. Costul returului este suportat de client." },
+  { "id": "f5", "intrebare": "Produsele sunt sigure pentru copii?", "raspuns": "Da, toate produsele noastre sunt fabricate din materiale netoxice și tratate cu vopsele sigure. Totuși, recomandam supraveghere pentru copiii sub 3 ani." },
+  { "id": "f6", "intrebare": "Cum îngrijesc produsul din lemn?", "raspuns": "Șterge cu o cârpă uscată sau ușor umedă. Evită expunerea la umiditate excesivă și lumina directă a soarelui pentru mult timp. O dată la 6 luni poți aplica ulei de lemn." },
+  { "id": "f7", "intrebare": "Oferiți livrare internațională?", "raspuns": "Da, livrăm în România, Ucraina și alte țări europene. Costul și durata variază în funcție de destinație. Contactează-ne pentru un calcul exact." },
+  { "id": "f8", "intrebare": "Pot să comand ca persoană juridică (factură fiscală)?", "raspuns": "Da, emitem facturi fiscale pentru persoane juridice. Menționează la comandă că ești persoană juridică și trimite-ne datele de facturare." },
+  { "id": "f9", "intrebare": "Ce fac dacă produsul a ajuns deteriorat?", "raspuns": "Fotografiază produsul și coletul deteriorat și contactează-ne în maxim 48h de la livrare. Vom înlocui produsul sau îți vom rambursa suma plătită." },
+  { "id": "f10", "intrebare": "Puteți realiza comenzi de grup sau corporate?", "raspuns": "Cu plăcere! Oferim reduceri speciale pentru comenzi mai mari de 10 bucăți. Contactează-ne pentru o ofertă personalizată adaptată nevoilor tale." }
+]
