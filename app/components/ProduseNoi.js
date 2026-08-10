@@ -42,8 +42,8 @@ export default function ProduseNoi() {
   };
 
   return (
-    <section style={{ background: "#EEF2EC", padding: isMobile ? "48px 16px" : "72px 24px", overflow: "hidden" }}>
-      <div style={{ maxWidth: "var(--container)", margin: "0 auto" }}>
+    <section style={{ background: "#EEF2EC", padding: isMobile ? "48px 16px" : "72px 16px", overflow: "hidden" }}>
+      <div style={{ maxWidth: "var(--container-inner)", margin: "0 auto" }}>
         <div style={{ marginBottom: 24 }}>
           <h2 style={{ fontSize: "clamp(28px, 3.5vw, 56px)", fontWeight: 900, lineHeight: 1.1, margin: "0 0 6px", color: "#1D2820" }}>Produse Noi</h2>
           <p style={{ fontSize: "clamp(13px, 1.1vw, 17px)", color: "#5D695F", margin: 0, lineHeight: 1.4 }}>Cele mai recente adăugări în colecția noastră</p>

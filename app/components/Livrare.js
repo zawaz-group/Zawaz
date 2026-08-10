@@ -8,9 +8,9 @@ export default function Livrare() {
       position: "relative",
     }}>
       <div style={{
-        maxWidth: 1300,
+        maxWidth: "var(--container)",
         margin: "0 auto",
-        padding: "0 clamp(24px, 5vw, 80px)",
+        padding: "0 var(--gutter)",
         display: "grid",
         gridTemplateColumns: "1fr 1fr",
         alignItems: "flex-end",

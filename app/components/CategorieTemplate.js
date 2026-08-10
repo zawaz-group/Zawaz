@@ -45,7 +45,7 @@ export default function CategorieTemplate({ slug }) {
       <NavBar />
 
       <section style={{ padding: "var(--section-padding)" }} className="page-content-top">
-        <div style={{ maxWidth: "var(--container)", margin: "0 auto" }}>
+        <div style={{ maxWidth: "var(--container-inner)", margin: "0 auto" }}>
 
           <h1 style={{ fontSize: 32, fontWeight: 800, margin: "0 0 6px", letterSpacing: "0.01em" }}>
             {subcategorieLabel || (slug === "pusculate" ? "Pușculițe" : slug.charAt(0).toUpperCase() + slug.slice(1))}

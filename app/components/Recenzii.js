@@ -95,9 +95,9 @@ export default function Recenzii() {
   return (
     <section style={{ background: "#EEF2EC", padding: "60px 0" }}>
       <div style={{
-        maxWidth: 1300,
+        maxWidth: "var(--container)",
         margin: "0 auto",
-        padding: "0 clamp(16px, 4vw, 64px)",
+        padding: "0 var(--gutter)",
         display: "grid",
         gridTemplateColumns: "minmax(300px, 460px) 1fr",
         gap: "clamp(40px, 5vw, 80px)",

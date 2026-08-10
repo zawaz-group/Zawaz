@@ -39,7 +39,7 @@ export default function BlogPage() {
           <p style={{ fontSize: 12, fontWeight: 700, letterSpacing: "0.2em", textTransform: "uppercase", color: "#D5B358", marginBottom: 12 }}>Blog</p>
           <h1 style={{ fontSize: 40, fontWeight: 800, color: "#1D2820", margin: 0 }}>Din atelierul nostru</h1>
         </div>
-        <div style={{ maxWidth: "var(--container)", margin: "0 auto", padding: "60px 24px 80px" }}>
+        <div style={{ maxWidth: "var(--container)", margin: "0 auto", padding: "60px var(--gutter) 80px" }}>
           <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(300px, 1fr))", gap: 32 }}>
             {articole.map(a => (
               <div key={a.slug} onClick={() => setActiv(a.slug)} style={{ cursor: "pointer", borderRadius: 16, overflow: "hidden", boxShadow: "0 2px 16px rgba(0,0,0,0.07)", transition: "transform 0.2s, box-shadow 0.2s" }}

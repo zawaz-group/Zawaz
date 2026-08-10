@@ -28,13 +28,19 @@ export default function OferteHero() {
   if (!href) return null;
 
   return (
-    <section style={{ padding: isMobile ? "24px 16px" : "40px 24px" }}>
-      <div style={{ maxWidth: "var(--container)", margin: "0 auto", display: "flex", justifyContent: "center" }}>
+    // padding orizontal 16px = acelasi cu al navbar-ului (NavBar.js:192),
+    // ca marginile bannerului sa cada exact pe marginile continutului paginii.
+    <section style={{ padding: isMobile ? "24px 16px" : "40px 16px" }}>
+      <div style={{ maxWidth: "var(--container-inner)", margin: "0 auto", display: "flex", justifyContent: "center" }}>
         <Link
           href={href}
           style={{
             position: "relative", display: "block",
-            width: isMobile ? "100%" : "50%",
+            // Fara plafon: bannerul urmeaza --container, la fel ca navbar-ul si
+            // restul sectiunilor, deci ramane aliniat pe orice latime de ecran.
+            width: "100%",
+            // 2/1 este raportul real al imaginii (1774x887), deci objectFit:
+            // cover o incadreaza fara sa taie nimic.
             aspectRatio: isMobile ? "16 / 9" : "2 / 1",
             borderRadius: 20,
             overflow: "hidden",
@@ -46,7 +52,7 @@ export default function OferteHero() {
             alt="Ofertă specială"
             fill
             priority
-            sizes="(max-width: 767px) 100vw, 50vw"
+            sizes="100vw"
             style={{ objectFit: isMobile ? "contain" : "cover", objectPosition: "center" }}
           />
         </Link>

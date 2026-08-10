@@ -6,8 +6,8 @@ export default function ImageAnimata() {
   const [hovered, setHovered] = useState(false);
 
   return (
-    <section style={{ padding: "64px 24px", background: "#183A22" }}>
-      <div style={{ maxWidth: 1280, margin: "0 auto" }} className="image-animata-row">
+    <section style={{ padding: "64px var(--gutter)", background: "#183A22" }}>
+      <div style={{ maxWidth: "var(--container-inner)", margin: "0 auto" }} className="image-animata-row">
         {/* Animated image side */}
         <div
           className="image-animata-img"

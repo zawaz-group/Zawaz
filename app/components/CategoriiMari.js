@@ -19,7 +19,7 @@ const categorii = [
 export default function CategoriiMari() {
   return (
     <section style={{ padding: "var(--section-padding)", background: "#F7F7F4" }}>
-      <div style={{ maxWidth: "var(--container)", margin: "0 auto" }}>
+      <div style={{ maxWidth: "var(--container-inner)", margin: "0 auto" }}>
         <h2 style={{ fontSize: 26, fontWeight: 800, textTransform: "uppercase", letterSpacing: "0.2em", marginBottom: 48, textAlign: "center", color: "#1D2820" }}>
           Explorează Categoriile
         </h2>

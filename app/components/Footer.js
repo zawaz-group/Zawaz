@@ -9,8 +9,8 @@ const links = {
 
 export default function Footer() {
   return (
-    <footer style={{ background: "#183A22", color: "#fff", paddingTop: 64, paddingBottom: 32, paddingLeft: 24, paddingRight: 24 }}>
-      <div style={{ maxWidth: "var(--container)", margin: "0 auto" }}>
+    <footer style={{ background: "#183A22", color: "#fff", paddingTop: 64, paddingBottom: 32, paddingLeft: "var(--gutter)", paddingRight: "var(--gutter)" }}>
+      <div style={{ maxWidth: "var(--container-inner)", margin: "0 auto" }}>
         {/* Top grid */}
         <div className="grid-4" style={{ marginBottom: 48 }}>
           {/* Brand */}

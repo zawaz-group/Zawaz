@@ -65,7 +65,7 @@ export default function CumFunctioneaza() {
         /* -- MOBILE LAYOUT -- */
         <div style={{ display: "flex", flexDirection: "column", gap: 28 }}>
           {/* Header */}
-          <div style={{ padding: "0 clamp(20px, 5vw, 40px)", display: "flex", flexDirection: "column", gap: 14 }}>
+          <div style={{ padding: "0 var(--gutter)", display: "flex", flexDirection: "column", gap: 14 }}>
             <h2 style={{
               fontSize: "clamp(36px, 10vw, 56px)", fontWeight: 900, lineHeight: 1.0,
               color: "#1D2820", margin: 0, letterSpacing: "-0.04em",
@@ -95,11 +95,11 @@ export default function CumFunctioneaza() {
               display: "flex", gap: 16, overflowX: "auto",
               scrollSnapType: "x mandatory", WebkitOverflowScrolling: "touch",
               scrollbarWidth: "none", paddingBottom: 8,
-              margin: "0 20px",
+              margin: "0 var(--gutter)",
             }}
           >
             {PASI.map((pas, i) => (
-              <div data-card key={pas.titlu} style={{ flexShrink: 0, width: "calc(100vw - 40px)", scrollSnapAlign: "start", display: "flex", flexDirection: "column", gap: 10 }}>
+              <div data-card key={pas.titlu} style={{ flexShrink: 0, width: "calc(100vw - 2 * var(--gutter))", scrollSnapAlign: "start", display: "flex", flexDirection: "column", gap: 10 }}>
                 <h3 style={{ fontSize: 20, fontWeight: 900, color: active === i ? "#1D2820" : "#DCE4D9", margin: 0, letterSpacing: "-0.02em", transition: "color 0.3s", fontFamily: "'Montserrat', 'Poppins', sans-serif" }}>{pas.titlu}</h3>
                 <div style={{ borderRadius: 20, overflow: "hidden", width: "100%", aspectRatio: "1 / 1", background: "#e8e4de", boxShadow: "0 6px 24px rgba(0,0,0,0.10)", position: "relative" }}>
                   <div style={{ position: "absolute", top: 0, left: 0, right: 0, height: "40%", background: "linear-gradient(to bottom, rgba(255,255,255,0.6) 0%, rgba(255,255,255,0) 100%)", zIndex: 1, pointerEvents: "none" }} />
@@ -121,7 +121,9 @@ export default function CumFunctioneaza() {
         <>
           <div style={{ display: "flex", alignItems: "flex-start", gap: 48 }}>
             {/* LEFT PANEL */}
-            <div style={{ flexShrink: 0, width: "50vw", display: "flex", flexDirection: "column", gap: 44, paddingTop: 8, paddingLeft: "clamp(32px, 6vw, 96px)" }}>
+            {/* paddingLeft aliniaza titlul exact cu marginea navbar-ului; cardurile
+                din dreapta raman libere sa iasa din ecran, taiate de overflow-ul sectiunii. */}
+            <div style={{ flexShrink: 0, width: "50vw", display: "flex", flexDirection: "column", gap: 44, paddingTop: 8, paddingLeft: "var(--page-left)" }}>
               <h2 style={{ fontSize: "clamp(52px, 6vw, 96px)", fontWeight: 900, lineHeight: 1.0, color: "#1D2820", margin: 0, letterSpacing: "-0.04em", fontFamily: "'Montserrat', 'Poppins', sans-serif" }}>Cum<br />functioneaza?</h2>
               <p style={{ fontSize: "clamp(28px, 3.2vw, 52px)", fontWeight: 700, lineHeight: 1.2, color: "#ccc9c0", margin: 0, letterSpacing: "-0.02em", fontFamily: "'Montserrat', 'Poppins', sans-serif" }}>"Simplu<br />si rapid!"</p>
               <div style={{ display: "flex", flexDirection: "column", gap: 12 }}>

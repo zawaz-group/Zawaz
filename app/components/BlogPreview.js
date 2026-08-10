@@ -11,7 +11,7 @@ export default function BlogPreview() {
 
   return (
     <section style={{ padding: "var(--section-padding)", background: "#F7F7F4" }}>
-      <div style={{ maxWidth: "var(--container)", margin: "0 auto" }}>
+      <div style={{ maxWidth: "var(--container-inner)", margin: "0 auto" }}>
         <div className="blog-header" style={{ display: "flex", alignItems: "flex-end", justifyContent: "space-between", marginBottom: 48, flexWrap: "wrap", gap: 16 }}>
           <div>
             <p style={{ fontSize: 12, fontWeight: 700, letterSpacing: "0.2em", textTransform: "uppercase", color: "#D5B358", marginBottom: 10 }}>Blog</p>
