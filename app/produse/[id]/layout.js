@@ -1,6 +1,5 @@
 import { readDb } from "../../lib/db";
-
-const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || "https://artyzawaz.vercel.app";
+import { SITE_URL } from "../../lib/site";
 
 export async function generateMetadata({ params }) {
   const { id } = await params;

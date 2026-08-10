@@ -1,7 +1,6 @@
 import { readDb } from "./lib/db";
+import { SITE_URL } from "./lib/site";
 import categorii from "../data/categorii.json";
-
-const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || "https://artyzawaz.vercel.app";
 
 // Lista de produse se schimbă din admin, nu la deploy — generăm sitemap-ul
 // la cerere, ca produsele noi să fie indexabile fără rebuild.

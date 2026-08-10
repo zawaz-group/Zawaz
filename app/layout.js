@@ -2,6 +2,7 @@ import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import { CosProvider } from "./context/CosContext";
 import FloatingWidgets from "./components/FloatingWidgets";
+import { SITE_URL } from "./lib/site";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -12,8 +13,6 @@ const geistMono = Geist_Mono({
   variable: "--font-geist-mono",
   subsets: ["latin"],
 });
-
-const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || "https://artyzawaz.vercel.app";
 
 export const metadata = {
   metadataBase: new URL(SITE_URL),
