@@ -1,6 +1,10 @@
 import FilteredPage from "../../components/FilteredPage";
 import { getProduseByTema, getAllTeme, slugify, deslugify } from "../../lib/produse";
 
+// Produsele vin din MongoDB la fiecare cerere. Fără asta, pagina ar fi
+// prerandată la build și modificările din admin n-ar apărea până la redeploy.
+export const dynamic = "force-dynamic";
+
 export function generateStaticParams() {
   return getAllTeme().map(t => ({ slug: slugify(t) }));
 }

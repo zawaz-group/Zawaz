@@ -1,14 +1,31 @@
-import { put, list } from "@vercel/blob";
-import { readFileSync, writeFileSync } from "fs";
+import { readFileSync } from "fs";
 import { join } from "path";
+import { getCollection, hasMongo } from "./mongo.js";
 
-const TOKEN = process.env.BLOB_READ_WRITE_TOKEN;
+/*
+ * Stratul de date al site-ului, pe MongoDB.
+ *
+ * Interfața (readDb / writeDb pe un "name") a rămas identică cu varianta
+ * anterioară pe fișiere JSON, așa că rutele din app/api nu s-au schimbat.
+ * Fiecare "name" este o colecție:
+ *   - liste (produse, blog, faq, …) → câte un document per element,
+ *     ordinea păstrată în câmpul intern `_ord`;
+ *   - obiecte (setari)              → un singur document, sub `_id: __singleton__`.
+ *
+ * Documentul `__meta__` marchează o colecție ca inițializată. Fără el nu am
+ * putea distinge "colecție încă nepopulată" (unde vrem fallback pe fișierul
+ * local) de "listă golită intenționat din admin" (unde fallback-ul ar învia
+ * datele șterse).
+ */
+
+const SINGLETON_ID = "__singleton__";
+const META_ID = "__meta__";
 
 function localPath(name) {
   return join(process.cwd(), "data", `${name}.json`);
 }
 
-function getLocalFallback(name) {
+function readLocal(name) {
   try {
     return JSON.parse(readFileSync(localPath(name), "utf-8"));
   } catch {
@@ -16,57 +33,69 @@ function getLocalFallback(name) {
   }
 }
 
-function writeLocal(name, data) {
-  try {
-    writeFileSync(localPath(name), JSON.stringify(data, null, 2), "utf-8");
-  } catch {
-    // production / read-only filesystem — ignore
-  }
+function strip(doc) {
+  const { _id, _ord, ...rest } = doc;
+  return rest;
+}
+
+function keyOf(item, index) {
+  return String(item?.id ?? item?.slug ?? `item-${index}`);
 }
 
 export async function readDb(name) {
-  // In development, local file is always up-to-date (writeDb keeps it fresh)
-  if (process.env.NODE_ENV === "development") {
-    return getLocalFallback(name);
-  }
-  if (!TOKEN) return getLocalFallback(name);
+  if (!hasMongo()) return readLocal(name);
+
   try {
-    const { blobs } = await list({ prefix: `db/${name}.json`, token: TOKEN });
-    if (blobs.length === 0) {
-      const localData = getLocalFallback(name);
-      const hasData = Array.isArray(localData) ? localData.length > 0 : Object.keys(localData).length > 0;
-      if (hasData) await writeDb(name, localData);
-      return localData;
-    }
-    const url = blobs[blobs.length - 1].url;
-    const res = await fetch(url, { cache: "no-store" });
-    if (!res.ok) return getLocalFallback(name);
-    return await res.json();
-  } catch {
-    return getLocalFallback(name);
+    const col = await getCollection(name);
+    const docs = await col.find({}).sort({ _ord: 1 }).toArray();
+
+    const singleton = docs.find((d) => d._id === SINGLETON_ID);
+    if (singleton) return strip(singleton);
+
+    const items = docs.filter((d) => d._id !== META_ID);
+    if (items.length === 0 && !docs.some((d) => d._id === META_ID)) return readLocal(name);
+
+    return items.map(strip);
+  } catch (err) {
+    // Citirea nu trebuie să doboare site-ul: servim ultima variantă cunoscută
+    // din data/*.json. Datele pot fi învechite, de aceea logăm explicit.
+    console.error(`[db] Citirea "${name}" din MongoDB a eșuat; folosesc data/${name}.json.`, err);
+    return readLocal(name);
   }
 }
 
 export async function writeDb(name, data) {
-  // Always try local first (dev) — fails silently on Vercel read-only fs.
-  let localOk = false;
-  try {
-    writeFileSync(localPath(name), JSON.stringify(data, null, 2), "utf-8");
-    localOk = true;
-  } catch {
-    /* read-only filesystem in production — expected */
-  }
+  // Spre deosebire de citire, o scriere eșuată nu are fallback rezonabil:
+  // preferăm o eroare vizibilă în admin decât pierderea silențioasă a datelor.
+  if (!hasMongo()) throw new Error("Salvarea a eșuat: MONGODB_URI nu este configurat.");
 
-  if (!TOKEN) {
-    // No blob token: only local write is possible.
-    if (!localOk) throw new Error("Salvarea a eșuat: nu există token Blob și fișierul local e read-only.");
+  const col = await getCollection(name);
+
+  if (!Array.isArray(data)) {
+    await col.replaceOne({ _id: SINGLETON_ID }, { ...data }, { upsert: true });
     return;
   }
 
-  await put(`db/${name}.json`, JSON.stringify(data, null, 2), {
-    access: "public",
-    allowOverwrite: true,
-    contentType: "application/json",
-    token: TOKEN,
+  const keep = data.map(keyOf);
+  const ops = data.map((item, i) => ({
+    replaceOne: {
+      filter: { _id: keep[i] },
+      replacement: { ...item, _ord: i },
+      upsert: true,
+    },
+  }));
+
+  // Întâi upsert-urile, apoi ștergem ce nu mai apare în listă: o listă
+  // nu rămâne niciodată goală între operații, cum s-ar fi întâmplat la un
+  // deleteMany urmat de insertMany.
+  ops.push({ deleteMany: { filter: { _id: { $nin: [...keep, META_ID] } } } });
+  ops.push({
+    updateOne: {
+      filter: { _id: META_ID },
+      update: { $set: { initialized: true, updatedAt: new Date() } },
+      upsert: true,
+    },
   });
+
+  await col.bulkWrite(ops, { ordered: true });
 }
