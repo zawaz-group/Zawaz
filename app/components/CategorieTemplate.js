@@ -41,7 +41,7 @@ export default function CategorieTemplate({ slug }) {
   const subcategorieLabel = SUBCATEGORII.find(s => s.slug === categorieActiva)?.label;
 
   return (
-    <div style={{ background: "#fff", minHeight: "100vh" }}>
+    <div style={{ background: "#F7F7F4", minHeight: "100vh" }}>
       <NavBar />
 
       <section style={{ padding: "var(--section-padding)" }} className="page-content-top">
@@ -50,7 +50,7 @@ export default function CategorieTemplate({ slug }) {
           <h1 style={{ fontSize: 32, fontWeight: 800, margin: "0 0 6px", letterSpacing: "0.01em" }}>
             {subcategorieLabel || (slug === "pusculate" ? "Pușculițe" : slug.charAt(0).toUpperCase() + slug.slice(1))}
           </h1>
-          <p style={{ fontSize: 14, color: "#888", marginBottom: 32 }}>
+          <p style={{ fontSize: 14, color: "#5D695F", marginBottom: 32 }}>
             {loading ? "Se încarcă..." : `${produseAfisate.length} produse`}
           </p>
 
@@ -59,8 +59,8 @@ export default function CategorieTemplate({ slug }) {
             <Link href={`/${slug}`}
               style={{
                 padding: "7px 18px", borderRadius: 999, fontSize: 13, fontWeight: 600,
-                background: !categorieActiva ? "#2B652C" : "#f5f3ef",
-                color: !categorieActiva ? "#fff" : "#555",
+                background: !categorieActiva ? "#2C662D" : "#EEF2EC",
+                color: !categorieActiva ? "#fff" : "#5D695F",
                 textDecoration: "none", transition: "all 0.2s",
               }}
             >Toate</Link>
@@ -68,8 +68,8 @@ export default function CategorieTemplate({ slug }) {
               <Link key={s.slug} href={`/${slug}?categorie=${s.slug}`}
                 style={{
                   padding: "7px 18px", borderRadius: 999, fontSize: 13, fontWeight: 600,
-                  background: categorieActiva === s.slug ? "#2B652C" : "#f5f3ef",
-                  color: categorieActiva === s.slug ? "#fff" : "#555",
+                  background: categorieActiva === s.slug ? "#2C662D" : "#EEF2EC",
+                  color: categorieActiva === s.slug ? "#fff" : "#5D695F",
                   textDecoration: "none", transition: "all 0.2s",
                 }}
               >{s.label}</Link>
@@ -78,9 +78,9 @@ export default function CategorieTemplate({ slug }) {
 
           {/* Products grid */}
           {loading ? (
-            <div style={{ textAlign: "center", padding: "80px 0", color: "#aaa", fontSize: 18 }}>Se încarcă...</div>
+            <div style={{ textAlign: "center", padding: "80px 0", color: "#5D695F", fontSize: 18 }}>Se încarcă...</div>
           ) : produseAfisate.length === 0 ? (
-            <p style={{ textAlign: "center", color: "#aaa", fontSize: 18, padding: "80px 0" }}>
+            <p style={{ textAlign: "center", color: "#5D695F", fontSize: 18, padding: "80px 0" }}>
               Nu există produse în această categorie momentan.
             </p>
           ) : (

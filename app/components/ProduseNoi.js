@@ -1,4 +1,4 @@
-﻿"use client";
+"use client";
 import { useEffect, useState } from "react";
 import Link from "next/link";
 import ProdusCard from "./ProdusCard";
@@ -42,11 +42,11 @@ export default function ProduseNoi() {
   };
 
   return (
-    <section style={{ background: "#f9f8f6", padding: isMobile ? "48px 16px" : "72px 24px", overflow: "hidden" }}>
+    <section style={{ background: "#EEF2EC", padding: isMobile ? "48px 16px" : "72px 24px", overflow: "hidden" }}>
       <div style={{ maxWidth: "var(--container)", margin: "0 auto" }}>
         <div style={{ marginBottom: 24 }}>
-          <h2 style={{ fontSize: "clamp(28px, 3.5vw, 56px)", fontWeight: 900, lineHeight: 1.1, margin: "0 0 6px", color: "#111" }}>Produse Noi</h2>
-          <p style={{ fontSize: "clamp(13px, 1.1vw, 17px)", color: "#666", margin: 0, lineHeight: 1.4 }}>Cele mai recente adăugări în colecția noastră</p>
+          <h2 style={{ fontSize: "clamp(28px, 3.5vw, 56px)", fontWeight: 900, lineHeight: 1.1, margin: "0 0 6px", color: "#1D2820" }}>Produse Noi</h2>
+          <p style={{ fontSize: "clamp(13px, 1.1vw, 17px)", color: "#5D695F", margin: 0, lineHeight: 1.4 }}>Cele mai recente adăugări în colecția noastră</p>
         </div>
 
         <div style={{ display: "grid", gridTemplateColumns: isMobile ? "repeat(2, minmax(0, 1fr))" : "repeat(5, minmax(0, 1fr))", gap: isMobile ? 12 : 16 }}>
@@ -60,19 +60,19 @@ export default function ProduseNoi() {
         <div style={{ display: "flex", justifyContent: "center", alignItems: "center", gap: 12, marginTop: 32, flexWrap: "wrap" }}>
           <button
             onClick={goPrev}
-            style={{ width: 44, height: 44, borderRadius: "50%", border: "2px solid #2B652C", background: "transparent", cursor: "pointer", display: "flex", alignItems: "center", justifyContent: "center", fontSize: 22, fontWeight: 700, transition: "all 0.2s" }}
-            onMouseEnter={(e) => { e.currentTarget.style.background = "#2B652C"; e.currentTarget.style.color = "#fff"; }}
-            onMouseLeave={(e) => { e.currentTarget.style.background = "transparent"; e.currentTarget.style.color = "#2B652C"; }}
+            style={{ width: 44, height: 44, borderRadius: "50%", border: "2px solid #2C662D", background: "transparent", cursor: "pointer", display: "flex", alignItems: "center", justifyContent: "center", fontSize: 22, fontWeight: 700, transition: "all 0.2s" }}
+            onMouseEnter={(e) => { e.currentTarget.style.background = "#214F27"; e.currentTarget.style.color = "#fff"; }}
+            onMouseLeave={(e) => { e.currentTarget.style.background = "transparent"; e.currentTarget.style.color = "#2C662D"; }}
           >&#8249;</button>
-          <Link href="/produse-noi" style={{ padding: "12px 36px", border: "2px solid #2B652C", borderRadius: 999, fontSize: 14, fontWeight: 700, color: "#2B652C", textDecoration: "none", transition: "all 0.2s", background: "transparent" }}
-            onMouseEnter={(e) => { e.currentTarget.style.background = "#2B652C"; e.currentTarget.style.color = "#fff"; }}
-            onMouseLeave={(e) => { e.currentTarget.style.background = "transparent"; e.currentTarget.style.color = "#2B652C"; }}
+          <Link href="/produse-noi" style={{ padding: "12px 36px", border: "2px solid #2C662D", borderRadius: 999, fontSize: 14, fontWeight: 700, color: "#2C662D", textDecoration: "none", transition: "all 0.2s", background: "transparent" }}
+            onMouseEnter={(e) => { e.currentTarget.style.background = "#214F27"; e.currentTarget.style.color = "#fff"; }}
+            onMouseLeave={(e) => { e.currentTarget.style.background = "transparent"; e.currentTarget.style.color = "#2C662D"; }}
           >Vezi toate</Link>
           <button
             onClick={goNext}
-            style={{ width: 44, height: 44, borderRadius: "50%", border: "2px solid #2B652C", background: "transparent", cursor: "pointer", display: "flex", alignItems: "center", justifyContent: "center", fontSize: 22, fontWeight: 700, transition: "all 0.2s" }}
-            onMouseEnter={(e) => { e.currentTarget.style.background = "#2B652C"; e.currentTarget.style.color = "#fff"; }}
-            onMouseLeave={(e) => { e.currentTarget.style.background = "transparent"; e.currentTarget.style.color = "#2B652C"; }}
+            style={{ width: 44, height: 44, borderRadius: "50%", border: "2px solid #2C662D", background: "transparent", cursor: "pointer", display: "flex", alignItems: "center", justifyContent: "center", fontSize: 22, fontWeight: 700, transition: "all 0.2s" }}
+            onMouseEnter={(e) => { e.currentTarget.style.background = "#214F27"; e.currentTarget.style.color = "#fff"; }}
+            onMouseLeave={(e) => { e.currentTarget.style.background = "transparent"; e.currentTarget.style.color = "#2C662D"; }}
           >&#8250;</button>
         </div>
       </div>

@@ -1,5 +1,5 @@
 import NavBar from "./components/NavBar";
-import HeroSection from "./components/HeroSection";
+import OferteHero from "./components/OferteHero";
 import CumFunctioneaza from "./components/CumFunctioneaza";
 import CategoriiMari from "./components/CategoriiMari";
 import ProduseNoi from "./components/ProduseNoi";
@@ -15,14 +15,9 @@ import AutoVidare from "./components/AutoVidare";
 
 export default function Home() {
   return (
-    <div style={{ background: "#ffffff", minHeight: "100vh" }}>
-      <div style={{ position: "relative", zIndex: 20, background: "#f0eeeb" }}>
-        <NavBar />
-        <div style={{ height: 68, background: "#f0eeeb" }} aria-hidden="true" />
-      </div>
-      <div style={{ position: "relative", zIndex: 1 }}>
-        <HeroSection />
-      </div>
+    <div style={{ background: "#F7F7F4", minHeight: "100vh" }}>
+      <NavBar />
+      <OferteHero />
       <CumFunctioneaza />
       <ProduseNoi />
       <Reduceri />

@@ -40,7 +40,7 @@ export default function AutoVidare() {
           <h2 style={{
             fontSize: "clamp(36px, 5vw, 72px)",
             fontWeight: 900,
-            color: "#111",
+            color: "#1D2820",
             lineHeight: 1.05,
             margin: "0 0 36px",
             letterSpacing: "-0.03em",
@@ -71,7 +71,7 @@ export default function AutoVidare() {
                 <span key={i} style={{
                   display: "inline-block",
                   background: "transparent",
-                  color: "#111",
+                  color: "#1D2820",
                   fontWeight: 600,
                   fontSize: "clamp(14px, 3.8vw, 17px)",
                   padding: "3px 0",

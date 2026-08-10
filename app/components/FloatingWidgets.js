@@ -30,7 +30,7 @@ export default function FloatingWidgets() {
         alignItems: "center",
         gap: isMobile ? 0 : 14,
         background: isMobile ? "transparent" : "#f5f0e8",
-        border: isMobile ? "none" : "2.5px solid #2B652C",
+        border: isMobile ? "none" : "2.5px solid #2C662D",
         borderRadius: 999,
         padding: isMobile ? 0 : "12px 22px 12px 12px",
         textDecoration: "none",
@@ -43,7 +43,7 @@ export default function FloatingWidgets() {
     >
       <div style={{
         width: 48, height: 48, borderRadius: "50%",
-        background: "#2B652C",
+        background: "#2C662D",
         display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0,
         boxShadow: isMobile ? "0 4px 16px rgba(0,0,0,0.28)" : "none",
       }}>
@@ -53,8 +53,8 @@ export default function FloatingWidgets() {
       </div>
       {!isMobile && (
         <div>
-          <p style={{ margin: 0, fontSize: 11, color: "#888", fontWeight: 500, lineHeight: 1 }}>Ai nevoie de ajutor?</p>
-          <p style={{ margin: "3px 0 0", fontSize: 17, fontWeight: 800, color: "#2B652C", lineHeight: 1, letterSpacing: "-0.02em" }}>068 559 911</p>
+          <p style={{ margin: 0, fontSize: 11, color: "#5D695F", fontWeight: 500, lineHeight: 1 }}>Ai nevoie de ajutor?</p>
+          <p style={{ margin: "3px 0 0", fontSize: 17, fontWeight: 800, color: "#2C662D", lineHeight: 1, letterSpacing: "-0.02em" }}>068 559 911</p>
         </div>
       )}
     </a>

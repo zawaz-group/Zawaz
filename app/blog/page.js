@@ -17,10 +17,10 @@ export default function BlogPage() {
       <>
         <NavBar />
         <main style={{ minHeight: "70vh", maxWidth: 720, margin: "0 auto", padding: "var(--section-padding)" }}>
-          <button onClick={() => setActiv(null)} style={{ background: "none", border: "none", cursor: "pointer", fontSize: 14, color: "#888", marginBottom: 32, padding: 0, fontWeight: 600 }}>← Înapoi la blog</button>
-          <span style={{ fontSize: 11, fontWeight: 700, letterSpacing: "0.14em", textTransform: "uppercase", color: "#c8a96e" }}>{a.categorie}</span>
-          <h1 style={{ fontSize: 36, fontWeight: 800, color: "#111", margin: "12px 0 8px", lineHeight: 1.25 }}>{a.titlu}</h1>
-          <p style={{ fontSize: 13, color: "#aaa", marginBottom: 40 }}>{a.data} · {a.citire} citire</p>
+          <button onClick={() => setActiv(null)} style={{ background: "none", border: "none", cursor: "pointer", fontSize: 14, color: "#5D695F", marginBottom: 32, padding: 0, fontWeight: 600 }}>← Înapoi la blog</button>
+          <span style={{ fontSize: 11, fontWeight: 700, letterSpacing: "0.14em", textTransform: "uppercase", color: "#D5B358" }}>{a.categorie}</span>
+          <h1 style={{ fontSize: 36, fontWeight: 800, color: "#1D2820", margin: "12px 0 8px", lineHeight: 1.25 }}>{a.titlu}</h1>
+          <p style={{ fontSize: 13, color: "#5D695F", marginBottom: 40 }}>{a.data} · {a.citire} citire</p>
           <div style={{ width: "100%", aspectRatio: "16/9", borderRadius: 16, overflow: "hidden", marginBottom: 40 }}>
             <img src={a.img} alt={a.titlu} style={{ width: "100%", height: "100%", objectFit: "cover", display: "block" }} />
           </div>
@@ -35,9 +35,9 @@ export default function BlogPage() {
     <>
       <NavBar />
       <main style={{ minHeight: "70vh" }}>
-        <div className="page-hero" style={{ background: "#faf9f7" }}>
-          <p style={{ fontSize: 12, fontWeight: 700, letterSpacing: "0.2em", textTransform: "uppercase", color: "#c8a96e", marginBottom: 12 }}>Blog</p>
-          <h1 style={{ fontSize: 40, fontWeight: 800, color: "#111", margin: 0 }}>Din atelierul nostru</h1>
+        <div className="page-hero" style={{ background: "#EEF2EC" }}>
+          <p style={{ fontSize: 12, fontWeight: 700, letterSpacing: "0.2em", textTransform: "uppercase", color: "#D5B358", marginBottom: 12 }}>Blog</p>
+          <h1 style={{ fontSize: 40, fontWeight: 800, color: "#1D2820", margin: 0 }}>Din atelierul nostru</h1>
         </div>
         <div style={{ maxWidth: "var(--container)", margin: "0 auto", padding: "60px 24px 80px" }}>
           <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(300px, 1fr))", gap: 32 }}>
@@ -54,12 +54,12 @@ export default function BlogPage() {
                 </div>
                 <div style={{ padding: "22px 22px 26px", background: "#fff", display: "flex", flexDirection: "column", gap: 10 }}>
                   <div style={{ display: "flex", gap: 10, alignItems: "center" }}>
-                    <span style={{ fontSize: 11, fontWeight: 700, letterSpacing: "0.14em", textTransform: "uppercase", color: "#c8a96e" }}>{a.categorie}</span>
-                    <span style={{ fontSize: 11, color: "#bbb" }}>· {a.citire} citire</span>
+                    <span style={{ fontSize: 11, fontWeight: 700, letterSpacing: "0.14em", textTransform: "uppercase", color: "#D5B358" }}>{a.categorie}</span>
+                    <span style={{ fontSize: 11, color: "#5D695F" }}>· {a.citire} citire</span>
                   </div>
-                  <h2 style={{ margin: 0, fontSize: 17, fontWeight: 800, color: "#111", lineHeight: 1.35 }}>{a.titlu}</h2>
-                  <p style={{ margin: 0, fontSize: 14, color: "#666", lineHeight: 1.6 }}>{a.rezumat}</p>
-                  <p style={{ margin: 0, fontSize: 12, color: "#aaa" }}>{a.data}</p>
+                  <h2 style={{ margin: 0, fontSize: 17, fontWeight: 800, color: "#1D2820", lineHeight: 1.35 }}>{a.titlu}</h2>
+                  <p style={{ margin: 0, fontSize: 14, color: "#5D695F", lineHeight: 1.6 }}>{a.rezumat}</p>
+                  <p style={{ margin: 0, fontSize: 12, color: "#5D695F" }}>{a.data}</p>
                 </div>
               </div>
             ))}

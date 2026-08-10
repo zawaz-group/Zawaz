@@ -60,7 +60,7 @@ export default function CumFunctioneaza() {
   };
 
   return (
-    <section style={{ background: "#f9f8f6", padding: isMobile ? "48px 0 60px" : "80px 0 100px", overflow: "hidden" }}>
+    <section style={{ background: "#EEF2EC", padding: isMobile ? "48px 0 60px" : "80px 0 100px", overflow: "hidden" }}>
       {isMobile ? (
         /* -- MOBILE LAYOUT -- */
         <div style={{ display: "flex", flexDirection: "column", gap: 28 }}>
@@ -68,7 +68,7 @@ export default function CumFunctioneaza() {
           <div style={{ padding: "0 clamp(20px, 5vw, 40px)", display: "flex", flexDirection: "column", gap: 14 }}>
             <h2 style={{
               fontSize: "clamp(36px, 10vw, 56px)", fontWeight: 900, lineHeight: 1.0,
-              color: "#111", margin: 0, letterSpacing: "-0.04em",
+              color: "#1D2820", margin: 0, letterSpacing: "-0.04em",
               fontFamily: "'Montserrat', 'Poppins', sans-serif",
             }}>Cum<br />functioneaza?</h2>
             <p style={{
@@ -81,9 +81,9 @@ export default function CumFunctioneaza() {
                 <img src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=100&h=100&fit=crop&crop=face" alt="Maria" style={{ width: "100%", height: "100%", objectFit: "cover", display: "block" }} />
               </div>
               <div style={{ display: "flex", gap: 2 }}>
-                {[...Array(5)].map((_, i) => <span key={i} style={{ color: "#d4a843", fontSize: 16 }}>★</span>)}
+                {[...Array(5)].map((_, i) => <span key={i} style={{ color: "#D5B358", fontSize: 16 }}>★</span>)}
               </div>
-              <p style={{ fontSize: 13, color: "#aaa", margin: 0, fontWeight: 600 }}>Maria, Chisinau</p>
+              <p style={{ fontSize: 13, color: "#5D695F", margin: 0, fontWeight: 600 }}>Maria, Chisinau</p>
             </div>
           </div>
 
@@ -100,7 +100,7 @@ export default function CumFunctioneaza() {
           >
             {PASI.map((pas, i) => (
               <div data-card key={pas.titlu} style={{ flexShrink: 0, width: "calc(100vw - 40px)", scrollSnapAlign: "start", display: "flex", flexDirection: "column", gap: 10 }}>
-                <h3 style={{ fontSize: 20, fontWeight: 900, color: active === i ? "#111" : "#bbb", margin: 0, letterSpacing: "-0.02em", transition: "color 0.3s", fontFamily: "'Montserrat', 'Poppins', sans-serif" }}>{pas.titlu}</h3>
+                <h3 style={{ fontSize: 20, fontWeight: 900, color: active === i ? "#1D2820" : "#DCE4D9", margin: 0, letterSpacing: "-0.02em", transition: "color 0.3s", fontFamily: "'Montserrat', 'Poppins', sans-serif" }}>{pas.titlu}</h3>
                 <div style={{ borderRadius: 20, overflow: "hidden", width: "100%", aspectRatio: "1 / 1", background: "#e8e4de", boxShadow: "0 6px 24px rgba(0,0,0,0.10)", position: "relative" }}>
                   <div style={{ position: "absolute", top: 0, left: 0, right: 0, height: "40%", background: "linear-gradient(to bottom, rgba(255,255,255,0.6) 0%, rgba(255,255,255,0) 100%)", zIndex: 1, pointerEvents: "none" }} />
                   <video src={pas.video} autoPlay muted loop playsInline style={{ width: "100%", height: "100%", objectFit: "cover", display: "block" }} />
@@ -112,7 +112,7 @@ export default function CumFunctioneaza() {
           {/* Dots */}
           <div style={{ display: "flex", justifyContent: "center", gap: 8 }}>
             {PASI.map((_, i) => (
-              <div key={i} onClick={() => scrollTo(i)} style={{ width: active === i ? 28 : 8, height: 8, borderRadius: 999, background: active === i ? "#c8c4bb" : "#ddd", cursor: "pointer", transition: "all 0.35s ease" }} />
+              <div key={i} onClick={() => scrollTo(i)} style={{ width: active === i ? 28 : 8, height: 8, borderRadius: 999, background: active === i ? "#c8c4bb" : "#DCE4D9", cursor: "pointer", transition: "all 0.35s ease" }} />
             ))}
           </div>
         </div>
@@ -122,7 +122,7 @@ export default function CumFunctioneaza() {
           <div style={{ display: "flex", alignItems: "flex-start", gap: 48 }}>
             {/* LEFT PANEL */}
             <div style={{ flexShrink: 0, width: "50vw", display: "flex", flexDirection: "column", gap: 44, paddingTop: 8, paddingLeft: "clamp(32px, 6vw, 96px)" }}>
-              <h2 style={{ fontSize: "clamp(52px, 6vw, 96px)", fontWeight: 900, lineHeight: 1.0, color: "#111", margin: 0, letterSpacing: "-0.04em", fontFamily: "'Montserrat', 'Poppins', sans-serif" }}>Cum<br />functioneaza?</h2>
+              <h2 style={{ fontSize: "clamp(52px, 6vw, 96px)", fontWeight: 900, lineHeight: 1.0, color: "#1D2820", margin: 0, letterSpacing: "-0.04em", fontFamily: "'Montserrat', 'Poppins', sans-serif" }}>Cum<br />functioneaza?</h2>
               <p style={{ fontSize: "clamp(28px, 3.2vw, 52px)", fontWeight: 700, lineHeight: 1.2, color: "#ccc9c0", margin: 0, letterSpacing: "-0.02em", fontFamily: "'Montserrat', 'Poppins', sans-serif" }}>"Simplu<br />si rapid!"</p>
               <div style={{ display: "flex", flexDirection: "column", gap: 12 }}>
                 <div style={{ display: "flex", alignItems: "center", gap: 14 }}>
@@ -130,14 +130,14 @@ export default function CumFunctioneaza() {
                     <img src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=100&h=100&fit=crop&crop=face" alt="Maria" style={{ width: "100%", height: "100%", objectFit: "cover", display: "block" }} />
                   </div>
                   <div style={{ display: "flex", gap: 3 }}>
-                    {[...Array(5)].map((_, i) => <span key={i} style={{ color: "#d4a843", fontSize: 22, lineHeight: 1 }}>★</span>)}
+                    {[...Array(5)].map((_, i) => <span key={i} style={{ color: "#D5B358", fontSize: 22, lineHeight: 1 }}>★</span>)}
                   </div>
                 </div>
-                <p style={{ fontSize: 15, color: "#aaa", margin: 0, fontWeight: 600, letterSpacing: "0.02em" }}>Maria, Chisinau</p>
+                <p style={{ fontSize: 15, color: "#5D695F", margin: 0, fontWeight: 600, letterSpacing: "0.02em" }}>Maria, Chisinau</p>
               </div>
               <div style={{ display: "flex", gap: 12 }}>
-                <button onClick={() => scrollTo((active - 1 + PASI.length) % PASI.length)} style={{ width: 56, height: 56, borderRadius: "50%", border: "none", background: "#eceae5", cursor: "pointer", display: "flex", alignItems: "center", justifyContent: "center", fontSize: 24, color: "#555", transition: "all 0.2s" }} onMouseEnter={e => { e.currentTarget.style.background = "#e0ddd5"; }} onMouseLeave={e => { e.currentTarget.style.background = "#eceae5"; }}>&#8249;</button>
-                <button onClick={() => scrollTo((active + 1) % PASI.length)} style={{ width: 56, height: 56, borderRadius: "50%", border: "none", background: "#eceae5", cursor: "pointer", display: "flex", alignItems: "center", justifyContent: "center", fontSize: 24, color: "#555", transition: "all 0.2s" }} onMouseEnter={e => { e.currentTarget.style.background = "#e0ddd5"; }} onMouseLeave={e => { e.currentTarget.style.background = "#eceae5"; }}>&#8250;</button>
+                <button onClick={() => scrollTo((active - 1 + PASI.length) % PASI.length)} style={{ width: 56, height: 56, borderRadius: "50%", border: "none", background: "#EEF2EC", cursor: "pointer", display: "flex", alignItems: "center", justifyContent: "center", fontSize: 24, color: "#5D695F", transition: "all 0.2s" }} onMouseEnter={e => { e.currentTarget.style.background = "#DCE4D9"; }} onMouseLeave={e => { e.currentTarget.style.background = "#EEF2EC"; }}>&#8249;</button>
+                <button onClick={() => scrollTo((active + 1) % PASI.length)} style={{ width: 56, height: 56, borderRadius: "50%", border: "none", background: "#EEF2EC", cursor: "pointer", display: "flex", alignItems: "center", justifyContent: "center", fontSize: 24, color: "#5D695F", transition: "all 0.2s" }} onMouseEnter={e => { e.currentTarget.style.background = "#DCE4D9"; }} onMouseLeave={e => { e.currentTarget.style.background = "#EEF2EC"; }}>&#8250;</button>
               </div>
             </div>
 
@@ -145,7 +145,7 @@ export default function CumFunctioneaza() {
             <div ref={scrollRef} style={{ display: "flex", gap: 24, alignItems: "flex-start", flex: 1, minWidth: 0, overflowX: "hidden", scrollBehavior: "smooth" }}>
               {PASI.map((pas, i) => (
                 <div key={pas.titlu} onClick={() => scrollTo(i)} style={{ flexShrink: 0, width: 500, display: "flex", flexDirection: "column", gap: 16, cursor: "pointer" }}>
-                  <h3 style={{ fontSize: 28, fontWeight: 900, color: active === i ? "#111" : "#bbb", margin: 0, lineHeight: 1.1, letterSpacing: "-0.02em", transition: "color 0.3s", fontFamily: "'Montserrat', 'Poppins', sans-serif" }}>{pas.titlu}</h3>
+                  <h3 style={{ fontSize: 28, fontWeight: 900, color: active === i ? "#1D2820" : "#DCE4D9", margin: 0, lineHeight: 1.1, letterSpacing: "-0.02em", transition: "color 0.3s", fontFamily: "'Montserrat', 'Poppins', sans-serif" }}>{pas.titlu}</h3>
                   <div style={{ borderRadius: 28, overflow: "hidden", position: "relative", width: 500, height: 500, boxShadow: active === i ? "0 24px 56px rgba(0,0,0,0.16)" : "0 6px 24px rgba(0,0,0,0.07)", transition: "box-shadow 0.3s ease", background: "#e8e4de" }}>
                     <div style={{ position: "absolute", top: 0, left: 0, right: 0, height: "40%", background: "linear-gradient(to bottom, rgba(255,255,255,0.6) 0%, rgba(255,255,255,0) 100%)", zIndex: 1, pointerEvents: "none" }} />
                     <video src={pas.video} autoPlay muted loop playsInline style={{ width: "100%", height: "100%", objectFit: "cover", display: "block" }} />
@@ -158,7 +158,7 @@ export default function CumFunctioneaza() {
           {/* Dots */}
           <div style={{ display: "flex", justifyContent: "center", gap: 10, marginTop: 48 }}>
             {PASI.map((_, i) => (
-              <div key={i} onClick={() => scrollTo(i)} style={{ width: active === i ? 36 : 10, height: 10, borderRadius: 999, background: active === i ? "#c8c4bb" : "#ddd", cursor: "pointer", transition: "all 0.35s ease" }} />
+              <div key={i} onClick={() => scrollTo(i)} style={{ width: active === i ? 36 : 10, height: 10, borderRadius: 999, background: active === i ? "#c8c4bb" : "#DCE4D9", cursor: "pointer", transition: "all 0.35s ease" }} />
             ))}
           </div>
         </>

@@ -35,7 +35,7 @@ export default function ProdusCard({ produs }) {
 
   const handleFavorit = (e) => {
     e.preventDefault();
-    setFavorit(f => !f);
+    setFavorit((f) => !f);
   };
 
   return (
@@ -43,14 +43,10 @@ export default function ProdusCard({ produs }) {
       onMouseEnter={() => setHovered(true)}
       onMouseLeave={() => setHovered(false)}
       style={{
-        display: "flex",
-        flexDirection: "column",
-        gap: 10,
-        position: "relative",
-        padding: hovered ? 7 : 8,
-        border: hovered ? "2px solid #111" : "1px solid transparent",
-        borderRadius: 12,
-        transition: "border 0.2s ease, padding 0.2s ease"
+        display: "flex", flexDirection: "column", gap: 10, position: "relative",
+        background: "transparent", borderRadius: 14, padding: 10,
+        border: hovered ? "1px solid #DCE4D9" : "1px solid transparent",
+        transition: "border-color 0.2s ease"
       }}
     >
       <Link href={`/produse/${produs.id}`} style={{ textDecoration: "none" }}>
@@ -61,25 +57,21 @@ export default function ProdusCard({ produs }) {
             style={{ width: "100%", height: "100%", objectFit: "cover", display: "block" }}
           />
 
-          {/* Badge */}
           {esteNou && (
-            <span className="pcard-badge" style={{ position: "absolute", top: 8, left: 8, background: "#4338ca", color: "#fff", fontSize: 10, fontWeight: 700, padding: "3px 10px", borderRadius: 20, textTransform: "uppercase", letterSpacing: "0.06em" }}>
+            <span style={{ position: "absolute", top: 8, left: 8, background: "#4338ca", color: "#fff", fontSize: 10, fontWeight: 700, padding: "3px 10px", borderRadius: 20, textTransform: "uppercase", letterSpacing: "0.06em" }}>
               Nou
             </span>
           )}
         </div>
       </Link>
 
-      {/* Favorite button */}
       <button
         onClick={handleFavorit}
-        className="pcard-fav"
         style={{
-          position: "absolute", top: 8, right: 8, width: 32, height: 32,
+          position: "absolute", top: 18, right: 18, width: 32, height: 32,
           background: "rgba(255,255,255,0.9)", border: "none", borderRadius: "50%",
           cursor: "pointer", display: "flex", alignItems: "center", justifyContent: "center",
-          boxShadow: "0 2px 8px rgba(0,0,0,0.12)", transition: "transform 0.2s",
-          zIndex: 10
+          boxShadow: "0 2px 8px rgba(0,0,0,0.12)", zIndex: 10
         }}
         aria-label="Adaugă la favorite"
       >
@@ -88,18 +80,18 @@ export default function ProdusCard({ produs }) {
         </svg>
       </button>
 
-      <div className="pcard-info" style={{ display: "flex", flexDirection: "column", gap: 5 }}>
+      <div style={{ display: "flex", flexDirection: "column", gap: 6, padding: "2px 4px 4px" }}>
         <Link href={`/produse/${produs.id}`} style={{ textDecoration: "none" }}>
-          <p className="pcard-name" style={{ fontSize: 16, fontWeight: 700, color: "#111", margin: 0 }}>{produs.name}</p>
+          <p style={{ fontSize: 16, fontWeight: 700, color: "#1D2820", margin: 0 }}>{produs.name}</p>
         </Link>
 
         {specs && (
-          <p className="pcard-specs" style={{ fontSize: 12, color: "#888", margin: 0 }}>{specs}</p>
+          <p style={{ fontSize: 12, color: "#5D695F", margin: 0 }}>{specs}</p>
         )}
 
         {hasDiscount && (
           <div style={{ display: "flex", alignItems: "center", gap: 7, flexWrap: "wrap" }}>
-            <p style={{ fontSize: 13, color: "#999", textDecoration: "line-through", margin: 0 }}>
+            <p style={{ fontSize: 13, color: "#5D695F", textDecoration: "line-through", margin: 0 }}>
               {produs.oldPrice.toLocaleString("ro-RO")} lei
             </p>
             <span style={{ background: "#dc2626", color: "#fff", fontSize: 13, fontWeight: 800, padding: "3px 9px", borderRadius: 5, whiteSpace: "nowrap" }}>
@@ -111,23 +103,22 @@ export default function ProdusCard({ produs }) {
           </div>
         )}
 
-        <div className="pcard-price-row" style={{ display: "flex", alignItems: "baseline", gap: 4 }}>
-          <p className="pcard-price" style={{ fontSize: 24, fontWeight: 800, color: "#2B652C", margin: 0 }}>
+        <div style={{ display: "flex", alignItems: "baseline", gap: 4 }}>
+          <p style={{ fontSize: 24, fontWeight: 800, color: "#1D2820", margin: 0 }}>
             {produs.price.toLocaleString("ro-RO")}
           </p>
-          <span style={{ fontSize: 14, fontWeight: 600, color: "#2B652C" }}>lei</span>
+          <span style={{ fontSize: 14, fontWeight: 600, color: "#1D2820" }}>lei</span>
         </div>
 
-        <div style={{ display: "flex", gap: 6, marginTop: 4 }}>
+        <div style={{ display: "flex", gap: 8, marginTop: 6 }}>
           <button
             onClick={handleCart}
-            className="pcard-cart-btn"
             style={{
               flex: 1, display: "flex", alignItems: "center", justifyContent: "center", gap: 5,
-              padding: "9px 4px",
-              background: adaugat ? "#16a34a" : "#2B652C",
+              padding: "8px 5px",
+              background: adaugat ? "#16a34a" : "#2C662D",
               color: "#fff", fontSize: 11, fontWeight: 700, whiteSpace: "nowrap",
-              border: "1.5px solid #D5B358", borderRadius: 14, cursor: "pointer",
+              border: "none", borderRadius: 9, cursor: "pointer",
               transition: "background 0.3s"
             }}
           >
@@ -135,7 +126,7 @@ export default function ProdusCard({ produs }) {
               "✓ Adăugat!"
             ) : (
               <>
-                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#D5B358" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#fff" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                   <circle cx="9" cy="21" r="1"/>
                   <circle cx="20" cy="21" r="1"/>
                   <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/>
@@ -146,19 +137,18 @@ export default function ProdusCard({ produs }) {
           </button>
           <button
             onClick={handleQuickBuy}
-            className="pcard-quickbuy-btn"
             style={{
               flex: 1, display: "flex", alignItems: "center", justifyContent: "center", gap: 5,
-              padding: "9px 4px",
+              padding: "7px 5px",
               background: "#fff",
-              border: "1.5px solid #111", borderRadius: 14, cursor: "pointer",
-              lineHeight: 1.2
+              border: "1.5px solid #1D2820", borderRadius: 9, cursor: "pointer",
+              lineHeight: 1.15
             }}
           >
-            <span style={{ fontSize: 14 }}>⚡</span>
+            <span style={{ fontSize: 12, color: "#D5B358" }}>⚡</span>
             <span style={{ display: "flex", flexDirection: "column", alignItems: "flex-start" }}>
-              <span style={{ fontSize: 11, fontWeight: 700, color: "#111", whiteSpace: "nowrap" }}>Cumpără rapid</span>
-              <span style={{ fontSize: 9, fontWeight: 400, color: "#777", whiteSpace: "nowrap" }}>Într-un click</span>
+              <span style={{ fontSize: 11, fontWeight: 700, color: "#1D2820", whiteSpace: "nowrap" }}>Cumpără rapid</span>
+              <span style={{ fontSize: 8, fontWeight: 400, color: "#5D695F", whiteSpace: "nowrap" }}>Într-un click</span>
             </span>
           </button>
         </div>

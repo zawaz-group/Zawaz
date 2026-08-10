@@ -36,9 +36,6 @@ yarn-error.log*
 # vercel
 .vercel
 
-# sensitive local data
-/data/utilizatori.json
-
 # typescript
 *.tsbuildinfo
 next-env.d.ts

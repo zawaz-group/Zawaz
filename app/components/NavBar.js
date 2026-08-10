@@ -1,5 +1,5 @@
 "use client";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { useCos } from "../context/CosContext";
@@ -19,10 +19,10 @@ function CosDrawer({ open, onClose }) {
         display: "flex", flexDirection: "column",
       }}>
         {/* Header */}
-        <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", padding: "20px 24px", borderBottom: "1px solid #f0f0f0" }}>
+        <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", padding: "20px 24px", borderBottom: "1px solid #DCE4D9" }}>
           <span style={{ fontWeight: 800, fontSize: 18, letterSpacing: "0.04em" }}>Coșul tău ({numarArticole})</span>
           <button onClick={onClose} style={{ background: "none", border: "none", cursor: "pointer", padding: 4 }}>
-            <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" fill="none" viewBox="0 0 24 24" stroke="#111" strokeWidth={2}><path strokeLinecap="round" d="M18 6L6 18M6 6l12 12"/></svg>
+            <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" fill="none" viewBox="0 0 24 24" stroke="#1D2820" strokeWidth={2}><path strokeLinecap="round" d="M18 6L6 18M6 6l12 12"/></svg>
           </button>
         </div>
 
@@ -33,24 +33,24 @@ function CosDrawer({ open, onClose }) {
               <svg xmlns="http://www.w3.org/2000/svg" width="56" height="56" fill="none" viewBox="0 0 24 24" stroke="#ccc" strokeWidth={1.2}>
                 <path strokeLinecap="round" d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z"/><path strokeLinecap="round" d="M3 6h18"/><path strokeLinecap="round" d="M16 10a4 4 0 01-8 0"/>
               </svg>
-              <p style={{ color: "#888", fontSize: 15, textAlign: "center", margin: 0 }}>Coșul tău este gol.</p>
+              <p style={{ color: "#5D695F", fontSize: 15, textAlign: "center", margin: 0 }}>Coșul tău este gol.</p>
             </div>
           ) : cos.map(item => (
             <div key={item.key} style={{ display: "flex", gap: 14, alignItems: "flex-start", borderBottom: "1px solid #f5f5f5", paddingBottom: 16 }}>
               <img src={item.produs.img} alt={item.produs.name} style={{ width: 72, height: 72, objectFit: "cover", borderRadius: 8, background: "#f5f5f5", flexShrink: 0 }} />
               <div style={{ flex: 1, display: "flex", flexDirection: "column", gap: 6 }}>
-                <p style={{ margin: 0, fontWeight: 700, fontSize: 14, color: "#111" }}>{item.produs.name}</p>
-                {item.culoare && <p style={{ margin: 0, fontSize: 12, color: "#888" }}>Culoare: {item.culoare}</p>}
-                {item.marime && <p style={{ margin: 0, fontSize: 12, color: "#888" }}>Mărime: {item.marime}</p>}
+                <p style={{ margin: 0, fontWeight: 700, fontSize: 14, color: "#1D2820" }}>{item.produs.name}</p>
+                {item.culoare && <p style={{ margin: 0, fontSize: 12, color: "#5D695F" }}>Culoare: {item.culoare}</p>}
+                {item.marime && <p style={{ margin: 0, fontSize: 12, color: "#5D695F" }}>Mărime: {item.marime}</p>}
                 <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginTop: 4 }}>
-                  <div style={{ display: "flex", alignItems: "center", border: "1px solid #e0e0e0", borderRadius: 6, overflow: "hidden" }}>
-                    <button onClick={() => actualizeazaCantitate(item.key, item.cantitate - 1)} style={{ width: 28, height: 28, background: "none", border: "none", cursor: "pointer", fontSize: 16, fontWeight: 700, color: "#111" }}>−</button>
+                  <div style={{ display: "flex", alignItems: "center", border: "1px solid #DCE4D9", borderRadius: 6, overflow: "hidden" }}>
+                    <button onClick={() => actualizeazaCantitate(item.key, item.cantitate - 1)} style={{ width: 28, height: 28, background: "none", border: "none", cursor: "pointer", fontSize: 16, fontWeight: 700, color: "#1D2820" }}>−</button>
                     <span style={{ padding: "0 10px", fontSize: 14, fontWeight: 600 }}>{item.cantitate}</span>
-                    <button onClick={() => actualizeazaCantitate(item.key, item.cantitate + 1)} style={{ width: 28, height: 28, background: "none", border: "none", cursor: "pointer", fontSize: 16, fontWeight: 700, color: "#111" }}>+</button>
+                    <button onClick={() => actualizeazaCantitate(item.key, item.cantitate + 1)} style={{ width: 28, height: 28, background: "none", border: "none", cursor: "pointer", fontSize: 16, fontWeight: 700, color: "#1D2820" }}>+</button>
                   </div>
                   <div style={{ display: "flex", alignItems: "center", gap: 12 }}>
-                    <span style={{ fontWeight: 700, fontSize: 14, color: "#111" }}>{(item.produs.price * item.cantitate).toLocaleString("ro-RO")} lei</span>
-                    <button onClick={() => stergeItem(item.key)} style={{ background: "none", border: "none", cursor: "pointer", color: "#bbb", padding: 0 }}>
+                    <span style={{ fontWeight: 700, fontSize: 14, color: "#1D2820" }}>{(item.produs.price * item.cantitate).toLocaleString("ro-RO")} lei</span>
+                    <button onClick={() => stergeItem(item.key)} style={{ background: "none", border: "none", cursor: "pointer", color: "#5D695F", padding: 0 }}>
                       <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2}><path strokeLinecap="round" d="M18 6L6 18M6 6l12 12"/></svg>
                     </button>
                   </div>
@@ -62,19 +62,19 @@ function CosDrawer({ open, onClose }) {
 
         {/* Footer */}
         {cos.length > 0 && (
-          <div style={{ padding: "20px 24px", borderTop: "1px solid #f0f0f0", display: "flex", flexDirection: "column", gap: 12 }}>
+          <div style={{ padding: "20px 24px", borderTop: "1px solid #DCE4D9", display: "flex", flexDirection: "column", gap: 12 }}>
             <div style={{ display: "flex", justifyContent: "space-between", fontWeight: 800, fontSize: 16 }}>
               <span>Total</span>
               <span>{total.toLocaleString("ro-RO")} lei</span>
             </div>
-            <Link href="/cos" onClick={onClose} style={{ display: "block", background: "#2B652C", color: "#fff", padding: "14px", borderRadius: 10, fontWeight: 700, fontSize: 14, textDecoration: "none", textAlign: "center", letterSpacing: "0.06em", textTransform: "uppercase" }}>
+            <Link href="/cos" onClick={onClose} style={{ display: "block", background: "#2C662D", color: "#fff", padding: "14px", borderRadius: 10, fontWeight: 700, fontSize: 14, textDecoration: "none", textAlign: "center", letterSpacing: "0.06em", textTransform: "uppercase" }}>
               Finalizează comanda
             </Link>
           </div>
         )}
         {cos.length === 0 && (
-          <div style={{ padding: "20px 24px", borderTop: "1px solid #f0f0f0" }}>
-            <Link href="/" onClick={onClose} style={{ display: "block", background: "#2B652C", color: "#fff", padding: "14px", borderRadius: 10, fontWeight: 700, fontSize: 14, textDecoration: "none", textAlign: "center", letterSpacing: "0.06em", textTransform: "uppercase" }}>
+          <div style={{ padding: "20px 24px", borderTop: "1px solid #DCE4D9" }}>
+            <Link href="/" onClick={onClose} style={{ display: "block", background: "#2C662D", color: "#fff", padding: "14px", borderRadius: 10, fontWeight: 700, fontSize: 14, textDecoration: "none", textAlign: "center", letterSpacing: "0.06em", textTransform: "uppercase" }}>
               Continuă cumpărăturile
             </Link>
           </div>
@@ -120,10 +120,13 @@ const navLinks = [
 
 export default function NavBar() {
   const [menuOpen, setMenuOpen] = useState(false);
+  const [atTop, setAtTop] = useState(true);
   const [cosOpen, setCosOpen] = useState(false);
   const [activeDropdown, setActiveDropdown] = useState(null);
   const [produse, setProduse] = useState([]);
+  const [navHeight, setNavHeight] = useState(68);
   const [isAdmin, setIsAdmin] = useState(false);
+  const navRef = useRef(null);
   const { numarArticole } = useCos();
 
   useEffect(() => {
@@ -137,8 +140,29 @@ export default function NavBar() {
     fetch("/api/produse").then(r => r.json()).then(setProduse).catch(() => {});
   }, []);
 
-  const navBg = "#f0eeeb";
-  const color = "#111";
+  useEffect(() => {
+    if (navRef.current) setNavHeight(navRef.current.offsetHeight);
+  }, []);
+
+  useEffect(() => {
+    let lastY = window.scrollY;
+    const handleScroll = () => {
+      const y = window.scrollY;
+      setAtTop(y === 0);
+      if (y !== lastY) {
+        setMenuOpen(false);
+        lastY = y;
+      }
+    };
+    handleScroll();
+    window.addEventListener("scroll", handleScroll, { passive: true });
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
+
+  // Close menu on scroll handled above
+
+  const navBg = "#EEF2EC";
+  const color = "#1D2820";
 
   return (
     <>
@@ -149,26 +173,25 @@ export default function NavBar() {
       <div onClick={() => setMenuOpen(false)} style={{ position: "fixed", inset: 0, zIndex: 98, pointerEvents: "auto" }} />
     )}
 
+    {!atTop && <div style={{ height: navHeight }} aria-hidden="true" />}
+
     <nav
+      ref={navRef}
       style={{
-        position: "fixed",
-        top: 0,
+        position: atTop ? "relative" : "fixed",
+        top: atTop ? "auto" : 0,
         left: 0,
         width: "100%",
-        zIndex: 1000,
+        zIndex: 100,
         background: navBg,
-        boxShadow: "0 2px 12px rgba(0,0,0,0.08)",
+        boxShadow: atTop ? "none" : "0 2px 12px rgba(0,0,0,0.08)",
         transition: "box-shadow 0.3s ease",
       }}
       onMouseLeave={() => setActiveDropdown(null)}
     >
         <div className="nav-height" style={{ maxWidth: "var(--container)", margin: "0 auto", padding: "0 16px", display: "flex", alignItems: "center", justifyContent: "space-between", height: 68 }}>
-        <Link href="/" style={{ textDecoration: "none", display: "flex", alignItems: "center", gap: 10, outline: "none", border: "none" }}>
-          <Image src="/zawaz.png" alt="Zawaz Wood" width={54} height={54} className="nav-logo-img" style={{ objectFit: "contain", display: "block" }} priority />
-          <div style={{ display: "flex", flexDirection: "column", lineHeight: 1.1 }}>
-            <span className="nav-logo-arty" style={{ fontSize: 13, fontWeight: 700, letterSpacing: "0.26em", color, textTransform: "uppercase" }}>ARTY</span>
-            <span className="nav-logo-zawaz" style={{ fontSize: 26, fontWeight: 800, letterSpacing: "0.2em", color, textTransform: "uppercase" }}>ZAWAZ</span>
-          </div>
+        <Link href="/" style={{ textDecoration: "none", display: "flex", alignItems: "center", outline: "none", border: "none" }}>
+          <Image src="/paradox-craft-logo.png" alt="Paradox Craft" width={168} height={53} className="nav-logo-img" style={{ objectFit: "contain", display: "block", width: "auto", height: 44 }} priority />
         </Link>
 
         {/* Desktop nav links */}
@@ -182,7 +205,7 @@ export default function NavBar() {
                 {link.badge && (
                   <span style={{
                     fontSize: 10, fontWeight: 800, lineHeight: 1,
-                    background: link.href === "/reduceri" ? "#e03c2f" : "#2B652C",
+                    background: link.href === "/reduceri" ? "#e03c2f" : "#2C662D",
                     color: "#fff",
                     borderRadius: 999,
                     padding: "2px 6px",
@@ -203,7 +226,7 @@ export default function NavBar() {
           {/* Admin Panel button — only visible when logged in as admin */}
           {isAdmin && (
             <Link href="/admin" className="nav-links" style={{
-              fontSize: 11, fontWeight: 800, color: "#fff", background: "#2B652C",
+              fontSize: 11, fontWeight: 800, color: "#fff", background: "#2C662D",
               padding: "5px 13px", borderRadius: 6, textDecoration: "none",
               letterSpacing: "0.06em", textTransform: "uppercase", whiteSpace: "nowrap",
             }}>Admin Panel</Link>
@@ -217,16 +240,16 @@ export default function NavBar() {
           </Link>
           <button onClick={() => setCosOpen(true)} style={{ color, background: "none", border: "none", cursor: "pointer", display: "flex", alignItems: "center", position: "relative", padding: 0 }}>
             <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.8}><path strokeLinecap="round" d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z"/><path strokeLinecap="round" d="M3 6h18"/><path strokeLinecap="round" d="M16 10a4 4 0 01-8 0"/></svg>
-            <span style={{ position: "absolute", top: -4, right: -4, background: "#2B652C", color: "#fff", fontSize: 10, width: 16, height: 16, borderRadius: "50%", display: numarArticole > 0 ? "flex" : "none", alignItems: "center", justifyContent: "center" }}>{numarArticole}</span>
+            <span style={{ position: "absolute", top: -4, right: -4, background: "#2C662D", color: "#fff", fontSize: 10, width: 16, height: 16, borderRadius: "50%", display: numarArticole > 0 ? "flex" : "none", alignItems: "center", justifyContent: "center" }}>{numarArticole}</span>
           </button>
           {/* Hamburger / Close */}
           <button className="nav-hamburger" onClick={() => setMenuOpen(o => !o)} style={{ background: "none", border: "none", cursor: "pointer", padding: 4, display: "flex", alignItems: "center", justifyContent: "center", width: 32, height: 32, position: "relative" }}>
-            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#111" strokeWidth={2.2} strokeLinecap="round" style={{ position: "absolute", transition: "opacity 0.25s, transform 0.25s", opacity: menuOpen ? 0 : 1, transform: menuOpen ? "rotate(90deg) scale(0.7)" : "rotate(0deg) scale(1)" }}>
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#1D2820" strokeWidth={2.2} strokeLinecap="round" style={{ position: "absolute", transition: "opacity 0.25s, transform 0.25s", opacity: menuOpen ? 0 : 1, transform: menuOpen ? "rotate(90deg) scale(0.7)" : "rotate(0deg) scale(1)" }}>
               <line x1="3" y1="6" x2="21" y2="6"/>
               <line x1="3" y1="12" x2="21" y2="12"/>
               <line x1="3" y1="18" x2="21" y2="18"/>
             </svg>
-            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#111" strokeWidth={2.2} strokeLinecap="round" style={{ position: "absolute", transition: "opacity 0.25s, transform 0.25s", opacity: menuOpen ? 1 : 0, transform: menuOpen ? "rotate(0deg) scale(1)" : "rotate(-90deg) scale(0.7)" }}>
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#1D2820" strokeWidth={2.2} strokeLinecap="round" style={{ position: "absolute", transition: "opacity 0.25s, transform 0.25s", opacity: menuOpen ? 1 : 0, transform: menuOpen ? "rotate(0deg) scale(1)" : "rotate(-90deg) scale(0.7)" }}>
               <line x1="4" y1="4" x2="20" y2="20"/>
               <line x1="20" y1="4" x2="4" y2="20"/>
             </svg>
@@ -240,7 +263,7 @@ export default function NavBar() {
           position: "absolute", top: "100%", left: 0, width: "100%",
           background: "#fff",
           boxShadow: "0 12px 40px rgba(0,0,0,0.12)",
-          borderTop: "1px solid #f0eeeb",
+          borderTop: "1px solid #EEF2EC",
           zIndex: 99,
           overflow: "hidden",
           maxHeight: activeDropdown === link.href ? 500 : 0,
@@ -253,15 +276,15 @@ export default function NavBar() {
         >
           <div style={{ maxWidth: "var(--container)", margin: "0 auto", padding: "28px 16px 32px" }}>
             {/* Subcategories row */}
-            <div style={{ display: "flex", alignItems: "center", gap: 6, flexWrap: "wrap", paddingBottom: 20, marginBottom: 24, borderBottom: "1px solid #f0eeeb" }}>
+            <div style={{ display: "flex", alignItems: "center", gap: 6, flexWrap: "wrap", paddingBottom: 20, marginBottom: 24, borderBottom: "1px solid #EEF2EC" }}>
               <Link href={link.href} onClick={() => setActiveDropdown(null)}
-                style={{ padding: "6px 16px", borderRadius: 999, fontSize: 12, fontWeight: 700, background: "#2B652C", color: "#fff", textDecoration: "none", whiteSpace: "nowrap" }}
+                style={{ padding: "6px 16px", borderRadius: 999, fontSize: 12, fontWeight: 700, background: "#2C662D", color: "#fff", textDecoration: "none", whiteSpace: "nowrap" }}
               >Toate</Link>
               {link.subcategorii.map(sub => (
                 <Link key={sub.href} href={sub.href} onClick={() => setActiveDropdown(null)}
-                  style={{ padding: "6px 16px", borderRadius: 999, fontSize: 12, fontWeight: 700, background: "#f5f3ef", color: "#2B652C", textDecoration: "none", whiteSpace: "nowrap", transition: "background 0.2s, color 0.2s" }}
-                  onMouseEnter={e => { e.currentTarget.style.background = "#2B652C"; e.currentTarget.style.color = "#fff"; }}
-                  onMouseLeave={e => { e.currentTarget.style.background = "#f5f3ef"; e.currentTarget.style.color = "#2B652C"; }}
+                  style={{ padding: "6px 16px", borderRadius: 999, fontSize: 12, fontWeight: 700, background: "#EEF2EC", color: "#2C662D", textDecoration: "none", whiteSpace: "nowrap", transition: "background 0.2s, color 0.2s" }}
+                  onMouseEnter={e => { e.currentTarget.style.background = "#214F27"; e.currentTarget.style.color = "#fff"; }}
+                  onMouseLeave={e => { e.currentTarget.style.background = "#EEF2EC"; e.currentTarget.style.color = "#2C662D"; }}
                 >{sub.label}</Link>
               ))}
             </div>
@@ -269,15 +292,15 @@ export default function NavBar() {
             <div style={{ display: "flex", gap: 20, overflowX: "auto", paddingBottom: 4 }}>
               {produse.filter(p => p.category === link.href.replace("/", "")).slice(0, 7).map(p => (
                 <Link key={p.id} href={`/produse/${p.id}`} onClick={() => setActiveDropdown(null)}
-                  style={{ textDecoration: "none", color: "#111", flexShrink: 0, width: 140 }}
+                  style={{ textDecoration: "none", color: "#1D2820", flexShrink: 0, width: 140 }}
                   onMouseEnter={e => e.currentTarget.querySelector("img").style.transform = "scale(1.05)"}
                   onMouseLeave={e => e.currentTarget.querySelector("img").style.transform = "scale(1)"}
                 >
-                  <div style={{ width: 140, height: 140, borderRadius: 10, overflow: "hidden", background: "#f5f3ef", marginBottom: 9 }}>
+                  <div style={{ width: 140, height: 140, borderRadius: 10, overflow: "hidden", background: "#EEF2EC", marginBottom: 9 }}>
                     <img src={p.img} alt={p.name} style={{ width: "100%", height: "100%", objectFit: "cover", transition: "transform 0.3s ease" }} />
                   </div>
                   <p style={{ margin: "0 0 3px", fontSize: 12, fontWeight: 700, lineHeight: 1.3, whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis" }}>{p.name}</p>
-                  <p style={{ margin: 0, fontSize: 12, color: "#666" }}>{p.price} lei</p>
+                  <p style={{ margin: 0, fontSize: 12, color: "#5D695F" }}>{p.price} lei</p>
                 </Link>
               ))}
             </div>
@@ -299,27 +322,27 @@ export default function NavBar() {
         <div style={{ padding: "16px 20px", display: "flex", flexDirection: "column", gap: 4 }}>
           {navLinks.map((link) => (
             <Link key={link.href} href={link.href} onClick={() => setMenuOpen(false)}
-              style={{ textDecoration: "none", fontSize: 17, fontWeight: 700, color: "#111", textTransform: "uppercase", letterSpacing: "0.08em", padding: "12px 0", borderBottom: "1px solid rgba(0,0,0,0.06)", display: "block" }}>
+              style={{ textDecoration: "none", fontSize: 17, fontWeight: 700, color: "#1D2820", textTransform: "uppercase", letterSpacing: "0.08em", padding: "12px 0", borderBottom: "1px solid rgba(0,0,0,0.06)", display: "block" }}>
               {link.label}
-              {link.badge && <span style={{ marginLeft: 8, fontSize: 10, fontWeight: 800, background: link.href === "/reduceri" ? "#e03c2f" : "#2B652C", color: "#fff", padding: "2px 7px", borderRadius: 4, verticalAlign: "middle" }}>{link.badge}</span>}
+              {link.badge && <span style={{ marginLeft: 8, fontSize: 10, fontWeight: 800, background: link.href === "/reduceri" ? "#e03c2f" : "#2C662D", color: "#fff", padding: "2px 7px", borderRadius: 4, verticalAlign: "middle" }}>{link.badge}</span>}
             </Link>
           ))}
           {isAdmin && (
             <Link href="/admin" onClick={() => setMenuOpen(false)}
-              style={{ textDecoration: "none", fontSize: 17, fontWeight: 800, color: "#fff", background: "#2B652C", textTransform: "uppercase", letterSpacing: "0.08em", padding: "12px 16px", borderRadius: 8, display: "block", textAlign: "center", margin: "8px 0 4px" }}>
+              style={{ textDecoration: "none", fontSize: 17, fontWeight: 800, color: "#fff", background: "#2C662D", textTransform: "uppercase", letterSpacing: "0.08em", padding: "12px 16px", borderRadius: 8, display: "block", textAlign: "center", margin: "8px 0 4px" }}>
               Admin Panel
             </Link>
           )}
           <div style={{ display: "flex", gap: 20, paddingTop: 16, paddingBottom: 8 }}>
-            <Link href="/cautare" onClick={() => setMenuOpen(false)} style={{ color: "#111", display: "flex", alignItems: "center", gap: 8, fontSize: 14, fontWeight: 600, textDecoration: "none" }}>
+            <Link href="/cautare" onClick={() => setMenuOpen(false)} style={{ color: "#1D2820", display: "flex", alignItems: "center", gap: 8, fontSize: 14, fontWeight: 600, textDecoration: "none" }}>
               <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.8}><circle cx="11" cy="11" r="7"/><path strokeLinecap="round" d="M21 21l-4.35-4.35"/></svg>
               Caută
             </Link>
-            <Link href="/favorite" onClick={() => setMenuOpen(false)} style={{ color: "#111", display: "flex", alignItems: "center", gap: 8, fontSize: 14, fontWeight: 600, textDecoration: "none" }}>
+            <Link href="/favorite" onClick={() => setMenuOpen(false)} style={{ color: "#1D2820", display: "flex", alignItems: "center", gap: 8, fontSize: 14, fontWeight: 600, textDecoration: "none" }}>
               <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.8}><path strokeLinecap="round" strokeLinejoin="round" d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
               Favorite
             </Link>
-            <button onClick={() => { setMenuOpen(false); setCosOpen(true); }} style={{ color: "#111", background: "none", border: "none", cursor: "pointer", display: "flex", alignItems: "center", gap: 8, fontSize: 14, fontWeight: 600, padding: 0, position: "relative" }}>
+            <button onClick={() => { setMenuOpen(false); setCosOpen(true); }} style={{ color: "#1D2820", background: "none", border: "none", cursor: "pointer", display: "flex", alignItems: "center", gap: 8, fontSize: 14, fontWeight: 600, padding: 0, position: "relative" }}>
               <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.8}><path strokeLinecap="round" d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z"/><path strokeLinecap="round" d="M3 6h18"/><path strokeLinecap="round" d="M16 10a4 4 0 01-8 0"/></svg>
               Coș {numarArticole > 0 && `(${numarArticole})`}
             </button>

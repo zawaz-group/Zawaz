@@ -13,7 +13,7 @@ export default function NotFound() {
       color: "#171717",
     }}>
       <h1 style={{ fontSize: 96, fontWeight: 800, margin: 0, letterSpacing: "-0.04em" }}>404</h1>
-      <p style={{ fontSize: 20, marginTop: 16, marginBottom: 40, color: "#555" }}>
+      <p style={{ fontSize: 20, marginTop: 16, marginBottom: 40, color: "#5D695F" }}>
         Pagina nu a fost găsită.
       </p>
       <Link href="/" style={{

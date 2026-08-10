@@ -38,7 +38,7 @@ function Stars({ active = true }) {
   return (
     <div style={{ display: "flex", gap: 2 }}>
       {[...Array(5)].map((_, i) => (
-        <svg key={i} width={14} height={14} viewBox="0 0 24 24" fill={active ? "#f5a623" : "#ddd"}>
+        <svg key={i} width={14} height={14} viewBox="0 0 24 24" fill={active ? "#D5B358" : "#ddd"}>
           <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/>
         </svg>
       ))}
@@ -93,7 +93,7 @@ export default function Recenzii() {
   const nextIdx = (slide + 1) % TOTAL;
 
   return (
-    <section style={{ background: "#f5f2ed", padding: "60px 0" }}>
+    <section style={{ background: "#EEF2EC", padding: "60px 0" }}>
       <div style={{
         maxWidth: 1300,
         margin: "0 auto",
@@ -190,7 +190,7 @@ export default function Recenzii() {
             }}>12</div>
 
             <p style={{
-              color: "#111",
+              color: "#1D2820",
               fontSize: "clamp(14px, 2vw, 20px)",
               fontWeight: 700,
               margin: "4px 0 0",
@@ -212,7 +212,7 @@ export default function Recenzii() {
             fontSize: "clamp(28px, 3.2vw, 44px)",
             fontWeight: 900,
             lineHeight: 1.1,
-            color: "#111",
+            color: "#1D2820",
             margin: "0 0 24px",
             letterSpacing: "-0.03em",
             letterSpacing: "-0.03em",
@@ -259,14 +259,14 @@ export default function Recenzii() {
                       }}
                     />
                     <Stars active={isActive} />
-                    <p style={{ margin: 0, fontSize: "clamp(11px, 2.8vw, 12px)", fontWeight: 700, color: isActive ? "#444" : "#aaa", textAlign: "center", lineHeight: 1.2, fontFamily: "Inter, system-ui, sans-serif" }}>{r.nume}</p>
+                    <p style={{ margin: 0, fontSize: "clamp(11px, 2.8vw, 12px)", fontWeight: 700, color: isActive ? "#1D2820" : "#DCE4D9", textAlign: "center", lineHeight: 1.2, fontFamily: "Inter, system-ui, sans-serif" }}>{r.nume}</p>
                   </div>
                   <p style={{
                     margin: 0,
                     paddingTop: 4,
                     fontSize: "clamp(15px, 1.3vw, 16px)",
                     fontStyle: "italic",
-                    color: isActive ? "#777" : "#bbb",
+                    color: isActive ? "#5D695F" : "#DCE4D9",
                     lineHeight: 1.7,
                     fontFamily: "Georgia, 'Times New Roman', serif",
                   }}>
@@ -281,9 +281,9 @@ export default function Recenzii() {
           <div style={{ display: "flex", alignItems: "center", gap: 12 }}>
             <button
               onClick={prev}
-              style={{ width: 42, height: 42, borderRadius: "50%", border: "1.5px solid #ccc", background: "transparent", cursor: "pointer", display: "flex", alignItems: "center", justifyContent: "center", color: "#888", fontSize: 18, transition: "all 0.2s", flexShrink: 0 }}
-              onMouseEnter={e => { e.currentTarget.style.background = "#2B652C"; e.currentTarget.style.color = "#fff"; e.currentTarget.style.borderColor = "#2B652C"; }}
-              onMouseLeave={e => { e.currentTarget.style.background = "transparent"; e.currentTarget.style.color = "#888"; e.currentTarget.style.borderColor = "#ccc"; }}
+              style={{ width: 42, height: 42, borderRadius: "50%", border: "1.5px solid #DCE4D9", background: "transparent", cursor: "pointer", display: "flex", alignItems: "center", justifyContent: "center", color: "#5D695F", fontSize: 18, transition: "all 0.2s", flexShrink: 0 }}
+              onMouseEnter={e => { e.currentTarget.style.background = "#214F27"; e.currentTarget.style.color = "#fff"; e.currentTarget.style.borderColor = "#214F27"; }}
+              onMouseLeave={e => { e.currentTarget.style.background = "transparent"; e.currentTarget.style.color = "#5D695F"; e.currentTarget.style.borderColor = "#DCE4D9"; }}
             >&#8249;</button>
 
             <div style={{ display: "flex", gap: 5, alignItems: "center" }}>
@@ -295,7 +295,7 @@ export default function Recenzii() {
                     width: slide === i ? 26 : 6,
                     height: 6,
                     borderRadius: 999,
-                    background: slide === i ? "#333" : "#ccc",
+                    background: slide === i ? "#1D2820" : "#DCE4D9",
                     cursor: "pointer",
                     transition: "width 0.3s ease, background 0.3s ease",
                     opacity: slide === i ? 1 : 0.45,
@@ -308,7 +308,7 @@ export default function Recenzii() {
                       position: "absolute",
                       inset: 0,
                       borderRadius: 999,
-                      background: "linear-gradient(90deg, #888 0%, #888 " + progress + "%, #333 " + progress + "%)",
+                      background: "linear-gradient(90deg, #5D695F 0%, #5D695F " + progress + "%, #1D2820 " + progress + "%)",
                     }} />
                   )}
                 </div>
@@ -317,9 +317,9 @@ export default function Recenzii() {
 
             <button
               onClick={next}
-              style={{ width: 42, height: 42, borderRadius: "50%", border: "1.5px solid #ccc", background: "transparent", cursor: "pointer", display: "flex", alignItems: "center", justifyContent: "center", color: "#888", fontSize: 18, transition: "all 0.2s", flexShrink: 0 }}
-              onMouseEnter={e => { e.currentTarget.style.background = "#2B652C"; e.currentTarget.style.color = "#fff"; e.currentTarget.style.borderColor = "#2B652C"; }}
-              onMouseLeave={e => { e.currentTarget.style.background = "transparent"; e.currentTarget.style.color = "#888"; e.currentTarget.style.borderColor = "#ccc"; }}
+              style={{ width: 42, height: 42, borderRadius: "50%", border: "1.5px solid #DCE4D9", background: "transparent", cursor: "pointer", display: "flex", alignItems: "center", justifyContent: "center", color: "#5D695F", fontSize: 18, transition: "all 0.2s", flexShrink: 0 }}
+              onMouseEnter={e => { e.currentTarget.style.background = "#214F27"; e.currentTarget.style.color = "#fff"; e.currentTarget.style.borderColor = "#214F27"; }}
+              onMouseLeave={e => { e.currentTarget.style.background = "transparent"; e.currentTarget.style.color = "#5D695F"; e.currentTarget.style.borderColor = "#DCE4D9"; }}
             >&#8250;</button>
           </div>
 

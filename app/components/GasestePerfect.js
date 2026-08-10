@@ -62,7 +62,7 @@ function FilterDropdown({ options, onSelect, onClose, type }) {
         boxShadow: "0 16px 60px rgba(0,0,0,0.25)",
         padding: "28px 32px 24px", minWidth: 220,
       }}>
-        <p style={{ margin: "0 0 16px", fontWeight: 700, fontSize: 18, color: "#111" }}>
+        <p style={{ margin: "0 0 16px", fontWeight: 700, fontSize: 18, color: "#1D2820" }}>
           {TYPE_LABELS[type]}
         </p>
         <div style={{ display: "flex", flexDirection: "column", gap: 10 }}>
@@ -70,10 +70,10 @@ function FilterDropdown({ options, onSelect, onClose, type }) {
             <button key={opt} onClick={() => onSelect(opt)} style={{
               background: "none", border: "none", cursor: "pointer",
               textAlign: "left", fontSize: 16, fontWeight: 500,
-              color: "#e6a817", padding: 0, lineHeight: 1.4,
+              color: "#D5B358", padding: 0, lineHeight: 1.4,
             }}
-              onMouseEnter={e => e.currentTarget.style.color = "#c8900f"}
-              onMouseLeave={e => e.currentTarget.style.color = "#e6a817"}
+              onMouseEnter={e => e.currentTarget.style.color = "#BE963D"}
+              onMouseLeave={e => e.currentTarget.style.color = "#D5B358"}
             >
               {opt}
             </button>
@@ -107,8 +107,8 @@ function GasesteCard({ title, desc, btn, icon, type, options, accentColor }) {
     >
       <div style={{ position: "absolute", top: 16, right: 16 }}>{icon}</div>
       <div style={{ flex: 1, paddingRight: 80 }}>
-        <h3 style={{ fontSize: "clamp(18px, 1.8vw, 24px)", fontWeight: 800, color: isAccent ? "#fff" : "#111", margin: "0 0 10px", lineHeight: 1.2, whiteSpace: "pre-line" }}>{title}</h3>
-        <p style={{ fontSize: 14, color: isAccent ? "rgba(255,255,255,0.85)" : "#777", margin: 0, lineHeight: 1.5 }}>{desc}</p>
+        <h3 style={{ fontSize: "clamp(18px, 1.8vw, 24px)", fontWeight: 800, color: isAccent ? "#fff" : "#1D2820", margin: "0 0 10px", lineHeight: 1.2, whiteSpace: "pre-line" }}>{title}</h3>
+        <p style={{ fontSize: 14, color: isAccent ? "rgba(255,255,255,0.85)" : "#5D695F", margin: 0, lineHeight: 1.5 }}>{desc}</p>
       </div>
       <div style={{ marginTop: 24 }}>
         {isAccent ? (
@@ -117,8 +117,8 @@ function GasesteCard({ title, desc, btn, icon, type, options, accentColor }) {
           <>
             <button ref={btnRef} className="gaseste-btn" onClick={() => setOpen(o => !o)} style={{
               display: "inline-flex", alignItems: "center", gap: 6, padding: "8px 16px", borderRadius: 999,
-              border: "1.5px solid " + (open ? "#2B652C" : "#ccc"), background: open ? "#2B652C" : "transparent",
-              color: open ? "#fff" : "#333", fontSize: 13, fontWeight: 700, cursor: "pointer", transition: "all 0.2s",
+              border: "1.5px solid " + (open ? "#2C662D" : "#DCE4D9"), background: open ? "#2C662D" : "transparent",
+              color: open ? "#fff" : "#5D695F", fontSize: 13, fontWeight: 700, cursor: "pointer", transition: "all 0.2s",
             }}>
               {btn}
               <svg width={12} height={12} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2.5} style={{ transform: open ? "rotate(180deg)" : "none", transition: "transform 0.2s" }}><path d="M6 9l6 6 6-6"/></svg>
@@ -141,7 +141,7 @@ export default function GasestePerfect() {
       {culori.map(c => {
         const bg = COLOR_MAP[c] || "#ccc";
         const isGrad = bg.startsWith("linear-gradient");
-        return <span key={c} title={c} style={{ width: 24, height: 24, borderRadius: "50%", background: isGrad ? bg : undefined, backgroundColor: isGrad ? undefined : bg, border: c === "Alb" ? "1.5px solid #ddd" : "none", display: "inline-block", boxShadow: "0 1px 4px rgba(0,0,0,0.15)" }} />;
+        return <span key={c} title={c} style={{ width: 24, height: 24, borderRadius: "50%", background: isGrad ? bg : undefined, backgroundColor: isGrad ? undefined : bg, border: c === "Alb" ? "1.5px solid #DCE4D9" : "none", display: "inline-block", boxShadow: "0 1px 4px rgba(0,0,0,0.15)" }} />;
       })}
     </div>
   );
@@ -187,16 +187,16 @@ export default function GasestePerfect() {
   );
 
   return (
-    <section style={{ background: "#f0ece6", padding: "clamp(48px, 8vw, 80px) 0 clamp(48px, 8vw, 100px)" }}>
+    <section style={{ background: "#EEF2EC", padding: "clamp(48px, 8vw, 80px) 0 clamp(48px, 8vw, 100px)" }}>
       <div style={{ maxWidth: 1280, margin: "0 auto", padding: "0 clamp(20px, 4vw, 60px)" }}>
-        <h2 style={{ fontSize: "clamp(32px, 5vw, 64px)", fontWeight: 900, color: "#111", margin: "0 0 clamp(24px, 4vw, 48px)", letterSpacing: "-0.03em", lineHeight: 1.05 }}>
+        <h2 style={{ fontSize: "clamp(32px, 5vw, 64px)", fontWeight: 900, color: "#1D2820", margin: "0 0 clamp(24px, 4vw, 48px)", letterSpacing: "-0.03em", lineHeight: 1.05 }}>
           Găsiți modelul perfect
         </h2>
         <div className="gaseste-grid" style={{ display: "grid", gridTemplateColumns: "repeat(4, 1fr)", gap: 16 }}>
           <GasesteCard title={"Găsi\ndupă culoare"} desc="Potriviți-vă la culoarea interiorului" btn="+ Selectați culoarea" icon={colorIcon} type="culoare" options={culori} />
           <GasesteCard title={"Găsi\ndupă motiv"} desc="Potrivește-te obiectivului tău" btn="+ Selectați o temă" icon={temaIcon} type="tema" options={teme} />
           <GasesteCard title={"Găsi\ndupă circumstanțe"} desc="Alege ca un cadou" btn="+ Alege o oportunitate" icon={ocazieIcon} type="ocazie" options={ocazii} />
-          <GasesteCard title={"Proprie\nmodel?"} desc="70×50 cm" btn="Design" icon={customIcon} type="contact" options={[]} accentColor="#f5a623" />
+          <GasesteCard title={"Proprie\nmodel?"} desc="70×50 cm" btn="Design" icon={customIcon} type="contact" options={[]} accentColor="#D5B358" />
         </div>
       </div>
     </section>

@@ -10,14 +10,14 @@ export default function BlogPreview() {
   }, []);
 
   return (
-    <section style={{ padding: "var(--section-padding)", background: "#fff" }}>
+    <section style={{ padding: "var(--section-padding)", background: "#F7F7F4" }}>
       <div style={{ maxWidth: "var(--container)", margin: "0 auto" }}>
         <div className="blog-header" style={{ display: "flex", alignItems: "flex-end", justifyContent: "space-between", marginBottom: 48, flexWrap: "wrap", gap: 16 }}>
           <div>
-            <p style={{ fontSize: 12, fontWeight: 700, letterSpacing: "0.2em", textTransform: "uppercase", color: "#c8a96e", marginBottom: 10 }}>Blog</p>
-            <h2 style={{ fontSize: 36, fontWeight: 800, color: "#111", margin: 0 }}>Din atelierul nostru</h2>
+            <p style={{ fontSize: 12, fontWeight: 700, letterSpacing: "0.2em", textTransform: "uppercase", color: "#D5B358", marginBottom: 10 }}>Blog</p>
+            <h2 style={{ fontSize: 36, fontWeight: 800, color: "#1D2820", margin: 0 }}>Din atelierul nostru</h2>
           </div>
-          <Link href="/blog" style={{ fontSize: 13, fontWeight: 700, letterSpacing: "0.1em", textTransform: "uppercase", color: "#111", textDecoration: "none", borderBottom: "2px solid #111", paddingBottom: 2 }}>
+          <Link href="/blog" style={{ fontSize: 13, fontWeight: 700, letterSpacing: "0.1em", textTransform: "uppercase", color: "#1D2820", textDecoration: "none", borderBottom: "2px solid #1D2820", paddingBottom: 2 }}>
             Toate articolele →
           </Link>
         </div>
@@ -35,13 +35,13 @@ export default function BlogPreview() {
               </div>
               <div style={{ padding: "22px 22px 26px", display: "flex", flexDirection: "column", gap: 10, flex: 1, background: "#fff" }}>
                 <div style={{ display: "flex", alignItems: "center", gap: 10 }}>
-                  <span style={{ fontSize: 11, fontWeight: 700, letterSpacing: "0.14em", textTransform: "uppercase", color: "#c8a96e" }}>{a.categorie}</span>
-                  <span style={{ fontSize: 11, color: "#bbb" }}>·</span>
-                  <span style={{ fontSize: 11, color: "#bbb" }}>{a.citire} citire</span>
+                  <span style={{ fontSize: 11, fontWeight: 700, letterSpacing: "0.14em", textTransform: "uppercase", color: "#D5B358" }}>{a.categorie}</span>
+                  <span style={{ fontSize: 11, color: "#5D695F" }}>·</span>
+                  <span style={{ fontSize: 11, color: "#5D695F" }}>{a.citire} citire</span>
                 </div>
-                <h3 style={{ margin: 0, fontSize: 17, fontWeight: 800, color: "#111", lineHeight: 1.35 }}>{a.titlu}</h3>
-                <p style={{ margin: 0, fontSize: 14, color: "#666", lineHeight: 1.6, flex: 1 }}>{a.rezumat}</p>
-                <p style={{ margin: 0, fontSize: 12, color: "#aaa" }}>{a.data}</p>
+                <h3 style={{ margin: 0, fontSize: 17, fontWeight: 800, color: "#1D2820", lineHeight: 1.35 }}>{a.titlu}</h3>
+                <p style={{ margin: 0, fontSize: 14, color: "#5D695F", lineHeight: 1.6, flex: 1 }}>{a.rezumat}</p>
+                <p style={{ margin: 0, fontSize: 12, color: "#5D695F" }}>{a.data}</p>
               </div>
             </Link>
           ))}

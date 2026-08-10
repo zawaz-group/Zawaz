@@ -9,7 +9,7 @@ const categorii = [
 export default function Categorii() {
   return (
     <section style={{ padding: "var(--section-padding)", maxWidth: "var(--container)", margin: "0 auto" }}>
-      <h2 style={{ fontSize: 22, fontWeight: 800, textTransform: "uppercase", letterSpacing: "0.2em", marginBottom: 40, textAlign: "center", color: "#111" }}>
+      <h2 style={{ fontSize: 22, fontWeight: 800, textTransform: "uppercase", letterSpacing: "0.2em", marginBottom: 40, textAlign: "center", color: "#1D2820" }}>
         Categorii
       </h2>
       <div className="categorii-grid">
@@ -24,7 +24,7 @@ export default function Categorii() {
                 onMouseOut={e => e.currentTarget.style.transform = "scale(1)"}
               />
             </div>
-            <span style={{ color: "#111", fontWeight: 700, fontSize: 16, textTransform: "uppercase", letterSpacing: "0.08em", textAlign: "center" }}>
+            <span style={{ color: "#1D2820", fontWeight: 700, fontSize: 16, textTransform: "uppercase", letterSpacing: "0.08em", textAlign: "center" }}>
               {cat.label}
             </span>
           </Link>

@@ -3,7 +3,7 @@ import { useState } from "react";
 
 const INTREBARI = [
   {
-    q: "Din ce material sunt fabricate produsele Zawaz Wood?",
+    q: "Din ce material sunt fabricate produsele Paradox Craft?",
     a: "Toate produsele noastre sunt fabricate din lemn masiv natural, selectat cu atenție pentru calitate și durabilitate. Nu folosim MDF sau materiale sintetice.",
   },
   {
@@ -50,8 +50,8 @@ export default function FAQ() {
   return (
     <section style={{ maxWidth: "var(--container)", margin: "0 auto", padding: "var(--section-padding)" }}>
       <div style={{ textAlign: "center", marginBottom: 48 }}>
-        <p style={{ fontSize: 12, fontWeight: 700, letterSpacing: "0.2em", textTransform: "uppercase", color: "#c8a96e", marginBottom: 10 }}>Ai întrebări?</p>
-        <h2 style={{ fontSize: "clamp(28px, 4vw, 42px)", fontWeight: 800, color: "#111", margin: 0 }}>Întrebări frecvente</h2>
+        <p style={{ fontSize: 12, fontWeight: 700, letterSpacing: "0.2em", textTransform: "uppercase", color: "#D5B358", marginBottom: 10 }}>Ai întrebări?</p>
+        <h2 style={{ fontSize: "clamp(28px, 4vw, 42px)", fontWeight: 800, color: "#1D2820", margin: 0 }}>Întrebări frecvente</h2>
       </div>
 
       <div style={{ display: "flex", flexDirection: "column", gap: 0, maxWidth: 800, margin: "0 auto" }}>
@@ -65,9 +65,9 @@ export default function FAQ() {
                 padding: "20px 4px", gap: 16, textAlign: "left",
               }}
             >
-              <span style={{ fontSize: "clamp(15px, 2vw, 17px)", fontWeight: 700, color: "#111", lineHeight: 1.4 }}>{item.q}</span>
+              <span style={{ fontSize: "clamp(15px, 2vw, 17px)", fontWeight: 700, color: "#1D2820", lineHeight: 1.4 }}>{item.q}</span>
               <svg
-                width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#c8a96e" strokeWidth={2.5} strokeLinecap="round"
+                width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#D5B358" strokeWidth={2.5} strokeLinecap="round"
                 style={{ flexShrink: 0, transition: "transform 0.3s ease", transform: open === i ? "rotate(45deg)" : "rotate(0deg)" }}
               >
                 <line x1="12" y1="5" x2="12" y2="19"/>
@@ -79,7 +79,7 @@ export default function FAQ() {
               maxHeight: open === i ? "400px" : "0",
               transition: "max-height 0.4s cubic-bezier(0.4,0,0.2,1)",
             }}>
-              <p style={{ fontSize: 15, color: "#555", lineHeight: 1.75, margin: "0 4px 20px", fontWeight: 400 }}>
+              <p style={{ fontSize: 15, color: "#5D695F", lineHeight: 1.75, margin: "0 4px 20px", fontWeight: 400 }}>
                 {item.a}
               </p>
             </div>

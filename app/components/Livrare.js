@@ -118,7 +118,7 @@ export default function Livrare() {
             fontSize: "clamp(40px, 6vw, 80px)",
             fontWeight: 900,
             lineHeight: 1.05,
-            color: "#2a1a08",
+            color: "#1D2820",
             margin: "0 0 20px",
             letterSpacing: "-0.03em",
             fontFamily: "Inter, system-ui, sans-serif",
@@ -128,7 +128,7 @@ export default function Livrare() {
 
           <p style={{
             fontSize: "clamp(15px, 1.6vw, 20px)",
-            color: "#6b4f2e",
+            color: "#5D695F",
             lineHeight: 1.65,
             margin: "0 0 36px",
             maxWidth: 420,
@@ -143,7 +143,7 @@ export default function Livrare() {
             href="/produse"
             style={{
               display: "inline-block",
-              background: "#e8922a",
+              background: "#2C662D",
               color: "#fff",
               fontWeight: 700,
               fontSize: "clamp(14px, 1.4vw, 17px)",
@@ -152,11 +152,11 @@ export default function Livrare() {
               textDecoration: "none",
               letterSpacing: "0.01em",
               fontFamily: "Inter, system-ui, sans-serif",
-              boxShadow: "0 4px 20px rgba(232,146,42,0.35)",
+              boxShadow: "0 4px 20px rgba(44,102,45,0.35)",
               transition: "all 0.2s",
             }}
-            onMouseEnter={e => { e.currentTarget.style.background = "#d4801e"; e.currentTarget.style.transform = "translateY(-2px)"; }}
-            onMouseLeave={e => { e.currentTarget.style.background = "#e8922a"; e.currentTarget.style.transform = "translateY(0)"; }}
+            onMouseEnter={e => { e.currentTarget.style.background = "#214F27"; e.currentTarget.style.transform = "translateY(-2px)"; }}
+            onMouseLeave={e => { e.currentTarget.style.background = "#2C662D"; e.currentTarget.style.transform = "translateY(0)"; }}
           >
             Comandă acum
           </a>

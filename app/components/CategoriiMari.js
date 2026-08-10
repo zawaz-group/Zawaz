@@ -18,9 +18,9 @@ const categorii = [
 
 export default function CategoriiMari() {
   return (
-    <section style={{ padding: "var(--section-padding)", background: "#fff" }}>
+    <section style={{ padding: "var(--section-padding)", background: "#F7F7F4" }}>
       <div style={{ maxWidth: "var(--container)", margin: "0 auto" }}>
-        <h2 style={{ fontSize: 26, fontWeight: 800, textTransform: "uppercase", letterSpacing: "0.2em", marginBottom: 48, textAlign: "center", color: "#111" }}>
+        <h2 style={{ fontSize: 26, fontWeight: 800, textTransform: "uppercase", letterSpacing: "0.2em", marginBottom: 48, textAlign: "center", color: "#1D2820" }}>
           Explorează Categoriile
         </h2>
         <div className="categorii-mari-grid">
@@ -36,9 +36,9 @@ export default function CategoriiMari() {
                 />
               </div>
               <div>
-                <p style={{ fontSize: 20, fontWeight: 800, color: "#111", margin: 0, textTransform: "uppercase", letterSpacing: "0.08em" }}>{cat.label}</p>
-                <p style={{ fontSize: 15, color: "#555", marginTop: 8, lineHeight: 1.6 }}>{cat.descriere}</p>
-                <span style={{ display: "inline-block", marginTop: 12, fontSize: 13, fontWeight: 700, color: "#111", textTransform: "uppercase", letterSpacing: "0.1em", borderBottom: "2px solid #111", paddingBottom: 2 }}>
+                <p style={{ fontSize: 20, fontWeight: 800, color: "#1D2820", margin: 0, textTransform: "uppercase", letterSpacing: "0.08em" }}>{cat.label}</p>
+                <p style={{ fontSize: 15, color: "#5D695F", marginTop: 8, lineHeight: 1.6 }}>{cat.descriere}</p>
+                <span style={{ display: "inline-block", marginTop: 12, fontSize: 13, fontWeight: 700, color: "#1D2820", textTransform: "uppercase", letterSpacing: "0.1em", borderBottom: "2px solid #1D2820", paddingBottom: 2 }}>
                   Descoperă →
                 </span>
               </div>

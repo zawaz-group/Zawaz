@@ -15,13 +15,13 @@ export async function generateMetadata({ params }) {
   if (!produs) {
     return {
       title: "Produs",
-      description: "Descoperă produsele ArtyZawaz din lemn natural.",
+      description: "Descoperă produsele Paradox Craft din lemn natural.",
     };
   }
 
   const desc =
     (produs.descriere && produs.descriere.slice(0, 160)) ||
-    `${produs.name} – produs ArtyZawaz din lemn natural, lucrat manual.`;
+    `${produs.name} – produs Paradox Craft din lemn natural, lucrat manual.`;
   const img = produs.img
     ? produs.img.startsWith("http")
       ? produs.img
@@ -36,20 +36,20 @@ export async function generateMetadata({ params }) {
       produs.category,
       ...(produs.culori || []),
       ...(produs.tema || []),
-      "ArtyZawaz",
+      "Paradox Craft",
       "lemn natural",
     ].filter(Boolean),
     alternates: { canonical: `/produse/${id}` },
     openGraph: {
       type: "website",
-      title: `${produs.name} | ArtyZawaz`,
+      title: `${produs.name} | Paradox Craft`,
       description: desc,
       url: `${SITE_URL}/produse/${id}`,
       images: [{ url: img, alt: produs.name }],
     },
     twitter: {
       card: "summary_large_image",
-      title: `${produs.name} | ArtyZawaz`,
+      title: `${produs.name} | Paradox Craft`,
       description: desc,
       images: [img],
     },

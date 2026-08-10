@@ -4,18 +4,18 @@ import Link from "next/link";
 const links = {
   "Produse": ["Stative", "Pușculițe", "Reduceri", "Produse Noi", "Populare"],
   "Ajutor": ["Returnare", "Livrare", "FAQ", "Contact"],
-  "Companie": ["Despre Zawaz Wood", "Sustenabilitate", "Cariere", "Presă"],
+  "Companie": ["Despre Paradox Craft", "Sustenabilitate", "Cariere", "Presă"],
 };
 
 export default function Footer() {
   return (
-    <footer style={{ background: "#000", color: "#fff", paddingTop: 64, paddingBottom: 32, paddingLeft: 24, paddingRight: 24 }}>
+    <footer style={{ background: "#183A22", color: "#fff", paddingTop: 64, paddingBottom: 32, paddingLeft: 24, paddingRight: 24 }}>
       <div style={{ maxWidth: "var(--container)", margin: "0 auto" }}>
         {/* Top grid */}
         <div className="grid-4" style={{ marginBottom: 48 }}>
           {/* Brand */}
           <div>
-            <span style={{ fontSize: 28, fontWeight: 800, letterSpacing: "0.2em", textTransform: "uppercase" }}>zawaz wood</span>
+            <span style={{ fontSize: 28, fontWeight: 800, letterSpacing: "0.2em", textTransform: "uppercase" }}>paradox craft</span>
             <p style={{ marginTop: 16, color: "rgba(255,255,255,0.5)", fontSize: 14, lineHeight: 1.7, maxWidth: 240 }}>
               Stative și pușculițe din lemn, create cu pasiune pentru calitate și design autentic.
             </p>
@@ -63,7 +63,7 @@ export default function Footer() {
 
         {/* Bottom */}
         <div className="footer-bottom" style={{ borderTop: "1px solid rgba(255,255,255,0.1)", paddingTop: 24 }}>
-          <p style={{ fontSize: 12, color: "rgba(255,255,255,0.3)", margin: 0 }}>© {new Date().getFullYear()} Zawaz Wood. Toate drepturile rezervate.</p>
+          <p style={{ fontSize: 12, color: "rgba(255,255,255,0.3)", margin: 0 }}>© {new Date().getFullYear()} Paradox Craft. Toate drepturile rezervate.</p>
           <div style={{ display: "flex", gap: 16 }}>
             <Link href="#" style={{ fontSize: 12, color: "rgba(255,255,255,0.3)", textDecoration: "none" }}>Politica de confidențialitate</Link>
             <Link href="#" style={{ fontSize: 12, color: "rgba(255,255,255,0.3)", textDecoration: "none" }}>Termeni și condiții</Link>

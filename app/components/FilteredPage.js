@@ -17,15 +17,15 @@ export default function FilteredPage({ type, value, produse }) {
   const bannerBg =
     type === "culoare" ? (COLOR_MAP[value] || "#e8e4de") :
     type === "tema" ? "#1e2235" :
-    "#f5f2ed";
+    "#EEF2EC";
 
   const bannerTextColor =
     type === "culoare"
-      ? (["Alb", "Gri", "Bej", "Argintiu", "Galben"].includes(value) ? "#111" : "#fff")
-      : type === "tema" ? "#fff" : "#111";
+      ? (["Alb", "Gri", "Bej", "Argintiu", "Galben"].includes(value) ? "#1D2820" : "#fff")
+      : type === "tema" ? "#fff" : "#1D2820";
 
   return (
-    <div style={{ background: "#fff", minHeight: "100vh" }}>
+    <div style={{ background: "#F7F7F4", minHeight: "100vh" }}>
       <NavBar />
 
       {/* Banner */}
@@ -57,7 +57,7 @@ export default function FilteredPage({ type, value, produse }) {
               display: "inline-flex", alignItems: "center", justifyContent: "center",
               width: 56, height: 56, borderRadius: "50%", marginBottom: 16,
               background: COLOR_MAP[value] || "#ccc",
-              border: value === "Alb" ? "2px solid #ddd" : "none",
+              border: value === "Alb" ? "2px solid #DCE4D9" : "none",
               boxShadow: "0 4px 16px rgba(0,0,0,0.2)",
             }} />
           )}
@@ -83,9 +83,9 @@ export default function FilteredPage({ type, value, produse }) {
       {/* Products */}
       <main style={{ maxWidth: 1280, margin: "0 auto", padding: "clamp(40px, 6vw, 64px) clamp(20px, 4vw, 64px)" }}>
         {produse.length === 0 ? (
-          <div style={{ textAlign: "center", padding: "80px 0", color: "#bbb" }}>
+          <div style={{ textAlign: "center", padding: "80px 0", color: "#5D695F" }}>
             <p style={{ fontSize: 18, fontWeight: 600 }}>Niciun produs găsit.</p>
-            <Link href="/" style={{ marginTop: 16, display: "inline-block", padding: "12px 24px", background: "#2B652C", color: "#fff", borderRadius: 10, textDecoration: "none", fontWeight: 700 }}>Înapoi acasă</Link>
+            <Link href="/" style={{ marginTop: 16, display: "inline-block", padding: "12px 24px", background: "#2C662D", color: "#fff", borderRadius: 10, textDecoration: "none", fontWeight: 700 }}>Înapoi acasă</Link>
           </div>
         ) : (
           <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(240px, 1fr))", gap: 32 }}>

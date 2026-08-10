@@ -9,8 +9,8 @@ export async function generateMetadata({ params }) {
   const { slug } = await params;
   const value = deslugify(slug) || slug;
   return {
-    title: `Produse ${value} | ArtyZawaz`,
-    description: `Explorează toate produsele ArtyZawaz în culoarea ${value}.`,
+    title: `Produse ${value} | Paradox Craft`,
+    description: `Explorează toate produsele Paradox Craft în culoarea ${value}.`,
   };
 }
 

@@ -11,7 +11,7 @@ export default function Harta() {
             allowFullScreen
             loading="lazy"
             referrerPolicy="no-referrer-when-downgrade"
-            title="Hartă magazine Zawaz Wood"
+            title="Hartă magazine Paradox Craft"
           />
         </div>
       </div>
