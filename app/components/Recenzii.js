@@ -99,7 +99,7 @@ export default function Recenzii() {
         margin: "0 auto",
         padding: "0 var(--gutter)",
         display: "grid",
-        gridTemplateColumns: "minmax(300px, 460px) 1fr",
+        gridTemplateColumns: "minmax(300px, 520px) 1fr",
         gap: "clamp(40px, 5vw, 80px)",
         alignItems: "center",
       }} className="recenzii-grid">
@@ -217,13 +217,13 @@ export default function Recenzii() {
             letterSpacing: "-0.03em",
             letterSpacing: "-0.03em",
             fontFamily: "Inter, system-ui, sans-serif",
-            maxWidth: 400,
+            maxWidth: 560,
           }}>
             Sute de opinii<br />pozitive online
           </h2>
 
           {/* Social logos faded */}
-          <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "2px 12px", marginBottom: 38, maxWidth: 300 }}>
+          <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "2px 12px", marginBottom: 38, maxWidth: 380 }}>
             <span style={{ fontSize: "clamp(18px, 2vw, 26px)", fontWeight: 900, color: "rgba(0,0,0,0.11)", lineHeight: 1.5, fontFamily: "Arial, sans-serif" }}>Google</span>
             <span style={{ fontSize: "clamp(18px, 2vw, 26px)", fontWeight: 900, color: "rgba(0,0,0,0.11)", lineHeight: 1.5, fontFamily: "Arial, sans-serif" }}>LinkedIn</span>
             <span style={{ fontSize: "clamp(18px, 2vw, 26px)", fontWeight: 900, color: "rgba(0,0,0,0.11)", lineHeight: 1.5, fontFamily: "Arial, sans-serif" }}>facebook</span>

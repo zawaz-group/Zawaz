@@ -27,7 +27,14 @@ export default function CategorieTemplate({ slug }) {
     fetch("/api/produse")
       .then(r => r.json())
       .then(all => {
-        setToateProdusele(all.filter(p => p.category === slug));
+        // "produse-noi", "populare", "reduceri", "sport" etc. sunt taguri, nu
+        // categorii: filtrarea doar dupa p.category lasa acele pagini goale.
+        // Aceeasi regula ca in lib/produse.js getProduseByCategorie.
+        setToateProdusele(
+          slug === "copii"
+            ? all.filter(p => p.tags?.includes("fete") || p.tags?.includes("baieti"))
+            : all.filter(p => p.tags?.includes(slug) || p.category === slug)
+        );
         setLoading(false);
       })
       .catch(() => setLoading(false));

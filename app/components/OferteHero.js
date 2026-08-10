@@ -4,19 +4,13 @@ import Image from "next/image";
 import Link from "next/link";
 
 export default function OferteHero() {
-  const [href, setHref] = useState(null);
   const [isMobile, setIsMobile] = useState(false);
 
-  useEffect(() => {
-    fetch("/api/produse")
-      .then((r) => r.json())
-      .then((data) => {
-        if (!Array.isArray(data) || data.length === 0) return;
-        const randomProduct = data[Math.floor(Math.random() * data.length)];
-        setHref(`/produse/${randomProduct.id}`);
-      })
-      .catch(() => {});
-  }, []);
+  /* Bannerul duce in catalog, nu la un produs ales la intamplare: "Comandă
+     acum" trebuie sa ajunga unde se poate comanda orice. In plus, nu mai
+     depinde de un fetch — inainte sectiunea nu se randa deloc pana nu venea
+     raspunsul, si disparea complet daca API-ul esua. */
+  const href = "/produse";
 
   useEffect(() => {
     const check = () => setIsMobile(window.innerWidth <= 767);
@@ -24,8 +18,6 @@ export default function OferteHero() {
     window.addEventListener("resize", check);
     return () => window.removeEventListener("resize", check);
   }, []);
-
-  if (!href) return null;
 
   return (
     // padding orizontal 16px = acelasi cu al navbar-ului (NavBar.js:192),

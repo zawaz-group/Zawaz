@@ -106,8 +106,8 @@ function GasesteCard({ title, desc, btn, icon, type, options, accentColor }) {
       onMouseLeave={e => { e.currentTarget.style.transform = "translateY(0)"; e.currentTarget.style.boxShadow = isAccent ? "0 8px 32px rgba(245,166,35,0.3)" : "0 2px 16px rgba(0,0,0,0.06)"; }}
     >
       <div style={{ position: "absolute", top: 16, right: 16 }}>{icon}</div>
-      <div style={{ flex: 1, paddingRight: 80 }}>
-        <h3 style={{ fontSize: "clamp(18px, 1.8vw, 24px)", fontWeight: 800, color: isAccent ? "#fff" : "#1D2820", margin: "0 0 10px", lineHeight: 1.2, whiteSpace: "pre-line" }}>{title}</h3>
+      <div style={{ flex: 1, paddingRight: 120 }}>
+        <h3 style={{ fontSize: "clamp(17px, 1.5vw, 22px)", fontWeight: 800, color: isAccent ? "#fff" : "#1D2820", margin: "0 0 10px", lineHeight: 1.2, whiteSpace: "pre-line" }}>{title}</h3>
         <p style={{ fontSize: 14, color: isAccent ? "rgba(255,255,255,0.85)" : "#5D695F", margin: 0, lineHeight: 1.5 }}>{desc}</p>
       </div>
       <div style={{ marginTop: 24 }}>
@@ -137,7 +137,7 @@ export default function GasestePerfect() {
   const ocazii = OCAZII_OPTIONS;
 
   const colorIcon = (
-    <div style={{ width: 110, height: 110, display: "flex", flexWrap: "wrap", alignItems: "center", justifyContent: "center", gap: 5 }}>
+    <div style={{ width: 92, height: 92, display: "flex", flexWrap: "wrap", alignItems: "center", justifyContent: "center", gap: 5 }}>
       {culori.map(c => {
         const bg = COLOR_MAP[c] || "#ccc";
         const isGrad = bg.startsWith("linear-gradient");
@@ -147,8 +147,8 @@ export default function GasestePerfect() {
   );
 
   const temaIcon = (
-    <div style={{ width: 100, height: 100, display: "flex", alignItems: "center", justifyContent: "center" }}>
-      <svg viewBox="0 0 80 80" width={100} height={100}>
+    <div style={{ width: 92, height: 92, display: "flex", alignItems: "center", justifyContent: "center" }}>
+      <svg viewBox="0 0 80 80" width={92} height={92}>
         <rect x="8" y="18" width="64" height="48" rx="8" fill="url(#igr)"/>
         <defs><linearGradient id="igr" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stopColor="#74b9ff"/><stop offset="100%" stopColor="#0984e3"/></linearGradient></defs>
         <circle cx="26" cy="34" r="8" fill="#fdcb6e"/>
@@ -159,8 +159,8 @@ export default function GasestePerfect() {
   );
 
   const ocazieIcon = (
-    <div style={{ width: 100, height: 100, display: "flex", alignItems: "center", justifyContent: "center" }}>
-      <svg viewBox="0 0 80 80" width={100} height={100}>
+    <div style={{ width: 92, height: 92, display: "flex", alignItems: "center", justifyContent: "center" }}>
+      <svg viewBox="0 0 80 80" width={92} height={92}>
         <ellipse cx="36" cy="58" rx="22" ry="8" fill="#b2bec3" opacity="0.3"/>
         <path d="M14 52 L28 20 L50 20 L64 52 Z" fill="url(#mgr)"/>
         <defs><linearGradient id="mgr" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stopColor="#f5f6fa"/><stop offset="100%" stopColor="#dcdde1"/></linearGradient></defs>
@@ -173,8 +173,8 @@ export default function GasestePerfect() {
   );
 
   const customIcon = (
-    <div style={{ width: 100, height: 100, display: "flex", alignItems: "center", justifyContent: "center" }}>
-      <svg viewBox="0 0 80 80" width={100} height={100}>
+    <div style={{ width: 92, height: 92, display: "flex", alignItems: "center", justifyContent: "center" }}>
+      <svg viewBox="0 0 80 80" width={92} height={92}>
         <ellipse cx="40" cy="60" rx="20" ry="16" fill="#ff7043"/>
         <circle cx="40" cy="32" r="16" fill="#ffccbc"/>
         <ellipse cx="40" cy="18" rx="14" ry="5" fill="#ff5722"/>
@@ -188,7 +188,7 @@ export default function GasestePerfect() {
 
   return (
     <section style={{ background: "#EEF2EC", padding: "clamp(48px, 8vw, 80px) 0 clamp(48px, 8vw, 100px)" }}>
-      <div style={{ maxWidth: 1280, margin: "0 auto", padding: "0 clamp(20px, 4vw, 60px)" }}>
+      <div style={{ maxWidth: "var(--container)", margin: "0 auto", padding: "0 var(--gutter)" }}>
         <h2 style={{ fontSize: "clamp(32px, 5vw, 64px)", fontWeight: 900, color: "#1D2820", margin: "0 0 clamp(24px, 4vw, 48px)", letterSpacing: "-0.03em", lineHeight: 1.05 }}>
           Găsiți modelul perfect
         </h2>

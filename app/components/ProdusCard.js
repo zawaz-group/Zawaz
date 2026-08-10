@@ -40,6 +40,7 @@ export default function ProdusCard({ produs }) {
 
   return (
     <div
+      className="pcard"
       onMouseEnter={() => setHovered(true)}
       onMouseLeave={() => setHovered(false)}
       style={{
@@ -58,7 +59,7 @@ export default function ProdusCard({ produs }) {
           />
 
           {esteNou && (
-            <span style={{ position: "absolute", top: 8, left: 8, background: "#4338ca", color: "#fff", fontSize: 10, fontWeight: 700, padding: "3px 10px", borderRadius: 20, textTransform: "uppercase", letterSpacing: "0.06em" }}>
+            <span className="pcard-badge" style={{ position: "absolute", top: 8, left: 8, background: "#4338ca", color: "#fff", fontSize: 10, fontWeight: 700, padding: "3px 10px", borderRadius: 20, textTransform: "uppercase", letterSpacing: "0.06em" }}>
               Nou
             </span>
           )}
@@ -67,6 +68,7 @@ export default function ProdusCard({ produs }) {
 
       <button
         onClick={handleFavorit}
+        className="pcard-fav"
         style={{
           position: "absolute", top: 18, right: 18, width: 32, height: 32,
           background: "rgba(255,255,255,0.9)", border: "none", borderRadius: "50%",
@@ -80,9 +82,9 @@ export default function ProdusCard({ produs }) {
         </svg>
       </button>
 
-      <div style={{ display: "flex", flexDirection: "column", gap: 6, padding: "2px 4px 4px" }}>
+      <div className="pcard-info" style={{ display: "flex", flexDirection: "column", gap: 6, padding: "2px 4px 4px" }}>
         <Link href={`/produse/${produs.id}`} style={{ textDecoration: "none" }}>
-          <p style={{ fontSize: 16, fontWeight: 700, color: "#1D2820", margin: 0 }}>{produs.name}</p>
+          <p className="pcard-name" style={{ fontSize: 16, fontWeight: 700, color: "#1D2820", margin: 0 }}>{produs.name}</p>
         </Link>
 
         {specs && (
@@ -103,16 +105,17 @@ export default function ProdusCard({ produs }) {
           </div>
         )}
 
-        <div style={{ display: "flex", alignItems: "baseline", gap: 4 }}>
-          <p style={{ fontSize: 24, fontWeight: 800, color: "#1D2820", margin: 0 }}>
+        <div className="pcard-price-row" style={{ display: "flex", alignItems: "baseline", gap: 4 }}>
+          <p className="pcard-price" style={{ fontSize: 24, fontWeight: 800, color: "#1D2820", margin: 0 }}>
             {produs.price.toLocaleString("ro-RO")}
           </p>
           <span style={{ fontSize: 14, fontWeight: 600, color: "#1D2820" }}>lei</span>
         </div>
 
-        <div style={{ display: "flex", gap: 8, marginTop: 6 }}>
+        <div className="pcard-actions" style={{ display: "flex", gap: 8, marginTop: 6 }}>
           <button
             onClick={handleCart}
+            className="pcard-cart-btn"
             style={{
               flex: 1, display: "flex", alignItems: "center", justifyContent: "center", gap: 5,
               padding: "8px 5px",
@@ -137,6 +140,7 @@ export default function ProdusCard({ produs }) {
           </button>
           <button
             onClick={handleQuickBuy}
+            className="pcard-buy-btn"
             style={{
               flex: 1, display: "flex", alignItems: "center", justifyContent: "center", gap: 5,
               padding: "7px 5px",
@@ -148,7 +152,7 @@ export default function ProdusCard({ produs }) {
             <span style={{ fontSize: 12, color: "#D5B358" }}>⚡</span>
             <span style={{ display: "flex", flexDirection: "column", alignItems: "flex-start" }}>
               <span style={{ fontSize: 11, fontWeight: 700, color: "#1D2820", whiteSpace: "nowrap" }}>Cumpără rapid</span>
-              <span style={{ fontSize: 8, fontWeight: 400, color: "#5D695F", whiteSpace: "nowrap" }}>Într-un click</span>
+              <span className="pcard-buy-sub" style={{ fontSize: 8, fontWeight: 400, color: "#5D695F", whiteSpace: "nowrap" }}>Într-un click</span>
             </span>
           </button>
         </div>

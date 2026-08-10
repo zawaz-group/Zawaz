@@ -78,7 +78,7 @@ export default function CumFunctioneaza() {
             }}>"Simplu si rapid!"</p>
             <div style={{ display: "flex", alignItems: "center", gap: 10 }}>
               <div style={{ width: 40, height: 40, borderRadius: "50%", overflow: "hidden", flexShrink: 0 }}>
-                <img src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=100&h=100&fit=crop&crop=face" alt="Maria" style={{ width: "100%", height: "100%", objectFit: "cover", display: "block" }} />
+                <img src="https://images.unsplash.com/photo-1487412720507-e7ab37603c6f?w=100&h=100&fit=crop&crop=face" alt="Maria" style={{ width: "100%", height: "100%", objectFit: "cover", display: "block" }} />
               </div>
               <div style={{ display: "flex", gap: 2 }}>
                 {[...Array(5)].map((_, i) => <span key={i} style={{ color: "#D5B358", fontSize: 16 }}>★</span>)}
@@ -129,7 +129,7 @@ export default function CumFunctioneaza() {
               <div style={{ display: "flex", flexDirection: "column", gap: 12 }}>
                 <div style={{ display: "flex", alignItems: "center", gap: 14 }}>
                   <div style={{ width: 56, height: 56, borderRadius: "50%", overflow: "hidden", flexShrink: 0, boxShadow: "0 2px 16px rgba(0,0,0,0.14)" }}>
-                    <img src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=100&h=100&fit=crop&crop=face" alt="Maria" style={{ width: "100%", height: "100%", objectFit: "cover", display: "block" }} />
+                    <img src="https://images.unsplash.com/photo-1487412720507-e7ab37603c6f?w=100&h=100&fit=crop&crop=face" alt="Maria" style={{ width: "100%", height: "100%", objectFit: "cover", display: "block" }} />
                   </div>
                   <div style={{ display: "flex", gap: 3 }}>
                     {[...Array(5)].map((_, i) => <span key={i} style={{ color: "#D5B358", fontSize: 22, lineHeight: 1 }}>★</span>)}

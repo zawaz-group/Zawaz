@@ -465,7 +465,7 @@ html, body {
 @media (max-width: 900px) {
   .recenzii-grid {
     grid-template-columns: 1fr !important;
-    padding: 0 20px !important;
+    padding: 0 var(--gutter) !important;
     gap: 32px !important;
   }
   .recenzii-right {
@@ -584,4 +584,76 @@ body {
   background: var(--background);
   color: var(--foreground);
   font-family: Arial, Helvetica, sans-serif;
+}
+
+/* ═══════════════════════════════════════════════
+   PRODUS CARD — actiuni pe mobil
+   Pe mobil produsele stau doua pe rand, deci fiecare card are ~150px utili.
+   Cele doua butoane unul langa altul primeau ~70px fiecare, sub latimea
+   textului "Adaugă în coș", care are whiteSpace: nowrap — de aici textul
+   iesea din buton. Le asezam unul sub altul, pe toata latimea cardului,
+   cu inaltime suficienta pentru atingere cu degetul.
+   ═══════════════════════════════════════════════ */
+@media (max-width: 767px) {
+  .pcard-actions {
+    flex-direction: column;
+    gap: 6px !important;
+  }
+  .pcard-actions > button {
+    width: 100%;
+    min-height: 42px;
+    font-size: 12px !important;
+    padding: 8px 6px !important;
+  }
+  /* 8px era oricum sub pragul lizibil; il scoatem ca sa ramana loc de text */
+  .pcard-buy-sub { display: none !important; }
+  .pcard-buy-btn span:last-child { align-items: center !important; }
+}
+
+/* ═══════════════════════════════════════════════
+   CATALOG (/produse) — filtre + grila
+   ═══════════════════════════════════════════════ */
+.catalog-layout {
+  display: grid;
+  /* minmax(0,1fr), nu 1fr: `1fr` este minmax(auto,1fr), iar `auto` nu
+     coboara sub min-content, asa ca track-ul creste peste latimea ecranului
+     si pagina capata scroll orizontal. */
+  grid-template-columns: 260px minmax(0, 1fr);
+  gap: 40px;
+  align-items: start;
+}
+.catalog-filtre-toggle { display: none; }
+.catalog-grid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 20px;
+}
+@media (max-width: 1279px) {
+  .catalog-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+}
+@media (max-width: 1023px) {
+  .catalog-layout { grid-template-columns: 200px minmax(0, 1fr); gap: 28px; }
+  .catalog-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}
+
+/* Sub 768px filtrele trec deasupra si se pliaza: pe un ecran de telefon o
+   coloana laterala ar impinge produsele sub linia de plutire. */
+@media (max-width: 767px) {
+  .catalog-layout { grid-template-columns: minmax(0, 1fr); gap: 20px; }
+  .catalog-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; }
+  .catalog-filtre-toggle {
+    display: inline-block;
+    width: 100%;
+    padding: 12px 18px;
+    border-radius: 12px;
+    border: 1.5px solid #DCE4D9;
+    background: #fff;
+    font-size: 14px;
+    font-weight: 700;
+    color: #1D2820;
+    cursor: pointer;
+    text-align: left;
+  }
+  .catalog-filtre-corp { display: none; padding-top: 18px; }
+  .catalog-filtre-corp.deschis { display: block; }
 }
