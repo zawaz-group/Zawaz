@@ -41,8 +41,8 @@ export default function DespreNoi() {
           <h2 style={{ fontSize: 32, fontWeight: 800, color: "#fff", marginBottom: 16 }}>Descoperă colecțiile noastre</h2>
           <p style={{ color: "#5D695F", fontSize: 16, marginBottom: 36 }}>Stative și pușculițe create cu dragoste, pentru casa ta.</p>
           <div style={{ display: "flex", gap: 16, justifyContent: "center", flexWrap: "wrap" }}>
-            <a href="/stative" style={{ background: "#D5B358", color: "#fff", padding: "14px 32px", borderRadius: 8, fontWeight: 700, fontSize: 14, textDecoration: "none", textTransform: "uppercase", letterSpacing: "0.08em" }}>Stative</a>
-            <a href="/pusculate" style={{ background: "transparent", color: "#fff", padding: "14px 32px", borderRadius: 8, fontWeight: 700, fontSize: 14, textDecoration: "none", textTransform: "uppercase", letterSpacing: "0.08em", border: "2px solid #fff" }}>Pușculițe</a>
+            <a href="/produse?categorie=stative" style={{ background: "#D5B358", color: "#fff", padding: "14px 32px", borderRadius: 8, fontWeight: 700, fontSize: 14, textDecoration: "none", textTransform: "uppercase", letterSpacing: "0.08em" }}>Stative</a>
+            <a href="/produse?categorie=pusculite" style={{ background: "transparent", color: "#fff", padding: "14px 32px", borderRadius: 8, fontWeight: 700, fontSize: 14, textDecoration: "none", textTransform: "uppercase", letterSpacing: "0.08em", border: "2px solid #fff" }}>Pușculițe</a>
           </div>
         </div>
       </main>

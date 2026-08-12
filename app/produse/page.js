@@ -1,5 +1,6 @@
 "use client";
-import { useState, useEffect, useMemo } from "react";
+import { Suspense, useState, useEffect, useMemo } from "react";
+import { useSearchParams } from "next/navigation";
 import NavBar from "../components/NavBar";
 import Footer from "../components/Footer";
 import ProdusCard from "../components/ProdusCard";
@@ -21,11 +22,11 @@ const SORTARI = [
 /* Categoria descrie tipul produsului, si sunt doar doua. Restul valorilor din
    p.category (fete, baieti, sport) descriu cui i se potriveste produsul, nu ce
    este, asa ca apar la Tema. */
-const CATEGORII_PRINCIPALE = ["stative", "pusculate"];
+const CATEGORII_PRINCIPALE = ["stative", "pusculite"];
 
 const CATEGORII_LABEL = {
   stative: "Stative",
-  pusculate: "Pușculițe",
+  pusculite: "Pușculițe",
 };
 
 /* Optiuni de tema care nu vin din p.tema, ci din categoria sau tagurile
@@ -82,11 +83,27 @@ function GrupFiltre({ titlu, optiuni, selectate, onToggle, eticheta }) {
 }
 
 export default function ProdusePage() {
+  return (
+    <Suspense>
+      <ProdusePageContent />
+    </Suspense>
+  );
+}
+
+function ProdusePageContent() {
+  const searchParams = useSearchParams();
+
   const [toate, setToate] = useState([]);
   const [loading, setLoading] = useState(true);
   const [eroare, setEroare] = useState(false);
 
-  const [categorii, setCategorii] = useState([]);
+  // Navbar-ul trimite aici cu ?categorie=stative sau ?categorie=pusculite
+  // (paginile dedicate /stative si /pusculite nu mai exista) — filtrul
+  // porneste deja selectat, ca vizitatorul sa vada direct categoria aleasa.
+  const [categorii, setCategorii] = useState(() => {
+    const c = searchParams.get("categorie");
+    return c && CATEGORII_PRINCIPALE.includes(c) ? [c] : [];
+  });
   const [culori, setCulori] = useState([]);
   const [teme, setTeme] = useState([]);
   const [ocazii, setOcazii] = useState([]);

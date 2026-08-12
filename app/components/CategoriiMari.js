@@ -6,13 +6,13 @@ const categorii = [
     label: "Stative Desktop",
     descriere: "Suporturi ergonomice pentru birou — stabilitate și design elegant pentru spațiul tău de lucru.",
     img: "/648893568_18014414480666664_2387728317279334603_n.jpg",
-    href: "/stative",
+    href: "/produse?categorie=stative",
   },
   {
     label: "Tripoduri",
     descriere: "Trepieduri profesionale și flexibile pentru fotografie, vlogging și streaming — stabilitate maximă oriunde.",
     img: "/653684068_18070199012242558_3155586751005660151_n.jpg",
-    href: "/pusculate",
+    href: "/produse?categorie=pusculite",
   },
 ];
 

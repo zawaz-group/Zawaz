@@ -2,8 +2,8 @@
 import Link from "next/link";
 
 const categorii = [
-  { label: "Stative", img: "/648893568_18014414480666664_2387728317279334603_n.jpg", href: "/stative" },
-  { label: "Pu\u0219culi\u021be", img: "/653684068_18070199012242558_3155586751005660151_n.jpg", href: "/barbati" },
+  { label: "Stative", img: "/648893568_18014414480666664_2387728317279334603_n.jpg", href: "/produse?categorie=stative" },
+  { label: "Pu\u0219culi\u021be", img: "/653684068_18070199012242558_3155586751005660151_n.jpg", href: "/produse?categorie=pusculite" },
 ];
 
 export default function Categorii() {

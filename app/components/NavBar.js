@@ -84,31 +84,16 @@ function CosDrawer({ open, onClose }) {
   );
 }
 
-const SUBCATEGORII_PRODUS = [
-  { label: "Pentru ia", slug: "pentru-ia" },
-  { label: "Pentru el", slug: "pentru-el" },
-  { label: "Zile de naștere", slug: "zile-de-nastere" },
-  { label: "Pentru copii", slug: "pentru-copii" },
-  { label: "Primăvară", slug: "primavara" },
-  { label: "Valentine Day", slug: "valentine-day" },
-  { label: "Zile speciale", slug: "zile-speciale" },
-];
-
 const navLinks = [
   {
     label: "Produse",
     href: "/produse",
+    // Nu mai exista pagini dedicate /pusculite si /stative — categoria duce
+    // direct la catalogul /produse, cu filtrul de categorie pre-selectat prin
+    // query string (citit in app/produse/page.js).
     categorii: [
-      {
-        label: "Pușculițe",
-        href: "/pusculate",
-        subcategorii: SUBCATEGORII_PRODUS.map(s => ({ label: s.label, href: `/pusculate?categorie=${s.slug}` })),
-      },
-      {
-        label: "Stative",
-        href: "/stative",
-        subcategorii: SUBCATEGORII_PRODUS.map(s => ({ label: s.label, href: `/stative?categorie=${s.slug}` })),
-      },
+      { label: "Pușculițe", href: "/produse?categorie=pusculite", categoria: "pusculite" },
+      { label: "Stative", href: "/produse?categorie=stative", categoria: "stative" },
     ],
   },
   { label: "Best Seller", href: "/populare" },
@@ -279,26 +264,12 @@ export default function NavBar() {
             {link.categorii.map((cat, i) => (
               <div key={cat.href} style={{ flex: "1 1 320px", minWidth: 280, paddingLeft: i > 0 ? 40 : 0, borderLeft: i > 0 ? "1px solid #EEF2EC" : "none" }}>
                 <Link href={cat.href} onClick={() => setActiveDropdown(null)}
-                  style={{ display: "inline-block", fontSize: 16, fontWeight: 800, color: "#1D2820", textDecoration: "none", marginBottom: 14 }}
+                  style={{ display: "inline-block", fontSize: 16, fontWeight: 800, color: "#1D2820", textDecoration: "none", marginBottom: 18, paddingBottom: 18, borderBottom: "1px solid #EEF2EC", width: "100%" }}
                 >{cat.label} →</Link>
-
-                {/* Subcategories row */}
-                <div style={{ display: "flex", alignItems: "center", gap: 6, flexWrap: "wrap", paddingBottom: 18, marginBottom: 18, borderBottom: "1px solid #EEF2EC" }}>
-                  <Link href={cat.href} onClick={() => setActiveDropdown(null)}
-                    style={{ padding: "6px 16px", borderRadius: 999, fontSize: 12, fontWeight: 700, background: "#2C662D", color: "#fff", textDecoration: "none", whiteSpace: "nowrap" }}
-                  >Toate</Link>
-                  {cat.subcategorii.map(sub => (
-                    <Link key={sub.href} href={sub.href} onClick={() => setActiveDropdown(null)}
-                      style={{ padding: "6px 16px", borderRadius: 999, fontSize: 12, fontWeight: 700, background: "#EEF2EC", color: "#2C662D", textDecoration: "none", whiteSpace: "nowrap", transition: "background 0.2s, color 0.2s" }}
-                      onMouseEnter={e => { e.currentTarget.style.background = "#214F27"; e.currentTarget.style.color = "#fff"; }}
-                      onMouseLeave={e => { e.currentTarget.style.background = "#EEF2EC"; e.currentTarget.style.color = "#2C662D"; }}
-                    >{sub.label}</Link>
-                  ))}
-                </div>
 
                 {/* Products row */}
                 <div style={{ display: "flex", gap: 16, overflowX: "auto", paddingBottom: 4 }}>
-                  {produse.filter(p => p.category === cat.href.replace("/", "")).slice(0, 4).map(p => (
+                  {produse.filter(p => p.category === cat.categoria).slice(0, 4).map(p => (
                     <Link key={p.id} href={`/produse/${p.id}`} onClick={() => setActiveDropdown(null)}
                       style={{ textDecoration: "none", color: "#1D2820", flexShrink: 0, width: 110 }}
                       onMouseEnter={e => e.currentTarget.querySelector("img").style.transform = "scale(1.05)"}
