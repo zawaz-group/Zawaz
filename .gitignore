@@ -36,6 +36,9 @@ yarn-error.log*
 # vercel
 .vercel
 
+# sensitive local data (plaintext admin credentials — real store lives in MongoDB)
+/data/utilizatori.json
+
 # typescript
 *.tsbuildinfo
 next-env.d.ts

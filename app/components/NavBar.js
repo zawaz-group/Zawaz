@@ -84,31 +84,31 @@ function CosDrawer({ open, onClose }) {
   );
 }
 
+const SUBCATEGORII_PRODUS = [
+  { label: "Pentru ia", slug: "pentru-ia" },
+  { label: "Pentru el", slug: "pentru-el" },
+  { label: "Zile de naștere", slug: "zile-de-nastere" },
+  { label: "Pentru copii", slug: "pentru-copii" },
+  { label: "Primăvară", slug: "primavara" },
+  { label: "Valentine Day", slug: "valentine-day" },
+  { label: "Zile speciale", slug: "zile-speciale" },
+];
+
 const navLinks = [
   {
-    label: "Pușculițe",
-    href: "/pusculate",
-    subcategorii: [
-      { label: "Pentru ia", href: "/pusculate?categorie=pentru-ia" },
-      { label: "Pentru el", href: "/pusculate?categorie=pentru-el" },
-      { label: "Zile de naștere", href: "/pusculate?categorie=zile-de-nastere" },
-      { label: "Pentru copii", href: "/pusculate?categorie=pentru-copii" },
-      { label: "Primăvară", href: "/pusculate?categorie=primavara" },
-      { label: "Valentine Day", href: "/pusculate?categorie=valentine-day" },
-      { label: "Zile speciale", href: "/pusculate?categorie=zile-speciale" },
-    ],
-  },
-  {
-    label: "Stative",
-    href: "/stative",
-    subcategorii: [
-      { label: "Pentru ia", href: "/stative?categorie=pentru-ia" },
-      { label: "Pentru el", href: "/stative?categorie=pentru-el" },
-      { label: "Zile de naștere", href: "/stative?categorie=zile-de-nastere" },
-      { label: "Pentru copii", href: "/stative?categorie=pentru-copii" },
-      { label: "Primăvară", href: "/stative?categorie=primavara" },
-      { label: "Valentine Day", href: "/stative?categorie=valentine-day" },
-      { label: "Zile speciale", href: "/stative?categorie=zile-speciale" },
+    label: "Produse",
+    href: "/produse",
+    categorii: [
+      {
+        label: "Pușculițe",
+        href: "/pusculate",
+        subcategorii: SUBCATEGORII_PRODUS.map(s => ({ label: s.label, href: `/pusculate?categorie=${s.slug}` })),
+      },
+      {
+        label: "Stative",
+        href: "/stative",
+        subcategorii: SUBCATEGORII_PRODUS.map(s => ({ label: s.label, href: `/stative?categorie=${s.slug}` })),
+      },
     ],
   },
   { label: "Best Seller", href: "/populare" },
@@ -120,6 +120,7 @@ const navLinks = [
 
 export default function NavBar() {
   const [menuOpen, setMenuOpen] = useState(false);
+  const [mobileProduseOpen, setMobileProduseOpen] = useState(false);
   const [atTop, setAtTop] = useState(true);
   const [cosOpen, setCosOpen] = useState(false);
   const [activeDropdown, setActiveDropdown] = useState(null);
@@ -198,7 +199,7 @@ export default function NavBar() {
         <ul className="nav-links" style={{ alignItems: "center", gap: 18, listStyle: "none", margin: 0, padding: 0 }}>
           {navLinks.map((link) => (
             <li key={link.href} style={{ position: "relative" }}
-              onMouseEnter={() => setActiveDropdown(link.subcategorii ? link.href : null)}
+              onMouseEnter={() => setActiveDropdown(link.categorii ? link.href : null)}
             >
               <Link href={link.href} style={{ textDecoration: "none", fontSize: 12, fontWeight: 600, color: link.href === "/reduceri" ? "#e03c2f" : color, textTransform: "uppercase", letterSpacing: "0.04em", transition: "color 0.3s", display: "flex", alignItems: "center", gap: 5 }}>
                 {link.label}
@@ -212,7 +213,7 @@ export default function NavBar() {
                     letterSpacing: "0.04em",
                   }}>{link.badge}</span>
                 )}
-                {link.subcategorii && (
+                {link.categorii && (
                   <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2.5}
                     style={{ transition: "transform 0.25s", transform: activeDropdown === link.href ? "rotate(180deg)" : "rotate(0deg)" }}
                   ><path d="M6 9l6 6 6-6"/></svg>
@@ -258,7 +259,7 @@ export default function NavBar() {
       </div>
 
       {/* Mega dropdown panel */}
-      {navLinks.map(link => link.subcategorii && (
+      {navLinks.map(link => link.categorii && (
         <div key={link.href} style={{
           position: "absolute", top: "100%", left: 0, width: "100%",
           background: "#fff",
@@ -266,7 +267,7 @@ export default function NavBar() {
           borderTop: "1px solid #EEF2EC",
           zIndex: 99,
           overflow: "hidden",
-          maxHeight: activeDropdown === link.href ? 500 : 0,
+          maxHeight: activeDropdown === link.href ? 560 : 0,
           opacity: activeDropdown === link.href ? 1 : 0,
           transform: activeDropdown === link.href ? "translateY(0)" : "translateY(-8px)",
           transition: "max-height 0.35s cubic-bezier(0.4,0,0.2,1), opacity 0.25s ease, transform 0.25s ease",
@@ -274,36 +275,45 @@ export default function NavBar() {
         }}
           onMouseEnter={() => setActiveDropdown(link.href)}
         >
-          <div style={{ maxWidth: "var(--container)", margin: "0 auto", padding: "28px 16px 32px" }}>
-            {/* Subcategories row */}
-            <div style={{ display: "flex", alignItems: "center", gap: 6, flexWrap: "wrap", paddingBottom: 20, marginBottom: 24, borderBottom: "1px solid #EEF2EC" }}>
-              <Link href={link.href} onClick={() => setActiveDropdown(null)}
-                style={{ padding: "6px 16px", borderRadius: 999, fontSize: 12, fontWeight: 700, background: "#2C662D", color: "#fff", textDecoration: "none", whiteSpace: "nowrap" }}
-              >Toate</Link>
-              {link.subcategorii.map(sub => (
-                <Link key={sub.href} href={sub.href} onClick={() => setActiveDropdown(null)}
-                  style={{ padding: "6px 16px", borderRadius: 999, fontSize: 12, fontWeight: 700, background: "#EEF2EC", color: "#2C662D", textDecoration: "none", whiteSpace: "nowrap", transition: "background 0.2s, color 0.2s" }}
-                  onMouseEnter={e => { e.currentTarget.style.background = "#214F27"; e.currentTarget.style.color = "#fff"; }}
-                  onMouseLeave={e => { e.currentTarget.style.background = "#EEF2EC"; e.currentTarget.style.color = "#2C662D"; }}
-                >{sub.label}</Link>
-              ))}
-            </div>
-            {/* Products row */}
-            <div style={{ display: "flex", gap: 20, overflowX: "auto", paddingBottom: 4 }}>
-              {produse.filter(p => p.category === link.href.replace("/", "")).slice(0, 7).map(p => (
-                <Link key={p.id} href={`/produse/${p.id}`} onClick={() => setActiveDropdown(null)}
-                  style={{ textDecoration: "none", color: "#1D2820", flexShrink: 0, width: 140 }}
-                  onMouseEnter={e => e.currentTarget.querySelector("img").style.transform = "scale(1.05)"}
-                  onMouseLeave={e => e.currentTarget.querySelector("img").style.transform = "scale(1)"}
-                >
-                  <div style={{ width: 140, height: 140, borderRadius: 10, overflow: "hidden", background: "#EEF2EC", marginBottom: 9 }}>
-                    <img src={p.img} alt={p.name} style={{ width: "100%", height: "100%", objectFit: "cover", transition: "transform 0.3s ease" }} />
-                  </div>
-                  <p style={{ margin: "0 0 3px", fontSize: 12, fontWeight: 700, lineHeight: 1.3, whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis" }}>{p.name}</p>
-                  <p style={{ margin: 0, fontSize: 12, color: "#5D695F" }}>{p.price} lei</p>
-                </Link>
-              ))}
-            </div>
+          <div style={{ maxWidth: "var(--container)", margin: "0 auto", padding: "28px 16px 32px", display: "flex", gap: 40, flexWrap: "wrap" }}>
+            {link.categorii.map((cat, i) => (
+              <div key={cat.href} style={{ flex: "1 1 320px", minWidth: 280, paddingLeft: i > 0 ? 40 : 0, borderLeft: i > 0 ? "1px solid #EEF2EC" : "none" }}>
+                <Link href={cat.href} onClick={() => setActiveDropdown(null)}
+                  style={{ display: "inline-block", fontSize: 16, fontWeight: 800, color: "#1D2820", textDecoration: "none", marginBottom: 14 }}
+                >{cat.label} →</Link>
+
+                {/* Subcategories row */}
+                <div style={{ display: "flex", alignItems: "center", gap: 6, flexWrap: "wrap", paddingBottom: 18, marginBottom: 18, borderBottom: "1px solid #EEF2EC" }}>
+                  <Link href={cat.href} onClick={() => setActiveDropdown(null)}
+                    style={{ padding: "6px 16px", borderRadius: 999, fontSize: 12, fontWeight: 700, background: "#2C662D", color: "#fff", textDecoration: "none", whiteSpace: "nowrap" }}
+                  >Toate</Link>
+                  {cat.subcategorii.map(sub => (
+                    <Link key={sub.href} href={sub.href} onClick={() => setActiveDropdown(null)}
+                      style={{ padding: "6px 16px", borderRadius: 999, fontSize: 12, fontWeight: 700, background: "#EEF2EC", color: "#2C662D", textDecoration: "none", whiteSpace: "nowrap", transition: "background 0.2s, color 0.2s" }}
+                      onMouseEnter={e => { e.currentTarget.style.background = "#214F27"; e.currentTarget.style.color = "#fff"; }}
+                      onMouseLeave={e => { e.currentTarget.style.background = "#EEF2EC"; e.currentTarget.style.color = "#2C662D"; }}
+                    >{sub.label}</Link>
+                  ))}
+                </div>
+
+                {/* Products row */}
+                <div style={{ display: "flex", gap: 16, overflowX: "auto", paddingBottom: 4 }}>
+                  {produse.filter(p => p.category === cat.href.replace("/", "")).slice(0, 4).map(p => (
+                    <Link key={p.id} href={`/produse/${p.id}`} onClick={() => setActiveDropdown(null)}
+                      style={{ textDecoration: "none", color: "#1D2820", flexShrink: 0, width: 110 }}
+                      onMouseEnter={e => e.currentTarget.querySelector("img").style.transform = "scale(1.05)"}
+                      onMouseLeave={e => e.currentTarget.querySelector("img").style.transform = "scale(1)"}
+                    >
+                      <div style={{ width: 110, height: 110, borderRadius: 10, overflow: "hidden", background: "#EEF2EC", marginBottom: 8 }}>
+                        <img src={p.img} alt={p.name} style={{ width: "100%", height: "100%", objectFit: "cover", transition: "transform 0.3s ease" }} />
+                      </div>
+                      <p style={{ margin: "0 0 3px", fontSize: 12, fontWeight: 700, lineHeight: 1.3, whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis" }}>{p.name}</p>
+                      <p style={{ margin: 0, fontSize: 12, color: "#5D695F" }}>{p.price} lei</p>
+                    </Link>
+                  ))}
+                </div>
+              </div>
+            ))}
           </div>
         </div>
       ))}
@@ -320,7 +330,35 @@ export default function NavBar() {
         zIndex: 99,
       }}>
         <div style={{ padding: "16px 20px", display: "flex", flexDirection: "column", gap: 4 }}>
-          {navLinks.map((link) => (
+          {navLinks.map((link) => link.categorii ? (
+            <div key={link.href} style={{ borderBottom: "1px solid rgba(0,0,0,0.06)" }}>
+              <button
+                onClick={() => setMobileProduseOpen(o => !o)}
+                style={{
+                  width: "100%", background: "none", border: "none", cursor: "pointer",
+                  textAlign: "left", fontSize: 17, fontWeight: 700, color: "#1D2820",
+                  textTransform: "uppercase", letterSpacing: "0.08em", padding: "12px 0",
+                  display: "flex", alignItems: "center", justifyContent: "space-between",
+                }}
+                aria-expanded={mobileProduseOpen}
+              >
+                {link.label}
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2.5}
+                  style={{ transition: "transform 0.25s", transform: mobileProduseOpen ? "rotate(180deg)" : "rotate(0deg)" }}
+                ><path d="M6 9l6 6 6-6"/></svg>
+              </button>
+              {mobileProduseOpen && (
+                <div style={{ display: "flex", flexDirection: "column", gap: 2, paddingBottom: 10 }}>
+                  {link.categorii.map(cat => (
+                    <Link key={cat.href} href={cat.href} onClick={() => setMenuOpen(false)}
+                      style={{ textDecoration: "none", fontSize: 15, fontWeight: 600, color: "#5D695F", padding: "9px 0 9px 14px" }}>
+                      {cat.label}
+                    </Link>
+                  ))}
+                </div>
+              )}
+            </div>
+          ) : (
             <Link key={link.href} href={link.href} onClick={() => setMenuOpen(false)}
               style={{ textDecoration: "none", fontSize: 17, fontWeight: 700, color: "#1D2820", textTransform: "uppercase", letterSpacing: "0.08em", padding: "12px 0", borderBottom: "1px solid rgba(0,0,0,0.06)", display: "block" }}>
               {link.label}
