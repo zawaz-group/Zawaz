@@ -104,6 +104,15 @@ function ProdusePageContent() {
     const c = searchParams.get("categorie");
     return c && CATEGORII_PRINCIPALE.includes(c) ? [c] : [];
   });
+
+  // Daca esti deja pe /produse si apesi Pusculite/Stative din navbar, Next
+  // nu remonteaza pagina (aceeasi ruta, doar query-ul se schimba) — fara
+  // acest efect, useState de mai sus n-ar mai rula si filtrul ar ramane pe
+  // valoarea veche pana la un refresh manual.
+  useEffect(() => {
+    const c = searchParams.get("categorie");
+    setCategorii(c && CATEGORII_PRINCIPALE.includes(c) ? [c] : []);
+  }, [searchParams]);
   const [culori, setCulori] = useState([]);
   const [teme, setTeme] = useState([]);
   const [ocazii, setOcazii] = useState([]);
