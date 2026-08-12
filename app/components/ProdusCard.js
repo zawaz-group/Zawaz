@@ -45,6 +45,10 @@ export default function ProdusCard({ produs }) {
       onMouseLeave={() => setHovered(false)}
       style={{
         display: "flex", flexDirection: "column", gap: 10, position: "relative",
+        // height: 100% + info-ul care creste + butoanele impinse jos fac toate
+        // cardurile de pe rand sa se termine la aceeasi linie, chiar daca unele
+        // au rand de reducere sau nume pe doua randuri, iar altele nu.
+        height: "100%",
         background: "transparent", borderRadius: 14, padding: 10,
         border: hovered ? "1px solid #DCE4D9" : "1px solid transparent",
         transition: "border-color 0.2s ease"
@@ -82,7 +86,7 @@ export default function ProdusCard({ produs }) {
         </svg>
       </button>
 
-      <div className="pcard-info" style={{ display: "flex", flexDirection: "column", gap: 6, padding: "2px 4px 4px" }}>
+      <div className="pcard-info" style={{ display: "flex", flexDirection: "column", gap: 6, padding: "2px 4px 4px", flex: 1 }}>
         <Link href={`/produse/${produs.id}`} style={{ textDecoration: "none" }}>
           <p className="pcard-name" style={{ fontSize: 16, fontWeight: 700, color: "#1D2820", margin: 0 }}>{produs.name}</p>
         </Link>
@@ -112,7 +116,9 @@ export default function ProdusCard({ produs }) {
           <span style={{ fontSize: 14, fontWeight: 600, color: "#1D2820" }}>lei</span>
         </div>
 
-        <div className="pcard-actions" style={{ display: "flex", gap: 8, marginTop: 6 }}>
+        {/* marginTop: auto impinge butoanele la baza cardului, indiferent cate
+            randuri de text sau de reducere are produsul deasupra. */}
+        <div className="pcard-actions" style={{ display: "flex", gap: 8, marginTop: "auto", paddingTop: 6 }}>
           <button
             onClick={handleCart}
             className="pcard-cart-btn"

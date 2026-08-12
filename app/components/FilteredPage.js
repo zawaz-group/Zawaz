@@ -88,7 +88,7 @@ export default function FilteredPage({ type, value, produse }) {
             <Link href="/" style={{ marginTop: 16, display: "inline-block", padding: "12px 24px", background: "#2C662D", color: "#fff", borderRadius: 10, textDecoration: "none", fontWeight: 700 }}>Înapoi acasă</Link>
           </div>
         ) : (
-          <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(240px, 1fr))", gap: 32 }}>
+          <div style={{ display: "grid", gridAutoRows: "1fr", gridTemplateColumns: "repeat(auto-fill, minmax(240px, 1fr))", gap: 32 }}>
             {produse.map(p => <ProdusCard key={p.id} produs={p} />)}
           </div>
         )}

@@ -49,7 +49,7 @@ export default function SliderPopulare() {
           <p style={{ fontSize: "clamp(13px, 1.1vw, 17px)", color: "#5D695F", margin: 0, lineHeight: 1.4 }}>Cele mai apreciate produse din colecția noastră</p>
         </div>
 
-        <div style={{ display: "grid", gridTemplateColumns: isMobile ? "repeat(2, minmax(0, 1fr))" : "repeat(5, minmax(0, 1fr))", gap: isMobile ? 12 : 16 }}>
+        <div style={{ display: "grid", gridAutoRows: "1fr", gridTemplateColumns: isMobile ? "repeat(2, minmax(0, 1fr))" : "repeat(5, minmax(0, 1fr))", gap: isMobile ? 12 : 16 }}>
           {visibleProducts.map((p, i) => (
             <div key={`${p.id}-${i}`}>
               <ProdusCard produs={p} />
