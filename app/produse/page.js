@@ -18,13 +18,26 @@ const SORTARI = [
   { val: "nume", label: "Nume A–Z" },
 ];
 
+/* Categoria descrie tipul produsului, si sunt doar doua. Restul valorilor din
+   p.category (fete, baieti, sport) descriu cui i se potriveste produsul, nu ce
+   este, asa ca apar la Tema. */
+const CATEGORII_PRINCIPALE = ["stative", "pusculate"];
+
 const CATEGORII_LABEL = {
   stative: "Stative",
   pusculate: "Pușculițe",
-  fete: "Fete",
-  baieti: "Băieți",
-  sport: "Sport",
 };
+
+/* Optiuni de tema care nu vin din p.tema, ci din categoria sau tagurile
+   produsului. "Sport" apare in ambele locuri, deci ramane o singura optiune
+   care le prinde pe amandoua — altfel s-ar dubla in lista. */
+const TEME_DIN_CATEGORIE = { fete: "Fete", baieti: "Băieți", sport: "Sport" };
+
+function potrivesteTema(p, tema) {
+  if (p.tema?.includes(tema)) return true;
+  const slug = Object.keys(TEME_DIN_CATEGORIE).find(k => TEME_DIN_CATEGORIE[k] === tema);
+  return slug ? p.category === slug || !!p.tags?.includes(slug) : false;
+}
 
 function unice(produse, camp) {
   const set = new Set();
@@ -92,9 +105,15 @@ export default function ProdusePage() {
   }, []);
 
   const optiuni = useMemo(() => ({
-    categorii: unice(toate, "category"),
+    categorii: unice(toate, "category").filter(c => CATEGORII_PRINCIPALE.includes(c)),
     culori: unice(toate, "culori"),
-    teme: unice(toate, "tema"),
+    teme: [...new Set([
+      ...unice(toate, "tema"),
+      // Adaugam Fete / Băieți / Sport doar daca exista efectiv produse pentru ele.
+      ...Object.entries(TEME_DIN_CATEGORIE)
+        .filter(([slug]) => toate.some(p => p.category === slug || p.tags?.includes(slug)))
+        .map(([, label]) => label),
+    ])].sort((a, b) => a.localeCompare(b, "ro")),
     ocazii: unice(toate, "ocazie"),
   }), [toate]);
 
@@ -126,7 +145,7 @@ export default function ProdusePage() {
     const lista = toate.filter(p => {
       if (categorii.length && !categorii.includes(p.category)) return false;
       if (culori.length && !culori.some(c => p.culori?.includes(c))) return false;
-      if (teme.length && !teme.some(t => p.tema?.includes(t))) return false;
+      if (teme.length && !teme.some(t => potrivesteTema(p, t))) return false;
       if (ocazii.length && !ocazii.some(o => p.ocazie?.includes(o))) return false;
       if (pretMax !== null && p.price > pretMax) return false;
       return true;
