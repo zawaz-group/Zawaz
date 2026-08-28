@@ -4,6 +4,8 @@ import { useSearchParams } from "next/navigation";
 import NavBar from "../components/NavBar";
 import Footer from "../components/Footer";
 import ProdusCard from "../components/ProdusCard";
+import { listeReunite, tipuriCunoscute } from "../lib/optiuni";
+import { esteGradient, esteCuloareDeschisa, GRADIENT_NEGRU_ALB } from "../lib/culori";
 
 /*
  * Catalogul complet, tinta butonului "Comandă acum" din bannerul de pe prima
@@ -48,6 +50,52 @@ function unice(produse, camp) {
     else if (v) set.add(v);
   }
   return [...set].sort((a, b) => a.localeCompare(b, "ro"));
+}
+
+/* Culorile se aleg din buline, nu din pastile cu text — la fel ca pe fisa
+   produsului. Primesc {nume, hex} din optiunile definite in admin. */
+function FiltruCulori({ culori, selectate, onToggle }) {
+  if (culori.length === 0) return null;
+  return (
+    <div style={{ marginBottom: 26 }}>
+      <p style={{ fontSize: 13, fontWeight: 800, color: "#1D2820", margin: "0 0 10px", textTransform: "uppercase", letterSpacing: "0.08em" }}>
+        Culoare
+      </p>
+      <div style={{ display: "flex", flexWrap: "wrap", gap: 10 }}>
+        {culori.map(({ nume, hex }) => {
+          const activ = selectate.includes(nume);
+          const fundal = esteGradient(nume) ? GRADIENT_NEGRU_ALB : hex;
+          return (
+            <button
+              key={nume}
+              onClick={() => onToggle(nume)}
+              title={nume}
+              aria-label={nume}
+              aria-pressed={activ}
+              style={{
+                width: 32, height: 32, borderRadius: "50%", cursor: "pointer", padding: 0,
+                background: fundal || "transparent",
+                border: fundal ? "1px solid #DCE4D9" : "1px solid #5D695F",
+                outline: activ ? "2px solid #2C662D" : "2px solid transparent",
+                outlineOffset: 2,
+                display: "flex", alignItems: "center", justifyContent: "center",
+                fontSize: 9, fontWeight: 700, color: "#5D695F",
+                transition: "outline-color 0.18s",
+              }}
+            >
+              {!fundal ? nume.slice(0, 3) : activ && (
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none"
+                  stroke={esteCuloareDeschisa(nume) ? "#1D2820" : "#fff"} strokeWidth="3"
+                  strokeLinecap="round" strokeLinejoin="round">
+                  <path d="M20 6 9 17l-5-5" />
+                </svg>
+              )}
+            </button>
+          );
+        })}
+      </div>
+    </div>
+  );
 }
 
 function GrupFiltre({ titlu, optiuni, selectate, onToggle, eticheta }) {
@@ -97,25 +145,58 @@ function ProdusePageContent() {
   const [loading, setLoading] = useState(true);
   const [eroare, setEroare] = useState(false);
 
+  // Optiunile definite in admin (tipuri de produs, culori/teme/ocazii pe tip).
+  // Filtrele de mai jos se construiesc din ele, nu din valorile brute gasite
+  // pe produse: unele produse vechi au in p.category taguri ramase dintr-un
+  // catalog anterior (fete/baieti/sport), care nu sunt tipuri de produs.
+  const [optiuni, setOptiuni] = useState(null);
+  useEffect(() => {
+    fetch("/api/optiuni").then(r => r.json()).then(setOptiuni).catch(() => {});
+  }, []);
+  const tipuriCustom = optiuni?.tipuriProdus || [];
+  const valoriTipCunoscute = useMemo(() => tipuriCunoscute(optiuni), [optiuni]);
+  const etichetaCategorie = c => CATEGORII_LABEL[c] || tipuriCustom.find(t => t.value === c)?.label || c;
+
   // Navbar-ul trimite aici cu ?categorie=stative sau ?categorie=pusculite
   // (paginile dedicate /stative si /pusculite nu mai exista) — filtrul
   // porneste deja selectat, ca vizitatorul sa vada direct categoria aleasa.
   const [categorii, setCategorii] = useState(() => {
     const c = searchParams.get("categorie");
-    return c && CATEGORII_PRINCIPALE.includes(c) ? [c] : [];
+    return c && valoriTipCunoscute.includes(c) ? [c] : [];
+  });
+  // Navbar-ul poate trimite si un filtru de culoare/tema/ocazie preselectat
+  // (din submeniul Pusculite/Stative), la fel ca la categorie.
+  const [culori, setCulori] = useState(() => {
+    const c = searchParams.get("culoare");
+    return c ? [c] : [];
+  });
+  const [teme, setTeme] = useState(() => {
+    const t = searchParams.get("tema");
+    return t ? [t] : [];
+  });
+  const [ocazii, setOcazii] = useState(() => {
+    const o = searchParams.get("ocazie");
+    return o ? [o] : [];
   });
 
-  // Daca esti deja pe /produse si apesi Pusculite/Stative din navbar, Next
-  // nu remonteaza pagina (aceeasi ruta, doar query-ul se schimba) — fara
-  // acest efect, useState de mai sus n-ar mai rula si filtrul ar ramane pe
-  // valoarea veche pana la un refresh manual.
+  // Daca esti deja pe /produse si apesi Pusculite/Stative (sau o subcategorie)
+  // din navbar, Next nu remonteaza pagina (aceeasi ruta, doar query-ul se
+  // schimba) — fara acest efect, useState de mai sus n-ar mai rula si filtrul
+  // ar ramane pe valoarea veche pana la un refresh manual.
+  //
+  // Aplicam DOAR ce vine explicit in adresa. Un link fara ?categorie (de
+  // exemplu "Produse" din navbar) nu sterge tipul deja ales — acesta ramane
+  // pana cand vizitatorul il deselecteaza el insusi din filtre.
   useEffect(() => {
     const c = searchParams.get("categorie");
-    setCategorii(c && CATEGORII_PRINCIPALE.includes(c) ? [c] : []);
-  }, [searchParams]);
-  const [culori, setCulori] = useState([]);
-  const [teme, setTeme] = useState([]);
-  const [ocazii, setOcazii] = useState([]);
+    if (c && valoriTipCunoscute.includes(c)) setCategorii([c]);
+    const cu = searchParams.get("culoare");
+    if (cu) setCulori([cu]);
+    const te = searchParams.get("tema");
+    if (te) setTeme([te]);
+    const oc = searchParams.get("ocazie");
+    if (oc) setOcazii([oc]);
+  }, [searchParams, valoriTipCunoscute]);
   const [pretMax, setPretMax] = useState(null);
   const [sortare, setSortare] = useState("recomandate");
   const [filtreDeschise, setFiltreDeschise] = useState(false);
@@ -130,18 +211,23 @@ function ProdusePageContent() {
       .catch(() => { setEroare(true); setLoading(false); });
   }, []);
 
-  const optiuni = useMemo(() => ({
-    categorii: unice(toate, "category").filter(c => CATEGORII_PRINCIPALE.includes(c)),
-    culori: unice(toate, "culori"),
-    teme: [...new Set([
-      ...unice(toate, "tema"),
-      // Adaugam Fete / Băieți / Sport doar daca exista efectiv produse pentru ele.
-      ...Object.entries(TEME_DIN_CATEGORIE)
-        .filter(([slug]) => toate.some(p => p.category === slug || p.tags?.includes(slug)))
-        .map(([, label]) => label),
-    ])].sort((a, b) => a.localeCompare(b, "ro")),
-    ocazii: unice(toate, "ocazie"),
-  }), [toate]);
+  /* Filtrele de culoare / tema / ocazie vin din ce e definit in admin, nu din
+     valorile gasite pe produse. Cand e ales un tip (Stative / Pușculițe),
+     arata exact listele acelui tip; altfel, reuniunea tuturor tipurilor. */
+  const listeAdmin = useMemo(() => {
+    const tipuri = categorii.length > 0 ? categorii : valoriTipCunoscute;
+    return listeReunite(optiuni, tipuri);
+  }, [optiuni, categorii, valoriTipCunoscute]);
+
+  const optiuniFiltre = useMemo(() => ({
+    // stative/pusculite + orice "Tip produs" custom creat din admin — nu
+    // orice valoare bruta din p.category (unele produse vechi au acolo
+    // taguri ramase dintr-un catalog anterior, ex. fete/baieti/sport).
+    categorii: unice(toate, "category").filter(c => valoriTipCunoscute.includes(c)),
+    culori: listeAdmin.culori,
+    teme: [...listeAdmin.teme].sort((a, b) => a.localeCompare(b, "ro")),
+    ocazii: [...listeAdmin.ocazii].sort((a, b) => a.localeCompare(b, "ro")),
+  }), [toate, valoriTipCunoscute, listeAdmin]);
 
   const limitePret = useMemo(() => {
     if (toate.length === 0) return { min: 0, max: 0 };
@@ -187,13 +273,13 @@ function ProdusePageContent() {
   const panouFiltre = (
     <>
       <GrupFiltre
-        titlu="Categorie" optiuni={optiuni.categorii} selectate={categorii}
+        titlu="Categorie" optiuni={optiuniFiltre.categorii} selectate={categorii}
         onToggle={toggle(setCategorii)}
-        eticheta={c => CATEGORII_LABEL[c] || c}
+        eticheta={etichetaCategorie}
       />
-      <GrupFiltre titlu="Culoare" optiuni={optiuni.culori} selectate={culori} onToggle={toggle(setCulori)} />
-      <GrupFiltre titlu="Temă" optiuni={optiuni.teme} selectate={teme} onToggle={toggle(setTeme)} />
-      <GrupFiltre titlu="Ocazie" optiuni={optiuni.ocazii} selectate={ocazii} onToggle={toggle(setOcazii)} />
+      <FiltruCulori culori={optiuniFiltre.culori} selectate={culori} onToggle={toggle(setCulori)} />
+      <GrupFiltre titlu="Temă" optiuni={optiuniFiltre.teme} selectate={teme} onToggle={toggle(setTeme)} />
+      <GrupFiltre titlu="Ocazie" optiuni={optiuniFiltre.ocazii} selectate={ocazii} onToggle={toggle(setOcazii)} />
 
       {limitePret.max > limitePret.min && (
         <div style={{ marginBottom: 26 }}>

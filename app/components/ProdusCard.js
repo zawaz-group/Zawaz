@@ -3,6 +3,7 @@ import { useState } from "react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
 import { useCos } from "../context/CosContext";
+import { imaginePrincipala } from "../lib/imagini";
 
 export default function ProdusCard({ produs }) {
   const [favorit, setFavorit] = useState(false);
@@ -15,7 +16,7 @@ export default function ProdusCard({ produs }) {
   const hasDiscount = !!produs.oldPrice;
   const discountAmount = hasDiscount ? produs.oldPrice - produs.price : 0;
   const discountPercent = hasDiscount ? Math.round((1 - produs.price / produs.oldPrice) * 100) : 0;
-  const currentImg = (selectedCuloare && produs.imaginiCulori?.[selectedCuloare]) || produs.img;
+  const currentImg = imaginePrincipala(produs);
   const esteNou = produs.tags?.includes("produse-noi");
 
   const specs = [selectedCuloare, produs.tema?.[0]].filter(Boolean).join(" / ");
@@ -56,11 +57,13 @@ export default function ProdusCard({ produs }) {
     >
       <Link href={`/produse/${produs.id}`} style={{ textDecoration: "none" }}>
         <div style={{ position: "relative", width: "100%", aspectRatio: "1/1", overflow: "hidden", borderRadius: 10, background: "#f5f5f5" }}>
-          <img
-            src={currentImg}
-            alt={produs.name}
-            style={{ width: "100%", height: "100%", objectFit: "cover", display: "block" }}
-          />
+          {currentImg && (
+            <img
+              src={currentImg}
+              alt={produs.name}
+              style={{ width: "100%", height: "100%", objectFit: "cover", display: "block" }}
+            />
+          )}
 
           {esteNou && (
             <span className="pcard-badge" style={{ position: "absolute", top: 8, left: 8, background: "#4338ca", color: "#fff", fontSize: 10, fontWeight: 700, padding: "3px 10px", borderRadius: 20, textTransform: "uppercase", letterSpacing: "0.06em" }}>

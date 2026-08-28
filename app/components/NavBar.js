@@ -3,6 +3,7 @@ import { useState, useEffect, useRef } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { useCos } from "../context/CosContext";
+import { imaginePrincipala } from "../lib/imagini";
 
 function CosDrawer({ open, onClose }) {
   const { cos, stergeItem, actualizeazaCantitate, total, numarArticole } = useCos();
@@ -37,7 +38,7 @@ function CosDrawer({ open, onClose }) {
             </div>
           ) : cos.map(item => (
             <div key={item.key} style={{ display: "flex", gap: 14, alignItems: "flex-start", borderBottom: "1px solid #f5f5f5", paddingBottom: 16 }}>
-              <img src={item.produs.img} alt={item.produs.name} style={{ width: 72, height: 72, objectFit: "cover", borderRadius: 8, background: "#f5f5f5", flexShrink: 0 }} />
+              {imaginePrincipala(item.produs) && <img src={imaginePrincipala(item.produs)} alt={item.produs.name} style={{ width: 72, height: 72, objectFit: "cover", borderRadius: 8, background: "#f5f5f5", flexShrink: 0 }} />}
               <div style={{ flex: 1, display: "flex", flexDirection: "column", gap: 6 }}>
                 <p style={{ margin: 0, fontWeight: 700, fontSize: 14, color: "#1D2820" }}>{item.produs.name}</p>
                 {item.culoare && <p style={{ margin: 0, fontSize: 12, color: "#5D695F" }}>Culoare: {item.culoare}</p>}
@@ -261,30 +262,40 @@ export default function NavBar() {
           onMouseEnter={() => setActiveDropdown(link.href)}
         >
           <div style={{ maxWidth: "var(--container)", margin: "0 auto", padding: "28px 16px 32px", display: "flex", gap: 40, flexWrap: "wrap" }}>
-            {link.categorii.map((cat, i) => (
-              <div key={cat.href} style={{ flex: "1 1 320px", minWidth: 280, paddingLeft: i > 0 ? 40 : 0, borderLeft: i > 0 ? "1px solid #EEF2EC" : "none" }}>
-                <Link href={cat.href} onClick={() => setActiveDropdown(null)}
-                  style={{ display: "inline-block", fontSize: 16, fontWeight: 800, color: "#1D2820", textDecoration: "none", marginBottom: 18, paddingBottom: 18, borderBottom: "1px solid #EEF2EC", width: "100%" }}
-                >{cat.label} →</Link>
+            {link.categorii.map((cat, i) => {
+              const produseCat = produse.filter(p => p.category === cat.categoria);
+              const subgrupe = [
+                { titlu: "Culoare", cheie: "culoare", valori: [...new Set(produseCat.flatMap(p => p.culori || []))] },
+                { titlu: "Temă", cheie: "tema", valori: [...new Set(produseCat.flatMap(p => p.tema || []))] },
+                { titlu: "Ocazie", cheie: "ocazie", valori: [...new Set(produseCat.flatMap(p => p.ocazie || []))] },
+              ]
+                .map(g => ({ ...g, valori: g.valori.sort((a, b) => a.localeCompare(b, "ro")).slice(0, 8) }))
+                .filter(g => g.valori.length > 0);
 
-                {/* Products row */}
-                <div style={{ display: "flex", gap: 16, overflowX: "auto", paddingBottom: 4 }}>
-                  {produse.filter(p => p.category === cat.categoria).slice(0, 4).map(p => (
-                    <Link key={p.id} href={`/produse/${p.id}`} onClick={() => setActiveDropdown(null)}
-                      style={{ textDecoration: "none", color: "#1D2820", flexShrink: 0, width: 110 }}
-                      onMouseEnter={e => e.currentTarget.querySelector("img").style.transform = "scale(1.05)"}
-                      onMouseLeave={e => e.currentTarget.querySelector("img").style.transform = "scale(1)"}
-                    >
-                      <div style={{ width: 110, height: 110, borderRadius: 10, overflow: "hidden", background: "#EEF2EC", marginBottom: 8 }}>
-                        <img src={p.img} alt={p.name} style={{ width: "100%", height: "100%", objectFit: "cover", transition: "transform 0.3s ease" }} />
+              return (
+                <div key={cat.href} style={{ flex: "1 1 320px", minWidth: 280, paddingLeft: i > 0 ? 40 : 0, borderLeft: i > 0 ? "1px solid #EEF2EC" : "none" }}>
+                  <Link href={cat.href} onClick={() => setActiveDropdown(null)}
+                    style={{ display: "inline-block", fontSize: 16, fontWeight: 800, color: "#1D2820", textDecoration: "none", marginBottom: 18, paddingBottom: 18, borderBottom: "1px solid #EEF2EC", width: "100%" }}
+                  >{cat.label} →</Link>
+
+                  {/* Subcategorii: culoare / tema / ocazie */}
+                  <div style={{ display: "flex", gap: 28, flexWrap: "wrap" }}>
+                    {subgrupe.map(g => (
+                      <div key={g.cheie} style={{ minWidth: 110 }}>
+                        <p style={{ margin: "0 0 10px", fontSize: 11, fontWeight: 800, color: "#5D695F", textTransform: "uppercase", letterSpacing: "0.08em" }}>{g.titlu}</p>
+                        <div style={{ display: "flex", flexDirection: "column", gap: 8 }}>
+                          {g.valori.map(v => (
+                            <Link key={v} href={`${cat.href}&${g.cheie}=${encodeURIComponent(v)}`} onClick={() => setActiveDropdown(null)}
+                              style={{ fontSize: 13, color: "#1D2820", textDecoration: "none" }}
+                            >{v}</Link>
+                          ))}
+                        </div>
                       </div>
-                      <p style={{ margin: "0 0 3px", fontSize: 12, fontWeight: 700, lineHeight: 1.3, whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis" }}>{p.name}</p>
-                      <p style={{ margin: 0, fontSize: 12, color: "#5D695F" }}>{p.price} lei</p>
-                    </Link>
-                  ))}
+                    ))}
+                  </div>
                 </div>
-              </div>
-            ))}
+              );
+            })}
           </div>
         </div>
       ))}

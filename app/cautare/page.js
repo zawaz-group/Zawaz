@@ -10,7 +10,7 @@ export default function CautarePage() {
   const [toateProdusele, setToateProdusele] = useState([]);
 
   useEffect(() => {
-    fetch("/api/produse").then(r => r.json()).then(setToateProdusele);
+    fetch("/api/produse").then(r => r.json()).then(data => setToateProdusele(Array.isArray(data) ? data : [])).catch(() => {});
   }, []);
 
   const rezultate = query.trim().length > 1

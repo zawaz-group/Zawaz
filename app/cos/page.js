@@ -4,6 +4,7 @@ import NavBar from "../components/NavBar";
 import Footer from "../components/Footer";
 import Link from "next/link";
 import { useCos } from "../context/CosContext";
+import { imaginePrincipala } from "../lib/imagini";
 
 const inputStyle = {
   width: "100%", padding: "12px 14px", border: "1.5px solid #DCE4D9",
@@ -160,7 +161,7 @@ export default function CosPage() {
             <div style={{ display: "flex", flexDirection: "column", gap: 20 }}>
               {cos.map(item => (
                 <div key={item.key} style={{ display: "flex", gap: 20, padding: "20px 0", borderBottom: "1px solid #DCE4D9", alignItems: "flex-start" }}>
-                  <img src={item.produs.img} alt={item.produs.name} style={{ width: 100, height: 100, objectFit: "cover", borderRadius: 10, background: "#f5f5f5", flexShrink: 0 }} />
+                  {imaginePrincipala(item.produs) && <img src={imaginePrincipala(item.produs)} alt={item.produs.name} style={{ width: 100, height: 100, objectFit: "cover", borderRadius: 10, background: "#f5f5f5", flexShrink: 0 }} />}
                   <div style={{ flex: 1, display: "flex", flexDirection: "column", gap: 6 }}>
                     <p style={{ margin: 0, fontWeight: 700, fontSize: 16, color: "#1D2820" }}>{item.produs.name}</p>
                     {item.culoare && <p style={{ margin: 0, fontSize: 13, color: "#5D695F" }}>Culoare: {item.culoare}</p>}

@@ -34,7 +34,8 @@ export default function CategorieTemplate({ slug }) {
   useEffect(() => {
     fetch("/api/produse")
       .then(r => r.json())
-      .then(all => {
+      .then(data => {
+        const all = Array.isArray(data) ? data : [];
         // "produse-noi", "populare", "reduceri", "sport" etc. sunt taguri, nu
         // categorii: filtrarea doar dupa p.category lasa acele pagini goale.
         // Aceeasi regula ca in lib/produse.js getProduseByCategorie.

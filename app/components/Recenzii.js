@@ -34,11 +34,11 @@ const TESTIMONIALE_FALLBACK = [
   },
 ];
 
-function Stars({ active = true }) {
+function Stars({ active = true, rating = 5 }) {
   return (
     <div style={{ display: "flex", gap: 2 }}>
       {[...Array(5)].map((_, i) => (
-        <svg key={i} width={14} height={14} viewBox="0 0 24 24" fill={active ? "#D5B358" : "#ddd"}>
+        <svg key={i} width={14} height={14} viewBox="0 0 24 24" fill={active ? (i < rating ? "#D5B358" : "#e8e4de") : "#ddd"}>
           <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/>
         </svg>
       ))}
@@ -55,8 +55,11 @@ export default function Recenzii() {
 
   useEffect(() => {
     fetch("/api/recenzii").then(r => r.json()).then(data => {
-      if (Array.isArray(data) && data.length > 0) {
-        setTestimoniale(data);
+      // Recenziile legate de un produs anume (produsId) apar doar pe pagina
+      // acelui produs, nu in carusel-ul global de pe homepage.
+      const globale = Array.isArray(data) ? data.filter(r => !r.produsId) : [];
+      if (globale.length > 0) {
+        setTestimoniale(globale);
         setSlide(0);
       }
     }).catch(() => {});
@@ -258,7 +261,7 @@ export default function Recenzii() {
                         filter: isActive ? "none" : "grayscale(60%)",
                       }}
                     />
-                    <Stars active={isActive} />
+                    <Stars active={isActive} rating={r.rating || 5} />
                     <p style={{ margin: 0, fontSize: "clamp(11px, 2.8vw, 12px)", fontWeight: 700, color: isActive ? "#1D2820" : "#DCE4D9", textAlign: "center", lineHeight: 1.2, fontFamily: "Inter, system-ui, sans-serif" }}>{r.nume}</p>
                   </div>
                   <p style={{
