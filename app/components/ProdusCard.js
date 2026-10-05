@@ -7,10 +7,10 @@ import { imaginePrincipala } from "../lib/imagini";
 import { Check, Cart, Heart } from "./icons";
 
 /**
- * Cardul de produs din design. `compact` = varianta mică din carusel
+ * Cardul de produs din design. `grande` = varianta din carusel, cu text și buton mai mari pe telefon
  * (titlu scurt, buton de coș rotund pe telefon).
  */
-export default function ProdusCard({ produs, compact = false }) {
+export default function ProdusCard({ produs, grande = false }) {
   const [liked, setLiked] = useState(false);
   const [adaugat, setAdaugat] = useState(false);
   const { adaugaInCos } = useCos();
@@ -28,7 +28,7 @@ export default function ProdusCard({ produs, compact = false }) {
     setTimeout(() => setAdaugat(false), 1800);
   };
 
-  const text = compact ? "text-[0.625rem] sm:text-[0.8125rem]" : "text-[0.8125rem]";
+  const text = grande ? "text-[1.125rem] sm:text-[0.9375rem]" : "text-[0.8125rem]";
 
   return (
     <div className="group flex h-full flex-col">
@@ -84,15 +84,13 @@ export default function ProdusCard({ produs, compact = false }) {
           className={`grid shrink-0 place-items-center transition hover:shadow-[0_0_0.875rem_rgba(31,106,54,0.8)] ${
             adaugat
               ? "bg-brand text-white"
-              : compact
-                ? "bg-gold-bright text-forest-950 sm:border sm:border-gold/50 sm:bg-brand/40 sm:text-gold-bright"
-                : "border border-gold/50 bg-brand/40 text-gold-bright hover:bg-brand"
-          } ${compact ? "h-6 w-6 rounded-full sm:h-9 sm:w-9 sm:rounded-lg" : "h-9 w-9 rounded-lg"}`}
+              : "border border-gold/50 bg-brand/40 text-gold-bright hover:bg-brand"
+          } ${grande ? "h-12 w-12 rounded-xl sm:h-9 sm:w-9 sm:rounded-lg" : "h-9 w-9 rounded-lg"}`}
         >
           {adaugat ? (
-            <Check className={compact ? "h-3.5 w-3.5 sm:h-[1.125rem] sm:w-[1.125rem]" : "h-[1.125rem] w-[1.125rem]"} />
+            <Check className={grande ? "h-6 w-6 sm:h-[1.125rem] sm:w-[1.125rem]" : "h-[1.125rem] w-[1.125rem]"} />
           ) : (
-            <Cart className={compact ? "h-3.5 w-3.5 sm:h-[1.125rem] sm:w-[1.125rem]" : "h-[1.125rem] w-[1.125rem]"} />
+            <Cart className={grande ? "h-6 w-6 sm:h-[1.125rem] sm:w-[1.125rem]" : "h-[1.125rem] w-[1.125rem]"} />
           )}
         </button>
       </div>

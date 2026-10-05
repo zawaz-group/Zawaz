@@ -21,12 +21,12 @@ export default function ProductCarousel({ products, title, accent, href, id }) {
     <div id={id} className="mx-4 scroll-mt-24 pb-6 pt-8 sm:mx-5 lg:ml-[3.65vw] lg:mr-[4.95vw] lg:pb-[1vw] lg:pt-[1.5vw]">
       <div className="flex items-center justify-between gap-3">
         <div className="flex items-center gap-3">
-          <h2 className="whitespace-nowrap text-[1.25rem] lg:text-[max(18px,1.43vw)] font-extrabold uppercase tracking-[0.02em]">
+          <h2 className="whitespace-nowrap text-[1.375rem] lg:text-[max(18px,1.43vw)] font-extrabold uppercase tracking-[0.02em]">
             {title} <span className="text-gold-bright">{accent}</span>
           </h2>
           <Crown className="h-7 w-8 -translate-y-1" />
         </div>
-        <Link href={href} className="flex shrink-0 items-center gap-2 whitespace-nowrap text-[0.8125rem] font-bold text-white transition hover:text-gold-bright lg:text-[max(13px,0.9vw)]">
+        <Link href={href} className="flex shrink-0 items-center gap-2 whitespace-nowrap text-[0.9375rem] font-bold text-white transition hover:text-gold-bright lg:text-[max(13px,0.9vw)]">
           <span>
             Vezi toate<span className="max-sm:hidden"> produsele</span>
           </span>{" "}
@@ -54,8 +54,8 @@ export default function ProductCarousel({ products, title, accent, href, id }) {
 
         <ul ref={track} className="hide-scrollbar flex snap-x snap-mandatory gap-3 overflow-x-auto scroll-pl-0 lg:gap-[1.1vw]">
           {products.map((p) => (
-            <li key={p.id} className="w-[46%] shrink-0 snap-start sm:w-[30%] md:w-[22%] lg:w-[calc((100%-5*1.1vw)/6)]">
-              <ProdusCard produs={p} />
+            <li key={p.id} className="w-[72%] shrink-0 snap-start sm:w-[42%] md:w-[30%] lg:w-[calc((100%-5*1.1vw)/6)]">
+              <ProdusCard produs={p} grande />
             </li>
           ))}
         </ul>

@@ -87,11 +87,11 @@ export default function HowItWorks() {
     <section id="cum-functioneaza" className="mx-4 scroll-mt-24 py-8 sm:mx-5 lg:ml-[9.8vw] lg:mr-[9.7vw] lg:py-[2.2vw]">
       <div className="flex flex-col gap-4 lg:flex-row lg:items-center lg:gap-[4.2vw]">
         <div className="lg:w-[21.5vw] lg:shrink-0">
-          <h2 className="relative inline-block -rotate-3 font-display text-[max(30px,2.6vw)] font-extrabold italic uppercase leading-[0.95] tracking-[-0.01em] text-white drop-shadow-[0_0.375rem_1.125rem_rgba(0,0,0,0.6)] max-lg:rotate-0 max-lg:font-sans max-lg:text-[1.25rem] max-lg:not-italic max-lg:tracking-[0.02em] lg:whitespace-nowrap">
+          <h2 className="relative inline-block -rotate-3 font-display text-[max(30px,2.6vw)] font-extrabold italic uppercase leading-[0.95] tracking-[-0.01em] text-white drop-shadow-[0_0.375rem_1.125rem_rgba(0,0,0,0.6)] max-lg:rotate-0 max-lg:font-sans max-lg:text-[1.875rem] max-lg:not-italic max-lg:tracking-[0.02em] lg:whitespace-nowrap">
             Cum <span className="gold-text">funcționează?</span>
-            <Crown className="absolute -top-[0.6rem] left-[102%] h-[1.4rem] w-[1.6rem] rotate-6 lg:-top-[1.1vw] lg:h-[max(1.5rem,2.2vw)] lg:w-[max(1.75rem,2.5vw)]" />
+            <Crown className="absolute -top-[0.7rem] left-[102%] h-[2rem] w-[2.3rem] rotate-6 lg:-top-[1.1vw] lg:h-[max(1.5rem,2.2vw)] lg:w-[max(1.75rem,2.5vw)]" />
           </h2>
-          <p className="mt-2 max-w-[28rem] text-[0.9375rem] leading-relaxed text-white/85 lg:mt-[1vw] lg:max-w-[21vw] lg:text-[max(13px,0.92vw)]">
+          <p className="mt-3 max-w-[28rem] text-[1.125rem] leading-relaxed text-white/85 lg:mt-[1vw] lg:max-w-[21vw] lg:text-[max(13px,0.92vw)]">
             Descoperă în 3 pași cât de simplu și distractiv poți economisi cu pușculițele noastre.
           </p>
           <svg viewBox="0 0 170 14" className="mt-3 hidden h-[0.9rem] w-[10rem] lg:mt-[0.8vw] lg:block lg:h-[0.9vw] lg:w-[10.6vw]" aria-hidden>
