@@ -1,662 +1,190 @@
 @import "tailwindcss";
 
-*, *::before, *::after {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-}
-
-html, body {
-  width: 100%;
-  height: 100%;
-}
-
-:root {
-  --background: #F7F7F4;
-  --foreground: #1D2820;
-  --container: 1280px;
-
-  /* Distanta orizontala dintre marginea containerului si continut.
-     Aceeasi valoare peste tot si la orice latime de ecran, ca marginile
-     tuturor sectiunilor sa cada exact pe cele ale navbar-ului (NavBar.js).
-     Regula de layout: containerul primeste maxWidth: var(--container),
-     margin: 0 auto si padding: 0 var(--gutter) — padding-ul sta INAUNTRUL
-     containerului, nu pe sectiunea din jurul lui. */
-  --gutter: 16px;
-  --section-padding: 80px var(--gutter);
-
-  /* Pentru sectiunile la care padding-ul sta pe elementul din AFARA
-     containerului: acolo containerul trebuie plafonat la latimea utila,
-     altfel ar iesi cu cate un gutter in stanga si in dreapta fata de navbar. */
-  --container-inner: calc(var(--container) - 2 * var(--gutter));
-
-  /* Distanta de la marginea ecranului pana unde incepe continutul paginii,
-     adica exact acolo unde incepe si navbar-ul. Se foloseste pe sectiunile
-     care trebuie aliniate la stanga dar lasate sa iasa din ecran la dreapta
-     (CumFunctioneaza). Procentul, nu 100vw, ca sa nu intre latimea
-     scrollbar-ului in calcul si sa decaleze alinierea cu cativa pixeli.
-     De folosit doar pe elemente late cat pagina. */
-  --page-left: max(var(--gutter), calc((100% - var(--container)) / 2 + var(--gutter)));
-
-  --color-green: #2C662D;
-  --color-green-dark: #183A22;
-  --color-green-hover: #214F27;
-  --color-gold: #D5B358;
-  --color-gold-hover: #BE963D;
-  --bg-main: #F7F7F4;
-  --bg-alt: #EEF2EC;
-  --bg-card: #FFFFFF;
-  --text-primary: #1D2820;
-  --text-secondary: #5D695F;
-  --border-color: #DCE4D9;
-}
-
-@media (max-width: 767px) {
-  :root {
-    --section-padding: 48px var(--gutter);
-  }
-}
-
-@media (min-width: 768px) and (max-width: 1023px) {
-  :root {
-    --section-padding: 60px var(--gutter);
-  }
-}
-
-@media (min-width: 1920px) {
-  :root {
-    --container: 1600px;
-    --section-padding: 100px var(--gutter);
-  }
-}
-
-@media (min-width: 2560px) {
-  :root {
-    --container: 2000px;
-    --section-padding: 120px var(--gutter);
-  }
-}
-
-/* ── Responsive grids ── */
-.grid-3 {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 40px;
-}
-@media (max-width: 1023px) {
-  .grid-3 { grid-template-columns: repeat(2, 1fr); gap: 24px; }
-}
-@media (max-width: 600px) {
-  .grid-3 { grid-template-columns: 1fr; gap: 20px; }
-}
-
-.grid-4 {
-  display: grid;
-  grid-template-columns: 2fr 1fr 1fr 1fr;
-  gap: 40px;
-}
-@media (max-width: 1023px) {
-  .grid-4 { grid-template-columns: 1fr 1fr; }
-}
-@media (max-width: 600px) {
-  .grid-4 { grid-template-columns: 1fr; gap: 32px; }
-}
-
-.grid-2col {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 60px;
-  align-items: start;
-}
-@media (max-width: 767px) {
-  .grid-2col { grid-template-columns: 1fr; gap: 40px; }
-}
-
-/* ── Navbar ── */
-.nav-links { display: flex; }
-.nav-hamburger { display: none; }
-.nav-icon-desktop { display: flex; }
-@media (max-width: 900px) {
-  .nav-links { display: none; }
-  .nav-hamburger { display: flex !important; }
-  .nav-icon-desktop { display: none !important; }
-  .nav-height { height: 70px !important; }
-  .nav-logo-img { width: auto !important; height: 36px !important; }
-}
-
-.mobile-menu {
-  display: none;
-  position: fixed;
-  top: 0; left: 0; right: 0; bottom: 0;
-  background: #EEF2EC;
-  z-index: 99;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  gap: 36px;
-}
-.mobile-menu.open { display: flex; }
-
-/* ── Sliders ── */
-.slider-header {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  margin-bottom: 48px;
-  gap: 16px;
-}
-.slider-arrows { display: flex; gap: 10px; flex-shrink: 0; }
-.slider-outer { overflow: hidden; }
-
-/* Mobile: slider → grid 2 coloane (481-767px) sau swipe (≤480px) */
-@media (max-width: 767px) {
-  .slider-header { margin-bottom: 20px; }
-  .slider-header h2 { font-size: 17px !important; letter-spacing: 0.08em !important; }
-  /* Ascunde "vezi toate" din header, il afisam jos */
-  .slider-header a { display: none !important; }
-}
-
-/* Buton "vezi toate" sub produse - doar pe mobil */
-.slider-vezi-toate-mobile { display: none; }
-@media (max-width: 767px) {
-  .slider-vezi-toate-mobile {
-    display: flex;
-    justify-content: flex-end;
-    margin-top: 20px;
-  }
-  .slider-vezi-toate-mobile a {
-    display: inline-block !important;
-    font-size: 13px;
-    font-weight: 700;
-    text-transform: uppercase;
-    letter-spacing: 0.1em;
-    color: #1D2820;
-    text-decoration: none;
-    border-bottom: 2px solid #1D2820;
-    padding-bottom: 2px;
-  }
-}
-
-/* Telefoane medii 481-767px: 1 produs centrat */
-@media (min-width: 481px) and (max-width: 767px) {
-  .slider-outer {
-    overflow-x: auto;
-    scroll-snap-type: x mandatory;
-    -webkit-overflow-scrolling: touch;
-    scrollbar-width: none;
-    margin: 0;
-    padding: 0 0 12px;
-  }
-  .slider-outer::-webkit-scrollbar { display: none; }
-  .slider-inner {
-    display: flex !important;
-    transform: none !important;
-    transition: none !important;
-    gap: 20px !important;
-    width: max-content !important;
-    padding-left: 0 !important;
-    padding-right: 16px !important;
-  }
-  .slider-item {
-    width: calc(100vw - 64px) !important;
-    min-width: calc(100vw - 64px) !important;
-    flex-shrink: 0 !important;
-    scroll-snap-align: center;
-  }
-  .slider-item .pcard-name { font-size: 15px !important; text-align: left; }
-  .slider-item .pcard-price { font-size: 15px !important; }
-  .slider-item .pcard-info { align-items: flex-start; }
-  .slider-item .pcard-price-row { justify-content: flex-start; }
-  .slider-item .pcard-cart-btn { font-size: 12px !important; padding: 10px 0 !important; }
-  .slider-item .pcard-fav { width: 34px !important; height: 34px !important; }
-  .slider-item .pcard-badge { font-size: 12px !important; }
-}
-
-/* Telefoane mici ≤480px: 1 produs centrat */
-@media (max-width: 480px) {
-  .slider-outer {
-    overflow-x: auto;
-    scroll-snap-type: x mandatory;
-    -webkit-overflow-scrolling: touch;
-    scrollbar-width: none;
-    margin: 0;
-    padding: 0 0 12px;
-    scroll-padding-left: 0;
-  }
-  .slider-outer::-webkit-scrollbar { display: none; }
-  .slider-inner {
-    display: flex !important;
-    transform: none !important;
-    transition: none !important;
-    gap: 16px !important;
-    width: max-content !important;
-    padding-left: 0 !important;
-    padding-right: 16px !important;
-  }
-  .slider-item {
-    width: calc(100vw - 48px) !important;
-    min-width: calc(100vw - 48px) !important;
-    flex-shrink: 0 !important;
-    scroll-snap-align: center;
-  }
-  .slider-item .pcard-name { font-size: 15px !important; text-align: left; }
-  .slider-item .pcard-price { font-size: 15px !important; }
-  .slider-item .pcard-info { align-items: flex-start; }
-  .slider-item .pcard-price-row { justify-content: flex-start; }
-  .slider-item .pcard-cart-btn { font-size: 12px !important; padding: 10px 0 !important; }
-  .slider-item .pcard-fav { width: 34px !important; height: 34px !important; }
-  .slider-item .pcard-badge { font-size: 12px !important; }
-  .slider-item .pcard-cart-wrap { padding: 0 10px 10px !important; }
-}
-
-/* ── ImageAnimata ── */
-.image-animata-row {
-  display: flex;
-  align-items: center;
-  gap: 48px;
-}
-.image-animata-img { width: 50%; }
-.image-animata-text { width: 50%; }
-@media (max-width: 767px) {
-  .image-animata-row { flex-direction: column; gap: 32px; }
-  .image-animata-img { width: 100%; aspect-ratio: 4/3 !important; }
-  .image-animata-text { width: 100%; }
-  .image-animata-text h2 { font-size: 28px !important; }
-}
-
-/* ── CategoriiMari ── */
-.categorii-mari-grid {
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  gap: 40px;
-}
-@media (max-width: 767px) {
-  .categorii-mari-grid { grid-template-columns: 1fr; gap: 32px; }
-}
-
-/* ── Categorii (home) ── */
-.categorii-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 24px; }
-@media (max-width: 480px) {
-  .categorii-grid { grid-template-columns: 1fr; gap: 16px; }
-}
-
-/* ── Page paddingTop ── */
-.page-content-top { padding-top: 40px; }
-@media (max-width: 767px) {
-  .page-content-top { padding-top: 24px; }
-}
-
-/* ── Product page ── */
-.produse-grid {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 60px;
-  align-items: start;
-}
-@media (max-width: 900px) {
-  .produse-grid { grid-template-columns: 1fr; gap: 32px; }
-}
-
-/* ── Produse similare grid ── */
-.similare-grid {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 40px;
-}
-@media (max-width: 900px) {
-  .similare-grid { grid-template-columns: repeat(2, 1fr); gap: 20px; }
-}
-@media (max-width: 480px) {
-  .similare-grid { grid-template-columns: 1fr; gap: 16px; }
-}
-
-/* ── Cos main grid ── */
-.cos-main-grid {
-  display: grid;
-  grid-template-columns: 1fr 360px;
-  gap: 48px;
-  align-items: start;
-}
-@media (max-width: 900px) {
-  .cos-main-grid { grid-template-columns: 1fr; gap: 32px; }
-}
-
-/* ── Form 2 col (cos/contact) ── */
-.form-2col {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 16px;
-}
-@media (max-width: 560px) {
-  .form-2col { grid-template-columns: 1fr; }
-}
-
-/* ── Page hero banner ── */
-.page-hero { padding: 60px 24px; text-align: center; }
-@media (max-width: 767px) {
-  .page-hero { padding: 36px 16px !important; }
-  .page-hero h1 { font-size: clamp(24px, 8vw, 36px) !important; }
-  .page-hero p { font-size: 14px !important; }
-}
-
-/* ── Despre noi sections ── */
-@media (max-width: 767px) {
-  .despre-cta { padding: 48px 16px !important; }
-  .despre-cta h2 { font-size: clamp(22px, 7vw, 30px) !important; }
-  .despre-cta p { font-size: 14px !important; }
-}
-
-/* ── Valori despre noi ── */
-.valori-grid {
-  display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  gap: 40px;
-}
-@media (max-width: 1023px) {
-  .valori-grid { grid-template-columns: repeat(2, 1fr); }
-}
-@media (max-width: 600px) {
-  .valori-grid { grid-template-columns: 1fr; gap: 32px; }
-}
-
-/* ── Footer newsletter ── */
-.footer-newsletter {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 24px;
-}
-
-.footer-bottom {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 8px;
-}
-
-/* ── Cos page ── */
-.cos-layout {
-  display: flex;
-  gap: 48px;
-  align-items: flex-start;
-}
-@media (max-width: 900px) {
-  .cos-layout { flex-direction: column; }
-}
-
-/* ── CumFunctioneaza ── */
-@media (max-width: 900px) {
-  .cumfunc-layout {
-    flex-direction: column !important;
-    gap: 32px !important;
-  }
-  .cumfunc-left {
-    width: 100% !important;
-    padding-left: clamp(16px, 5vw, 48px) !important;
-    padding-right: clamp(16px, 5vw, 48px) !important;
-  }
-  .cumfunc-cards {
-    width: 100% !important;
-    overflow-x: auto !important;
-    scroll-snap-type: x mandatory;
-    -webkit-overflow-scrolling: touch;
-    scrollbar-width: none;
-    padding: 0 clamp(16px, 5vw, 48px) 16px !important;
-  }
-  .cumfunc-cards::-webkit-scrollbar { display: none; }
-}
-@media (max-width: 480px) {
-  .cumfunc-left {
-    gap: 24px !important;
-  }
-  .cumfunc-left h2 {
-    font-size: clamp(36px, 10vw, 56px) !important;
-  }
-  .cumfunc-left > p {
-    font-size: clamp(20px, 6vw, 32px) !important;
-  }
-}
-
-/* ── HeroSection mobile ── */
-@media (max-width: 600px) {
-  .hero-text-overlay {
-    padding-left: 16px !important;
-    padding-right: 16px !important;
-    background: linear-gradient(90deg, rgba(255,255,255,0.88) 0%, rgba(255,255,255,0.6) 70%, transparent 100%) !important;
-  }
-}
-
-/* ── NavBar mobile menu ── */
-@media (max-width: 900px) {
-  .nav-cos-text { display: none !important; }
-}
-
-/* ═══════════════════════════════════════════════
-   GASESTE PERFECT — grid column fixes
-   ═══════════════════════════════════════════════ */
-@media (max-width: 1100px) {
-  .gaseste-grid { grid-template-columns: repeat(2, 1fr) !important; }
-}
-@media (max-width: 560px) {
-  .gaseste-grid { grid-template-columns: 1fr !important; gap: 14px !important; }
-  .gaseste-grid > div { min-height: 220px !important; }
-}
-
-/* ═══════════════════════════════════════════════
-   AUTOVIDARE — mobile text & image sizing
-   ═══════════════════════════════════════════════ */
-@media (max-width: 767px) {
-  .autovidare-grid {
-    grid-template-columns: 1fr !important;
-    text-align: center !important;
-    gap: 32px !important;
-  }
-  .autovidare-grid > div:first-child { order: 2; }
-  .autovidare-grid > div:last-child {
-    order: 1;
-    align-items: center !important;
-  }
-  .autovidare-grid h2 { font-size: clamp(36px, 12vw, 56px) !important; }
-}
-
-/* ═══════════════════════════════════════════════
-   RECENZII — card & grid fixes
-   ═══════════════════════════════════════════════ */
-@media (max-width: 900px) {
-  .recenzii-grid {
-    grid-template-columns: 1fr !important;
-    padding: 0 var(--gutter) !important;
-    gap: 32px !important;
-  }
-  .recenzii-right {
-    padding: 0 !important;
-  }
-  .recenzii-review-item {
-    grid-template-columns: 52px 1fr !important;
-    gap: 0 16px !important;
-  }
-  .recenzii-card {
-    height: 460px !important;
-    flex-direction: column !important;
-    border-radius: 20px !important;
-    max-width: 100% !important;
-  }
-  .recenzii-card > div:first-child {
-    flex: 0 0 60% !important;
-  }
-  .recenzii-card-bottom {
-    flex: 1 !important;
-    padding: 16px 20px !important;
-  }
-}
-@media (max-width: 430px) {
-  .recenzii-card { height: 400px !important; }
-}
-@media (max-width: 380px) {
-  .recenzii-card { height: 360px !important; }
-}
-
-/* ═══════════════════════════════════════════════
-   BLOG PREVIEW — header and grid
-   ═══════════════════════════════════════════════ */
-@media (max-width: 767px) {
-  .blog-header { flex-direction: column !important; align-items: flex-start !important; gap: 12px !important; margin-bottom: 28px !important; }
-  .blog-header h2 { font-size: clamp(22px, 7vw, 32px) !important; }
-}
-
-/* ═══════════════════════════════════════════════
-   LIVRARE — mobile improvements
-   ═══════════════════════════════════════════════ */
-@media (max-width: 767px) {
-  .livrare-grid {
-    grid-template-columns: 1fr !important;
-    min-height: unset !important;
-    padding-top: 40px !important;
-    gap: 0 !important;
-  }
-  .livrare-grid > div:first-child { order: 2; padding-bottom: 0 !important; }
-  .livrare-grid > div:last-child {
-    order: 1;
-    padding-bottom: 24px !important;
-    align-items: center !important;
-    text-align: center !important;
-  }
-  .livrare-grid svg { width: 200px !important; }
-  .livrare-grid h2 { font-size: clamp(34px, 11vw, 56px) !important; }
-}
-
-/* ═══════════════════════════════════════════════
-   FOOTER — mobile column & spacing
-   ═══════════════════════════════════════════════ */
-@media (max-width: 767px) {
-  .footer-newsletter { flex-direction: column !important; align-items: flex-start !important; }
-  .footer-newsletter form { max-width: 100% !important; width: 100% !important; }
-}
-@media (max-width: 600px) {
-  .footer-bottom { flex-direction: column !important; align-items: flex-start !important; gap: 12px !important; }
-}
-@media (max-width: 480px) {
-  /* Footer grid: always 1 col on tiny screens */
-  .grid-4 { grid-template-columns: 1fr !important; gap: 28px !important; }
-}
-
-/* ═══════════════════════════════════════════════
-   PRODUSE CARD — always show cart button on mobile
-   ═══════════════════════════════════════════════ */
-@media (max-width: 767px) {
-  .pcard-cart-btn { opacity: 1 !important; transform: translateY(0) !important; }
-}
-
-/* ═══════════════════════════════════════════════
-   GENERAL — prevent horizontal overflow everywhere
-   ═══════════════════════════════════════════════ */
-section { max-width: 100vw; overflow-x: hidden; }
-
-/* ═══════════════════════════════════════════════
-   PAGE CONTENT — inner max-width containers
-   ═══════════════════════════════════════════════ */
-@media (max-width: 480px) {
-  .page-content-top { padding-top: 16px; }
-}
-
-/* ═══════════════════════════════════════════════
-   MOBILE — general typography scale-down
-   ═══════════════════════════════════════════════ */
-@media (max-width: 767px) {
-  /* Produse similare heading */
-  .similare-heading { font-size: 18px !important; margin-bottom: 24px !important; }
-  /* Produs page title */
-  .produs-title { font-size: clamp(22px, 7vw, 32px) !important; }
-  /* Cos page title */
-  .cos-title { font-size: 22px !important; margin-bottom: 24px !important; }
-  /* Cos sticky panel — no sticky on mobile */
-  .cos-sticky { position: static !important; }
-}
-
 @theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+  --color-forest-950: #03140f;
+  --color-forest-900: #08271b;
+  --color-brand: #1f6a36;
+  --color-gold: #ddbb58;
+  --color-gold-bright: #f4c84a;
+  --color-ivory: #f5f3e9;
+  --font-sans: var(--font-manrope);
+  --font-display: var(--font-barlow);
+  --font-hand: var(--font-caveat);
+  --font-logo: var(--font-orbitron);
+}
+
+html {
+  scroll-behavior: smooth;
+  /* 16px la 1536px lățime; crește proporțional (ex. 40px la 4K) */
+  font-size: clamp(14px, calc(100vw / 96), 48px);
 }
 
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: var(--font-manrope), system-ui, sans-serif;
+  overflow-x: hidden;
 }
 
-/* ═══════════════════════════════════════════════
-   PRODUS CARD — actiuni pe mobil
-   Pe mobil produsele stau doua pe rand, deci fiecare card are ~150px utili.
-   Cele doua butoane unul langa altul primeau ~70px fiecare, sub latimea
-   textului "Adaugă în coș", care are whiteSpace: nowrap — de aici textul
-   iesea din buton. Le asezam unul sub altul, pe toata latimea cardului,
-   cu inaltime suficienta pentru atingere cu degetul.
-   ═══════════════════════════════════════════════ */
-@media (max-width: 767px) {
-  .pcard-actions {
-    flex-direction: column;
-    gap: 6px !important;
-  }
-  .pcard-actions > button {
-    width: 100%;
-    min-height: 42px;
-    font-size: 12px !important;
-    padding: 8px 6px !important;
-  }
-  /* 8px era oricum sub pragul lizibil; il scoatem ca sa ramana loc de text */
-  .pcard-buy-sub { display: none !important; }
-  .pcard-buy-btn span:last-child { align-items: center !important; }
+/* Mărimi pentru <BackgroundStack />: imaginile (1983×793) rămân la mărimea reală; sub 1983px lățime sunt centrate,
+   peste (ex. 4K) se măresc doar cât să acopere lățimea. */
+:root {
+  --bg-base: #03130e;
+  --bg-w: max(1983px, 100vw);
+  --bg-h: calc(var(--bg-w) * 0.3999);
 }
 
-/* ═══════════════════════════════════════════════
-   CATALOG (/produse) — filtre + grila
-   ═══════════════════════════════════════════════ */
-.catalog-layout {
-  display: grid;
-  /* minmax(0,1fr), nu 1fr: `1fr` este minmax(auto,1fr), iar `auto` nu
-     coboara sub min-content, asa ca track-ul creste peste latimea ecranului
-     si pagina capata scroll orizontal. */
-  grid-template-columns: 260px minmax(0, 1fr);
-  gap: 40px;
-  align-items: start;
-}
-.catalog-filtre-toggle { display: none; }
-.catalog-grid {
-  display: grid;
-  /* 1fr pe randuri: toate randurile primesc aceeasi inaltime, nu doar
-     cardurile din acelasi rand. */
-  grid-auto-rows: 1fr;
-  grid-template-columns: repeat(4, minmax(0, 1fr));
-  gap: 20px;
-}
-@media (max-width: 1279px) {
-  .catalog-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); }
-}
+/* Pe telefon plăcile se întind pe toată lățimea ecranului (se văd pensulele de pe margini) */
 @media (max-width: 1023px) {
-  .catalog-layout { grid-template-columns: 200px minmax(0, 1fr); gap: 28px; }
-  .catalog-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  :root {
+    --bg-w: 100vw;
+    --bg-h: 150vw;
+  }
 }
 
-/* Sub 768px filtrele trec deasupra si se pliaza: pe un ecran de telefon o
-   coloana laterala ar impinge produsele sub linia de plutire. */
-@media (max-width: 767px) {
-  .catalog-layout { grid-template-columns: minmax(0, 1fr); gap: 20px; }
-  .catalog-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; }
-  .catalog-filtre-toggle {
-    display: inline-block;
-    width: 100%;
-    padding: 12px 18px;
-    border-radius: 12px;
-    border: 1.5px solid #DCE4D9;
-    background: #fff;
-    font-size: 14px;
-    font-weight: 700;
-    color: #1D2820;
-    cursor: pointer;
-    text-align: left;
+/* Secțiunile din prima pagină care împart același fundal în plăci */
+.categories-section {
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+  background-color: var(--bg-base);
+}
+
+/* Fundal pentru paginile interioare */
+.page-bg {
+  position: relative;
+  isolation: isolate;
+  background-color: var(--bg-base);
+}
+.page-bg::before {
+  content: "";
+  position: absolute;
+  inset: 0 0 auto 0;
+  height: 11vw;
+  background: linear-gradient(180deg, rgba(2, 12, 9, 0.8), rgba(2, 12, 9, 0));
+  z-index: -1;
+  pointer-events: none;
+}
+
+.hide-scrollbar {
+  scrollbar-width: none;
+}
+.hide-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+
+.gold-text {
+  background: linear-gradient(180deg, #ffe08a 0%, #f4c84a 55%, #d9a526 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+/* Fundal footer: imagine verticală pe telefon, orizontală pe desktop */
+.footer-bg {
+  background-image: url("/footer_telefon.webp");
+}
+@media (min-width: 1024px) {
+  .footer-bg {
+    background-image: url("/footer.webp");
   }
-  .catalog-filtre-corp { display: none; padding-top: 18px; }
-  .catalog-filtre-corp.deschis { display: block; }
+}
+
+/* Câmpuri de formular comune (coș, contact, căutare, personalizat) */
+.field {
+  width: 100%;
+  border-radius: 0.75rem;
+  border: 1px solid rgba(221, 187, 88, 0.25);
+  background: rgba(0, 0, 0, 0.45);
+  padding: 0.75rem 1rem;
+  font-size: 0.875rem;
+  color: #fff;
+  outline: none;
+  transition: border-color 0.2s, box-shadow 0.2s;
+}
+.field::placeholder {
+  color: rgba(255, 255, 255, 0.45);
+}
+.field:focus {
+  border-color: #f4c84a;
+  box-shadow: 0 0 1rem rgba(31, 106, 54, 0.7);
+}
+.field[aria-invalid="true"] {
+  border-color: #ef5350;
+}
+
+/* Butonul principal auriu din design */
+.btn-gold {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  border-radius: 9999px;
+  background: linear-gradient(180deg, #ffd868, #e3a92a);
+  color: #03140f;
+  font-weight: 800;
+  box-shadow: 0 0.5rem 1.5rem rgba(244, 200, 74, 0.3);
+  transition: transform 0.2s, box-shadow 0.2s, filter 0.2s;
+}
+.btn-gold:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 0.75rem 1.875rem rgba(244, 200, 74, 0.45);
+}
+.btn-gold:disabled {
+  cursor: not-allowed;
+  filter: grayscale(0.6) brightness(0.8);
+  transform: none;
+}
+
+/* Butonul secundar: contur auriu, fundal verde închis */
+.btn-outline {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  border-radius: 9999px;
+  border: 1px solid rgba(221, 187, 88, 0.5);
+  background: rgba(31, 106, 54, 0.4);
+  color: #f4c84a;
+  font-weight: 700;
+  transition: background 0.2s, box-shadow 0.2s;
+}
+.btn-outline:hover {
+  background: #1f6a36;
+  box-shadow: 0 0 0.875rem rgba(31, 106, 54, 0.8);
+}
+
+/* Card de conținut (coș, formulare, rezumate) */
+.panel {
+  border-radius: 1rem;
+  border: 1px solid rgba(221, 187, 88, 0.25);
+  background: rgba(3, 20, 15, 0.7);
+  box-shadow: 0 0 1.5rem rgba(31, 106, 54, 0.3);
+  backdrop-filter: blur(4px);
+}
+
+/* Bara de derulare în tema site-ului: pistă verde închis, mâner auriu */
+@supports selector(::-webkit-scrollbar) {
+  ::-webkit-scrollbar {
+    width: 12px;
+    height: 12px;
+  }
+  ::-webkit-scrollbar-track {
+    background: #03130e;
+    border-left: 1px solid rgba(221, 187, 88, 0.12);
+  }
+  ::-webkit-scrollbar-thumb {
+    border-radius: 9999px;
+    border: 3px solid #03130e;
+    background: linear-gradient(180deg, #f4c84a, #b8841a);
+  }
+  ::-webkit-scrollbar-thumb:hover {
+    background: linear-gradient(180deg, #ffd868, #e3a92a);
+  }
+  ::-webkit-scrollbar-corner {
+    background: #03130e;
+  }
+}
+@supports not selector(::-webkit-scrollbar) {
+  html {
+    scrollbar-color: #d9a526 #03130e;
+  }
 }

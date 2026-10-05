@@ -1,10 +1,10 @@
 "use client";
 import { useState, useEffect } from "react";
 import { useSearchParams } from "next/navigation";
-import Link from "next/link";
-import NavBar from "./NavBar";
-import Footer from "./Footer";
+import PageShell, { PageHeading } from "./PageShell";
 import ProdusCard from "./ProdusCard";
+import { ChipLink } from "./Chip";
+import { ChevronDown } from "./icons";
 
 const SUBCATEGORII = [
   { slug: "pentru-ia", label: "Pentru ia" },
@@ -16,11 +16,23 @@ const SUBCATEGORII = [
   { slug: "zile-speciale", label: "Zile speciale" },
 ];
 
+const ETICHETE = {
+  populare: "Best Seller",
+  reduceri: "Reduceri",
+  "produse-noi": "Produse noi",
+  stative: "Stative",
+  pusculite: "Pușculițe",
+};
+
 // Best Seller si Reduceri primesc subcategoriile intr-o coloana laterala, ca
 // pe un catalog. Restul paginilor care refolosesc acest template (fete,
 // baieti, sport, copii, femei, barbati, produse-noi) raman cu randul simplu
 // de pastile de deasupra grilei.
 const CU_SIDEBAR = ["populare", "reduceri"];
+
+function eticheta(slug) {
+  return ETICHETE[slug] || (slug.charAt(0).toUpperCase() + slug.slice(1)).replace(/-/g, " ");
+}
 
 export default function CategorieTemplate({ slug }) {
   const searchParams = useSearchParams();
@@ -56,91 +68,75 @@ export default function CategorieTemplate({ slug }) {
   const produseAfisate = produse.length > 0 ? produse : (categorieActiva ? toateProdusele : []);
   const subcategorieLabel = SUBCATEGORII.find(s => s.slug === categorieActiva)?.label;
 
-  const pillStyle = (activ) => ({
-    padding: "7px 18px", borderRadius: 999, fontSize: 13, fontWeight: 600,
-    background: activ ? "#2C662D" : "#EEF2EC",
-    color: activ ? "#fff" : "#5D695F",
-    textDecoration: "none", transition: "all 0.2s",
-  });
+  const titlu = subcategorieLabel || eticheta(slug);
+  const cuvinte = titlu.split(" ");
+  const accent = cuvinte.pop();
 
-  const subcategoriiListaVerticala = (
-    <div style={{ display: "flex", flexDirection: "column", gap: 8 }}>
-      <Link href={`/${slug}`} style={{ ...pillStyle(!categorieActiva), textAlign: "left" }}>Toate</Link>
+  const pastile = (vertical) => (
+    <div className={vertical ? "flex flex-col gap-2" : "flex flex-wrap gap-2.5"}>
+      <ChipLink href={`/${slug}`} active={!categorieActiva} className={vertical ? "justify-start" : ""}>Toate</ChipLink>
       {SUBCATEGORII.map(s => (
-        <Link key={s.slug} href={`/${slug}?categorie=${s.slug}`} style={{ ...pillStyle(categorieActiva === s.slug), textAlign: "left" }}>
+        <ChipLink key={s.slug} href={`/${slug}?categorie=${s.slug}`} active={categorieActiva === s.slug} className={vertical ? "justify-start" : ""}>
           {s.label}
-        </Link>
-      ))}
-    </div>
-  );
-
-  const subcategoriiRandOrizontal = (
-    <div style={{ display: "flex", gap: 8, flexWrap: "wrap", marginBottom: 40 }}>
-      <Link href={`/${slug}`} style={pillStyle(!categorieActiva)}>Toate</Link>
-      {SUBCATEGORII.map(s => (
-        <Link key={s.slug} href={`/${slug}?categorie=${s.slug}`} style={pillStyle(categorieActiva === s.slug)}>
-          {s.label}
-        </Link>
+        </ChipLink>
       ))}
     </div>
   );
 
   const grid = loading ? (
-    <div style={{ textAlign: "center", padding: "80px 0", color: "#5D695F", fontSize: 18 }}>Se încarcă...</div>
-  ) : produseAfisate.length === 0 ? (
-    <p style={{ textAlign: "center", color: "#5D695F", fontSize: 18, padding: "80px 0" }}>
-      Nu există produse în această categorie momentan.
-    </p>
-  ) : (
-    <div className={areSidebar ? "catalog-grid" : "grid-3"}>
-      {produseAfisate.map(p => <ProdusCard key={p.id} produs={p} />)}
+    <div className="grid grid-cols-2 gap-x-4 gap-y-7 md:grid-cols-3 lg:gap-x-[1.3vw] lg:gap-y-[2.4vw] xl:grid-cols-4">
+      {Array.from({ length: 8 }).map((_, i) => (
+        <div key={i} className="aspect-[1336/1096] animate-pulse rounded-xl bg-forest-950/60" />
+      ))}
     </div>
+  ) : produseAfisate.length === 0 ? (
+    <p className="py-16 text-center text-[1.0625rem] text-white/70">Nu există produse în această categorie momentan.</p>
+  ) : (
+    <ul className={`grid grid-cols-2 gap-x-4 gap-y-7 md:grid-cols-3 lg:gap-x-[1.3vw] lg:gap-y-[2.4vw] ${areSidebar ? "xl:grid-cols-4" : "lg:grid-cols-4"}`}>
+      {produseAfisate.map(p => (
+        <li key={p.id}>
+          <ProdusCard produs={p} />
+        </li>
+      ))}
+    </ul>
   );
 
   return (
-    <div style={{ background: "#F7F7F4", minHeight: "100vh" }}>
-      <NavBar />
+    <PageShell>
+      <PageHeading
+        crumbs={[{ label: "Acasă", href: "/" }, { label: titlu }]}
+        title={cuvinte.join(" ")}
+        accent={accent}
+        description={loading ? "Se încarcă…" : `${produseAfisate.length} ${produseAfisate.length === 1 ? "produs" : "produse"}`}
+      />
 
-      <section style={{ padding: "var(--section-padding)" }} className="page-content-top">
-        <div style={{ maxWidth: "var(--container-inner)", margin: "0 auto" }}>
-
-          <h1 style={{ fontSize: 32, fontWeight: 800, margin: "0 0 6px", letterSpacing: "0.01em" }}>
-            {subcategorieLabel || slug.charAt(0).toUpperCase() + slug.slice(1)}
-          </h1>
-          <p style={{ fontSize: 14, color: "#5D695F", marginBottom: 32 }}>
-            {loading ? "Se încarcă..." : `${produseAfisate.length} produse`}
-          </p>
-
-          {areSidebar ? (
-            <div className="catalog-layout">
-              <aside className="catalog-filtre">
-                <button
-                  className="catalog-filtre-toggle"
-                  onClick={() => setFiltreDeschise(o => !o)}
-                  aria-expanded={filtreDeschise}
-                >
-                  {filtreDeschise ? "Ascunde subcategoriile" : "Subcategorii"}
-                </button>
-                <div className={filtreDeschise ? "catalog-filtre-corp deschis" : "catalog-filtre-corp"}>
-                  <p style={{ fontSize: 13, fontWeight: 800, color: "#1D2820", margin: "0 0 10px", textTransform: "uppercase", letterSpacing: "0.08em" }}>
-                    Subcategorie
-                  </p>
-                  {subcategoriiListaVerticala}
-                </div>
-              </aside>
-
-              <div style={{ minWidth: 0 }}>{grid}</div>
-            </div>
-          ) : (
-            <>
-              {subcategoriiRandOrizontal}
-              {grid}
-            </>
-          )}
-        </div>
-      </section>
-
-      <Footer />
-    </div>
+      <div className="mt-8 lg:mt-[2.4vw]">
+        {areSidebar ? (
+          <div className="grid gap-6 lg:grid-cols-[15rem_minmax(0,1fr)] lg:gap-[2vw]">
+            <aside>
+              <button
+                type="button"
+                onClick={() => setFiltreDeschise(o => !o)}
+                aria-expanded={filtreDeschise}
+                className="btn-outline h-11 w-full justify-between px-5 text-[0.875rem] lg:hidden"
+              >
+                <span>{filtreDeschise ? "Ascunde subcategoriile" : "Subcategorii"}</span>
+                <ChevronDown className={`h-4 w-4 transition-transform ${filtreDeschise ? "rotate-180" : ""}`} />
+              </button>
+              <div className={`${filtreDeschise ? "block" : "hidden"} pt-5 lg:block lg:rounded-2xl lg:border lg:border-gold/20 lg:bg-forest-950/60 lg:p-5 lg:backdrop-blur-sm`}>
+                <p className="mb-3 text-[0.75rem] font-extrabold uppercase tracking-[0.14em] text-gold-bright">Subcategorie</p>
+                {pastile(true)}
+              </div>
+            </aside>
+            <div className="min-w-0">{grid}</div>
+          </div>
+        ) : (
+          <>
+            <div className="mb-8">{pastile(false)}</div>
+            {grid}
+          </>
+        )}
+      </div>
+    </PageShell>
   );
 }

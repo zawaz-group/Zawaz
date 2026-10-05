@@ -2,13 +2,25 @@
 import { useState, useEffect } from "react";
 import Link from "next/link";
 import { use } from "react";
-import NavBar from "../../components/NavBar";
-import Footer from "../../components/Footer";
+import PageShell from "../../components/PageShell";
 import ProdusCard from "../../components/ProdusCard";
+import Faq from "../../components/Faq";
+import { Check, Crown, Star } from "../../components/icons";
 import categorii from "../../../data/categorii.json";
 import { useCos } from "../../context/CosContext";
 import { hexCuloare, esteGradient, esteCuloareDeschisa, GRADIENT_NEGRU_ALB } from "../../lib/culori";
 import { galerieProdus, culoareImplicita } from "../../lib/imagini";
+
+const eticheta = "mb-3 text-[0.75rem] font-extrabold uppercase tracking-[0.14em] text-gold-bright";
+
+function Titlu({ children }) {
+  return (
+    <div className="flex items-center gap-3">
+      <h2 className="text-[max(18px,1.43vw)] font-extrabold uppercase tracking-[0.02em]">{children}</h2>
+      <Crown className="h-7 w-8 -translate-y-1" />
+    </div>
+  );
+}
 
 export default function ProdusDePage({ params }) {
   const { id } = use(params);
@@ -22,7 +34,6 @@ export default function ProdusDePage({ params }) {
   const [addedToCart, setAddedToCart] = useState(false);
   const [recenzii, setRecenzii] = useState([]);
   const [faq, setFaq] = useState([]);
-  const [openFaq, setOpenFaq] = useState(null);
   // Culorile adaugate din admin isi tin hex-ul aici, pe tipul de produs —
   // fara ele am sti doar numele culorii, nu si cum arata.
   const [optiuni, setOptiuni] = useState(null);
@@ -37,7 +48,7 @@ export default function ProdusDePage({ params }) {
       // e chiar imaginea ei, deci galeria si bulina trebuie sa fie de acord.
       if (found) {
         setSelectedCuloare(culoareImplicita(found));
-        setSimilare(lista.filter(p => p.category === found.category && p.id !== id).slice(0, 3));
+        setSimilare(lista.filter(p => p.category === found.category && p.id !== id).slice(0, 4));
       }
       setLoading(false);
     }).catch(() => { setProdus(null); setLoading(false); });
@@ -53,34 +64,32 @@ export default function ProdusDePage({ params }) {
 
   if (loading) {
     return (
-      <div style={{ background: "#F7F7F4", minHeight: "100vh" }}>
-        <NavBar />
-        <div style={{ display: "flex", alignItems: "center", justifyContent: "center", minHeight: "60vh" }}>
-          <p style={{ color: "#5D695F", fontSize: 15 }}>Se încarcă…</p>
+      <PageShell>
+        <div className="grid min-h-[50vh] place-items-center">
+          <p className="text-[0.9375rem] text-white/70">Se încarcă…</p>
         </div>
-        <Footer />
-      </div>
+      </PageShell>
     );
   }
 
   if (!produs) {
     return (
-      <div style={{ background: "#F7F7F4", minHeight: "100vh" }}>
-        <NavBar />
-        <div style={{ display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", minHeight: "60vh", gap: 16 }}>
-          <h1 style={{ fontSize: 48, fontWeight: 800, color: "#1D2820" }}>Produs negăsit</h1>
-          <Link href="/" style={{ color: "#1D2820", fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.1em", fontSize: 13 }}>
-            ← Înapoi acasă
+      <PageShell>
+        <div className="flex min-h-[50vh] flex-col items-center justify-center gap-5 text-center">
+          <h1 className="font-display text-[max(40px,5vw)] font-extrabold italic uppercase leading-none">
+            Produs <span className="gold-text">negăsit</span>
+          </h1>
+          <Link href="/produse" className="btn-gold h-11 px-7 text-[0.875rem]">
+            Vezi toate produsele
           </Link>
         </div>
-        <Footer />
-      </div>
+      </PageShell>
     );
   }
 
   const hasDiscount = produs.oldPrice;
   const discountPct = hasDiscount ? Math.round((1 - produs.price / produs.oldPrice) * 100) : null;
-  const categLabel = categorii.find(c => c.slug === produs.category)?.label || produs.category;
+  const categLabel = optiuni?.tipuriProdus?.find(t => t.value === produs.category)?.label || categorii.find(c => c.slug === produs.category)?.label || produs.category;
 
   const culoriCustom = optiuni?.culori?.[produs.category] || [];
 
@@ -92,6 +101,7 @@ export default function ProdusDePage({ params }) {
   // Categoriile alese pentru produs, asa cum au fost bifate in admin. Fiecare
   // duce in catalog cu filtrul respectiv deja aplicat.
   const grupuriCategorii = [
+    { titlu: "Subcategorie", cheie: "subcategorie", valori: produs.subcategorie ? [produs.subcategorie] : [] },
     { titlu: "Temă", cheie: "tema", valori: produs.tema || [] },
     { titlu: "Ocazie", cheie: "ocazie", valori: produs.ocazie || [] },
   ].filter(g => g.valori.length > 0);
@@ -103,117 +113,103 @@ export default function ProdusDePage({ params }) {
   };
 
   return (
-    <div style={{ background: "#F7F7F4", minHeight: "100vh" }}>
-      <NavBar />
+    <PageShell>
+      {/* Breadcrumb */}
+      <nav aria-label="Navigare" className="text-[0.8125rem] text-white/60 lg:text-[max(13px,0.85vw)]">
+        <Link href="/" className="transition hover:text-gold-bright">Acasă</Link>
+        <span className="mx-2 text-gold/60">/</span>
+        <Link href={`/produse?categorie=${encodeURIComponent(produs.category)}`} className="transition hover:text-gold-bright">{categLabel}</Link>
+        <span className="mx-2 text-gold/60">/</span>
+        <span className="text-white">{produs.name}</span>
+      </nav>
 
-      <div style={{ maxWidth: "var(--container)", margin: "0 auto", padding: "var(--section-padding)" }} className="page-content-top">
-        {/* Breadcrumb */}
-        <nav style={{ display: "flex", gap: 8, alignItems: "center", marginBottom: 40, fontSize: 13, color: "#5D695F" }}>
-          <Link href="/" style={{ color: "#5D695F", textDecoration: "none" }}>Acasă</Link>
-          <span>›</span>
-          <Link href={`/${produs.category}`} style={{ color: "#5D695F", textDecoration: "none" }}>{categLabel}</Link>
-          <span>›</span>
-          <span style={{ color: "#1D2820" }}>{produs.name}</span>
-        </nav>
-
-        {/* Main product layout */}
-        <div className="produse-grid">
-          {/* Image */}
-          <div style={{ position: "sticky", top: 100 }}>
-            <div style={{ position: "relative", width: "100%", aspectRatio: "1/1", overflow: "hidden", borderRadius: 16, background: "#f5f5f5" }}>
-              {mainImg && (
-                <img
-                  src={mainImg}
-                  alt={produs.name}
-                  style={{ width: "100%", height: "100%", objectFit: "cover", display: "block" }}
-                />
-              )}
-              {hasDiscount && (
-                <div style={{ position: "absolute", top: 20, left: 20, background: "#dc2626", color: "#fff", fontWeight: 700, fontSize: 14, padding: "6px 14px", borderRadius: 6 }}>
-                  -{discountPct}%
-                </div>
-              )}
-            </div>
-            {galleryImgs.length > 1 && (
-              <div style={{ display: "flex", gap: 10, marginTop: 12, flexWrap: "wrap" }}>
-                {galleryImgs.map((img, i) => (
-                  <button
-                    key={i}
-                    onClick={() => setActiveImgIdx(i)}
-                    style={{
-                      width: 68, height: 68, borderRadius: 10, overflow: "hidden", padding: 0, cursor: "pointer",
-                      border: activeImgIdx === i ? "2px solid #2C662D" : "1px solid #DCE4D9", background: "none", flexShrink: 0,
-                    }}
-                  >
-                    <img src={img} alt="" style={{ width: "100%", height: "100%", objectFit: "cover", display: "block" }} />
-                  </button>
-                ))}
+      <div className="mt-6 grid items-start gap-8 lg:mt-[2vw] lg:grid-cols-2 lg:gap-[3.5vw]">
+        {/* Imagine */}
+        <div className="lg:sticky lg:top-8">
+          <div className="relative aspect-[1336/1096] w-full overflow-hidden rounded-2xl border border-gold/25 bg-[radial-gradient(70%_70%_at_50%_45%,rgba(244,200,74,0.1),transparent_75%),linear-gradient(180deg,#0b120e,#050a07)] shadow-[0_0_1.5rem_rgba(31,106,54,0.3)]">
+            {mainImg && (
+              // eslint-disable-next-line @next/next/no-img-element
+              <img src={mainImg} alt={produs.name} className="h-full w-full object-contain p-[3%]" />
+            )}
+            {hasDiscount && (
+              <div className="absolute left-4 top-4 rounded-full bg-[#e03c2f] px-3.5 py-1.5 text-[0.875rem] font-extrabold text-white">
+                -{discountPct}%
               </div>
             )}
           </div>
-
-          {/* Info */}
-          <div style={{ display: "flex", flexDirection: "column", gap: 28 }}>
-            {/* Tags */}
-            <div style={{ display: "flex", gap: 8 }}>
-              {produs.tags?.includes("produse-noi") && (
-                <span style={{ background: "#2C662D", color: "#fff", fontSize: 11, fontWeight: 700, padding: "4px 12px", borderRadius: 4, textTransform: "uppercase", letterSpacing: "0.1em" }}>NOU</span>
-              )}
-              {hasDiscount && (
-                <span style={{ background: "#dc2626", color: "#fff", fontSize: 11, fontWeight: 700, padding: "4px 12px", borderRadius: 4, textTransform: "uppercase" }}>REDUCERE</span>
-              )}
+          {galleryImgs.length > 1 && (
+            <div className="mt-3 flex flex-wrap gap-2.5">
+              {galleryImgs.map((img, i) => (
+                <button
+                  key={i}
+                  type="button"
+                  aria-label={`Imaginea ${i + 1}`}
+                  aria-pressed={activeImgIdx === i}
+                  onClick={() => setActiveImgIdx(i)}
+                  className={`h-[4.25rem] w-[4.25rem] shrink-0 cursor-pointer overflow-hidden rounded-xl border-2 bg-[#0b120e] p-0 transition ${
+                    activeImgIdx === i ? "border-gold-bright shadow-[0_0_0.875rem_rgba(244,200,74,0.35)]" : "border-gold/20 hover:border-gold/60"
+                  }`}
+                >
+                  {/* eslint-disable-next-line @next/next/no-img-element */}
+                  <img src={img} alt="" className="h-full w-full object-contain p-[6%]" />
+                </button>
+              ))}
             </div>
+          )}
+        </div>
 
-            <div>
-              <h1 style={{ fontSize: 34, fontWeight: 800, color: "#1D2820", margin: 0, letterSpacing: "-0.01em" }}>{produs.name}</h1>
-              <p style={{ fontSize: 13, color: "#5D695F", marginTop: 6, textTransform: "uppercase", letterSpacing: "0.1em" }}>{categLabel}</p>
-            </div>
+        {/* Info */}
+        <div className="flex flex-col gap-6">
+          <div className="flex gap-2">
+            {produs.tags?.includes("produse-noi") && (
+              <span className="rounded-full bg-brand px-3 py-1 text-[0.6875rem] font-extrabold uppercase tracking-[0.1em] text-white">Nou</span>
+            )}
+            {hasDiscount && (
+              <span className="rounded-full bg-[#e03c2f] px-3 py-1 text-[0.6875rem] font-extrabold uppercase tracking-[0.1em] text-white">Reducere</span>
+            )}
+          </div>
 
-            {/* Price */}
-            <div style={{ display: "flex", alignItems: "center", gap: 16 }}>
-              <span style={{ fontSize: 32, fontWeight: 800, color: hasDiscount ? "#dc2626" : "#1D2820" }}>
-                {produs.price.toLocaleString("ro-RO")} lei
-              </span>
-              {hasDiscount && (
-                <span style={{ fontSize: 20, color: "#5D695F", textDecoration: "line-through" }}>
-                  {produs.oldPrice.toLocaleString("ro-RO")} lei
-                </span>
-              )}
-            </div>
+          <div>
+            <h1 className="font-display text-[max(32px,3.2vw)] font-extrabold italic uppercase leading-[0.95] tracking-[-0.01em] text-white">{produs.name}</h1>
+            <p className="mt-2 text-[0.8125rem] uppercase tracking-[0.1em] text-white/60">{categLabel}</p>
+          </div>
 
-            <p style={{ fontSize: 15, color: "#5D695F", lineHeight: 1.7, margin: 0 }}>{produs.descriere}</p>
+          <div className="flex flex-wrap items-baseline gap-4">
+            <span className="gold-text text-[2rem] font-extrabold leading-none lg:text-[max(30px,2.4vw)]">
+              {produs.price.toLocaleString("ro-RO")} lei
+            </span>
+            {hasDiscount && (
+              <span className="text-[1.25rem] text-white/50 line-through">{produs.oldPrice.toLocaleString("ro-RO")} lei</span>
+            )}
+          </div>
 
-            {/* Categoriile alese pentru produs (temă / ocazie) */}
-            {grupuriCategorii.map(g => (
-              <div key={g.cheie}>
-                <p style={{ fontSize: 12, fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.15em", color: "#1D2820", marginBottom: 12 }}>
-                  {g.titlu}
-                </p>
-                <div style={{ display: "flex", gap: 8, flexWrap: "wrap" }}>
-                  {g.valori.map(v => (
-                    <Link
-                      key={v}
-                      href={`/produse?categorie=${produs.category}&${g.cheie}=${encodeURIComponent(v)}`}
-                      style={{
-                        padding: "6px 14px", borderRadius: 999, fontSize: 13, fontWeight: 600,
-                        background: "#EEF2EC", color: "#5D695F", textDecoration: "none",
-                        border: "1px solid #DCE4D9",
-                      }}
-                    >
-                      {v}
-                    </Link>
-                  ))}
-                </div>
+          <p className="text-[0.9375rem] leading-[1.75] text-white/80 lg:text-[max(14px,1vw)]">{produs.descriere}</p>
+
+          {/* Categoriile alese pentru produs (temă / ocazie) */}
+          {grupuriCategorii.map(g => (
+            <div key={g.cheie}>
+              <p className={eticheta}>{g.titlu}</p>
+              <div className="flex flex-wrap gap-2">
+                {g.valori.map(v => (
+                  <Link
+                    key={v}
+                    href={`/produse?categorie=${encodeURIComponent(produs.category)}&${g.cheie}=${encodeURIComponent(v)}`}
+                    className="rounded-full border border-gold/30 bg-forest-950/70 px-3.5 py-1.5 text-[0.8125rem] font-semibold text-white transition hover:border-gold/70 hover:text-gold-bright"
+                  >
+                    {v}
+                  </Link>
+                ))}
               </div>
-            ))}
+            </div>
+          ))}
 
-            {/* Culori — doar daca produsul chiar are culori de ales */}
-            {(produs.culori || []).length > 0 && (
+          {/* Culori — doar daca produsul chiar are culori de ales */}
+          {(produs.culori || []).length > 0 && (
             <div>
-              <p style={{ fontSize: 12, fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.15em", color: "#1D2820", marginBottom: 12 }}>
-                Culoare: <span style={{ fontWeight: 400, color: "#5D695F" }}>{selectedCuloare || "—"}</span>
+              <p className={eticheta}>
+                Culoare: <span className="font-normal normal-case tracking-normal text-white/80">{selectedCuloare || "—"}</span>
               </p>
-              <div style={{ display: "flex", gap: 12, flexWrap: "wrap" }}>
+              <div className="flex flex-wrap gap-3">
                 {(produs.culori || []).map(c => {
                   const activ = selectedCuloare === c;
                   const hex = hexCuloare(c, culoriCustom);
@@ -221,150 +217,136 @@ export default function ProdusDePage({ params }) {
                   return (
                     <button
                       key={c}
+                      type="button"
                       onClick={() => selectCuloare(c)}
                       title={c}
                       aria-label={c}
                       aria-pressed={activ}
-                      style={{
-                        width: 40, height: 40, borderRadius: "50%", cursor: "pointer",
-                        // Fara hex cunoscut (culoare stearsa din admin) aratam
-                        // tot butonul cu numele scris, ca sa ramana alegibila.
-                        background: fundal || "#fff",
-                        border: fundal ? "1px solid #DCE4D9" : "1px solid #5D695F",
-                        // Conturul selectiei sta in afara bulinei, ca sa nu
-                        // acopere culoarea in sine.
-                        outline: activ ? "2px solid #2C662D" : "2px solid transparent",
-                        outlineOffset: 2,
-                        display: "flex", alignItems: "center", justifyContent: "center",
-                        fontSize: 10, fontWeight: 700, color: "#5D695F",
-                        transition: "outline-color 0.2s", padding: 0,
-                      }}
+                      // Fara hex cunoscut (culoare stearsa din admin) aratam
+                      // tot butonul cu numele scris, ca sa ramana alegibila.
+                      style={{ background: fundal || "#0b1a12" }}
+                      // Conturul selectiei sta in afara bulinei, ca sa nu
+                      // acopere culoarea in sine.
+                      className={`grid h-10 w-10 cursor-pointer place-items-center rounded-full border border-white/30 p-0 text-[0.625rem] font-bold text-white/80 outline-2 outline-offset-2 transition-[outline-color] ${
+                        activ ? "outline-gold-bright" : "outline-transparent"
+                      }`}
                     >
-                      {!fundal ? c.slice(0, 3) : activ && (
-                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none"
-                          stroke={esteCuloareDeschisa(c) ? "#1D2820" : "#fff"} strokeWidth="3"
-                          strokeLinecap="round" strokeLinejoin="round">
-                          <path d="M20 6L9 17l-5-5" />
-                        </svg>
-                      )}
+                      {!fundal ? c.slice(0, 3) : activ && <Check className={`h-4 w-4 ${esteCuloareDeschisa(c) ? "text-forest-950" : "text-white"}`} />}
                     </button>
                   );
                 })}
               </div>
             </div>
-            )}
+          )}
 
-            {/* Marimi */}
-            {produs.marimi?.length > 0 && <div>
-              <p style={{ fontSize: 12, fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.15em", color: "#1D2820", marginBottom: 12 }}>
-                Mărime: <span style={{ fontWeight: 400, color: "#5D695F" }}>{selectedMarime || "—"}</span>
+          {/* Marimi */}
+          {produs.marimi?.length > 0 && (
+            <div>
+              <p className={eticheta}>
+                Mărime: <span className="font-normal normal-case tracking-normal text-white/80">{selectedMarime || "—"}</span>
               </p>
-              <div style={{ display: "flex", gap: 10, flexWrap: "wrap" }}>
+              <div className="flex flex-wrap gap-2.5">
                 {(produs.marimi || []).map(m => (
-                  <button key={m} onClick={() => setSelectedMarime(m)} style={{
-                    width: 52, height: 52, border: selectedMarime === m ? "2px solid #2C662D" : "1px solid #DCE4D9",
-                    background: selectedMarime === m ? "#2C662D" : "#fff", color: selectedMarime === m ? "#fff" : "#5D695F",
-                    fontSize: 14, fontWeight: 600, borderRadius: 8, cursor: "pointer", transition: "all 0.2s"
-                  }}>{m}</button>
+                  <button
+                    key={m}
+                    type="button"
+                    aria-pressed={selectedMarime === m}
+                    onClick={() => setSelectedMarime(m)}
+                    className={`h-[3.25rem] min-w-[3.25rem] cursor-pointer rounded-xl border px-3 text-[0.875rem] font-semibold transition ${
+                      selectedMarime === m
+                        ? "border-gold-bright bg-gradient-to-b from-[#ffd868] to-[#e3a92a] text-forest-950"
+                        : "border-gold/30 bg-forest-950/70 text-white hover:border-gold/70 hover:text-gold-bright"
+                    }`}
+                  >
+                    {m}
+                  </button>
                 ))}
               </div>
-            </div>}
-
-            {/* Add to cart */}
-            <button
-              onClick={handleAddToCart}
-              style={{
-                width: "100%", padding: "18px 0", background: addedToCart ? "#16a34a" : "#2C662D",
-                color: "#fff", fontSize: 15, fontWeight: 800, textTransform: "uppercase",
-                letterSpacing: "0.15em", border: "none", borderRadius: 10, cursor: "pointer",
-                transition: "background 0.3s"
-              }}
-            >
-              {addedToCart ? "✓ Adăugat în coș!" : "Adaugă în coș"}
-            </button>
-
-            {/* Features */}
-            <div style={{ borderTop: "1px solid #DCE4D9", paddingTop: 24, display: "flex", flexDirection: "column", gap: 10 }}>
-              {["Livrare gratuită peste 500 lei", "Returnare gratuită în 30 de zile", "Garanție autenticitate Paradox Craft"].map(f => (
-                <div key={f} style={{ display: "flex", alignItems: "center", gap: 10, fontSize: 14, color: "#5D695F" }}>
-                  <span style={{ fontSize: 16 }}>✓</span> {f}
-                </div>
-              ))}
             </div>
-          </div>
+          )}
+
+          {/* Adauga in cos */}
+          <button
+            type="button"
+            onClick={handleAddToCart}
+            className={`btn-gold h-14 w-full gap-3 text-[0.9375rem] uppercase tracking-[0.1em] ${addedToCart ? "brightness-110" : ""}`}
+          >
+            {addedToCart ? (
+              <>
+                <Check className="h-5 w-5" /> Adăugat în coș!
+              </>
+            ) : (
+              "Adaugă în coș"
+            )}
+          </button>
+
+          {/* Avantaje */}
+          <ul className="flex flex-col gap-2.5 border-t border-gold/20 pt-6">
+            {["Livrare gratuită peste 500 lei", "Returnare gratuită în 30 de zile", "Garanție autenticitate Paradox Craft"].map(f => (
+              <li key={f} className="flex items-center gap-3 text-[0.875rem] text-white/80">
+                <Check className="h-4 w-4 shrink-0 text-gold-bright" /> {f}
+              </li>
+            ))}
+          </ul>
         </div>
-
-        {/* Recenzii produs */}
-        {recenzii.length > 0 && (
-          <div style={{ marginTop: 96 }}>
-            <h2 style={{ fontSize: 22, fontWeight: 800, textTransform: "uppercase", letterSpacing: "0.2em", color: "#1D2820", marginBottom: 32 }}>
-              Recenzii
-            </h2>
-            <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(260px, 1fr))", gap: 20 }}>
-              {recenzii.map(r => (
-                <div key={r.id} style={{ background: "#fff", border: "1px solid #DCE4D9", borderRadius: 14, padding: 20 }}>
-                  <div style={{ display: "flex", gap: 12, marginBottom: 12, alignItems: "center" }}>
-                    {r.avatar && <img src={r.avatar} alt="" style={{ width: 44, height: 44, borderRadius: "50%", objectFit: "cover", flexShrink: 0 }} />}
-                    <div>
-                      <p style={{ margin: 0, fontWeight: 700, color: "#1D2820", fontSize: 14 }}>{r.nume}</p>
-                      <div style={{ display: "flex", gap: 2, marginTop: 2 }}>
-                        {[...Array(5)].map((_, i) => (
-                          <svg key={i} width={13} height={13} viewBox="0 0 24 24" fill={i < (r.rating || 5) ? "#D5B358" : "#e8e4de"}>
-                            <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/>
-                          </svg>
-                        ))}
-                      </div>
-                    </div>
-                  </div>
-                  <p style={{ margin: 0, color: "#5D695F", fontSize: 14, fontStyle: "italic", lineHeight: 1.6 }}>"{r.text}"</p>
-                </div>
-              ))}
-            </div>
-          </div>
-        )}
-
-        {/* FAQ produs */}
-        {faq.length > 0 && (
-          <div style={{ marginTop: 96, maxWidth: 800 }}>
-            <h2 style={{ fontSize: 22, fontWeight: 800, textTransform: "uppercase", letterSpacing: "0.2em", color: "#1D2820", marginBottom: 32 }}>
-              Întrebări frecvente
-            </h2>
-            <div style={{ display: "flex", flexDirection: "column" }}>
-              {faq.map((f, i) => (
-                <div key={f.id} style={{ borderBottom: "1px solid #DCE4D9" }}>
-                  <button
-                    onClick={() => setOpenFaq(openFaq === i ? null : i)}
-                    style={{ width: "100%", background: "none", border: "none", cursor: "pointer", display: "flex", alignItems: "center", justifyContent: "space-between", padding: "18px 4px", gap: 16, textAlign: "left" }}
-                  >
-                    <span style={{ fontSize: 15, fontWeight: 700, color: "#1D2820", lineHeight: 1.4 }}>{f.intrebare}</span>
-                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#D5B358" strokeWidth={2.5} strokeLinecap="round" style={{ flexShrink: 0, transition: "transform 0.3s ease", transform: openFaq === i ? "rotate(45deg)" : "rotate(0deg)" }}>
-                      <line x1="12" y1="5" x2="12" y2="19"/>
-                      <line x1="5" y1="12" x2="19" y2="12"/>
-                    </svg>
-                  </button>
-                  <div style={{ overflow: "hidden", maxHeight: openFaq === i ? 400 : 0, transition: "max-height 0.4s cubic-bezier(0.4,0,0.2,1)" }}>
-                    <p style={{ fontSize: 14, color: "#5D695F", lineHeight: 1.7, margin: "0 4px 18px" }}>{f.raspuns}</p>
-                  </div>
-                </div>
-              ))}
-            </div>
-          </div>
-        )}
-
-        {/* Similar products */}
-        {similare.length > 0 && (
-          <div style={{ marginTop: 96 }}>
-            <h2 className="similare-heading" style={{ fontSize: 22, fontWeight: 800, textTransform: "uppercase", letterSpacing: "0.2em", color: "#1D2820", marginBottom: 40 }}>
-              Produse Similare
-            </h2>
-            <div className="similare-grid">
-              {similare.map(p => <ProdusCard key={p.id} produs={p} />)}
-            </div>
-          </div>
-        )}
       </div>
 
-      <Footer />
-    </div>
+      {/* Recenzii produs */}
+      {recenzii.length > 0 && (
+        <section className="mt-16 lg:mt-[5vw]">
+          <Titlu>
+            Recenzii <span className="text-gold-bright">produs</span>
+          </Titlu>
+          <ul className="mt-6 grid gap-5 sm:grid-cols-2 lg:grid-cols-3 lg:gap-[1.5vw]">
+            {recenzii.map(r => (
+              <li key={r.id} className="rounded-2xl border border-gold/25 bg-gradient-to-b from-[#0b1a12] to-[#04100b] p-5 shadow-[0_0_1.5rem_rgba(31,106,54,0.3)]">
+                <div className="mb-3 flex items-center gap-3">
+                  <span className="grid h-11 w-11 shrink-0 place-items-center overflow-hidden rounded-full border-2 border-gold/60 bg-forest-950 font-extrabold text-gold-bright">
+                    {r.avatar ? (
+                      // eslint-disable-next-line @next/next/no-img-element
+                      <img src={r.avatar} alt="" className="h-full w-full object-cover" />
+                    ) : (
+                      (r.nume || "?").charAt(0).toUpperCase()
+                    )}
+                  </span>
+                  <div>
+                    <p className="text-[0.875rem] font-bold text-white">{r.nume}</p>
+                    <div className="mt-0.5 flex gap-0.5 text-gold-bright" role="img" aria-label={`${r.rating || 5} din 5 stele`}>
+                      {Array.from({ length: 5 }, (_, i) => (
+                        <Star key={i} className={`h-3.5 w-3.5 ${i < (r.rating || 5) ? "" : "opacity-25"}`} fill="currentColor" strokeWidth={0} />
+                      ))}
+                    </div>
+                  </div>
+                </div>
+                <p className="text-[0.875rem] italic leading-relaxed text-white/80">„{r.text}”</p>
+              </li>
+            ))}
+          </ul>
+        </section>
+      )}
+
+      {/* FAQ produs */}
+      {faq.length > 0 && (
+        <section className="mt-16 max-w-[50rem] lg:mt-[5vw]">
+          <Faq id="faq-produs" items={faq.map(f => ({ q: f.intrebare, a: f.raspuns }))} />
+        </section>
+      )}
+
+      {/* Produse similare */}
+      {similare.length > 0 && (
+        <section className="mt-16 lg:mt-[5vw]">
+          <Titlu>
+            Produse <span className="text-gold-bright">similare</span>
+          </Titlu>
+          <ul className="mt-6 grid grid-cols-2 gap-x-4 gap-y-7 md:grid-cols-3 lg:grid-cols-4 lg:gap-x-[1.3vw]">
+            {similare.map(p => (
+              <li key={p.id}>
+                <ProdusCard produs={p} />
+              </li>
+            ))}
+          </ul>
+        </section>
+      )}
+    </PageShell>
   );
 }

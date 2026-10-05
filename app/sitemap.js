@@ -1,6 +1,5 @@
 import { readDb } from "./lib/db";
 import { SITE_URL } from "./lib/site";
-import categorii from "../data/categorii.json";
 
 // Lista de produse se schimbă din admin, nu la deploy — generăm sitemap-ul
 // la cerere, ca produsele noi să fie indexabile fără rebuild.
@@ -34,18 +33,6 @@ export default async function sitemap() {
     priority: r.priority,
   }));
 
-  // Category landing pages from the live DB. "stative" si "pusculite" nu mai
-  // au pagina dedicata — catalogul lor e /produse?categorie=..., deja in
-  // STATIC_ROUTES prin /produse.
-  const categoryEntries = (categorii || [])
-    .filter((c) => c.slug !== "stative" && c.slug !== "pusculite")
-    .map((c) => ({
-      url: `${SITE_URL}/${c.slug}`,
-      lastModified: now,
-      changeFrequency: "weekly",
-      priority: 0.7,
-    }));
-
   // Individual product pages from the live DB.
   let productEntries = [];
   try {
@@ -63,7 +50,7 @@ export default async function sitemap() {
 
   // De-duplicate by URL (a few category slugs overlap with static routes).
   const seen = new Set();
-  return [...staticEntries, ...categoryEntries, ...productEntries].filter((e) => {
+  return [...staticEntries, ...productEntries].filter((e) => {
     if (seen.has(e.url)) return false;
     seen.add(e.url);
     return true;

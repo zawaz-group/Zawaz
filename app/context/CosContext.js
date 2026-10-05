@@ -5,6 +5,8 @@ const CosContext = createContext(null);
 
 export function CosProvider({ children }) {
   const [cos, setCos] = useState([]);
+  // Sertarul coșului se deschide din header și din butonul plutitor, deci starea lui stă aici.
+  const [cosDeschis, setCosDeschis] = useState(false);
 
   useEffect(() => {
     const saved = localStorage.getItem("cos");
@@ -16,6 +18,8 @@ export function CosProvider({ children }) {
   }, [cos]);
 
   function adaugaInCos(produs, culoare = null, marime = null) {
+    // La orice adăugare se deschide direct coșul.
+    setCosDeschis(true);
     setCos(prev => {
       const key = `${produs.id}-${culoare}-${marime}`;
       const existent = prev.find(i => i.key === key);
@@ -43,7 +47,7 @@ export function CosProvider({ children }) {
   const numarArticole = cos.reduce((s, i) => s + i.cantitate, 0);
 
   return (
-    <CosContext.Provider value={{ cos, adaugaInCos, stergeItem, actualizeazaCantitate, golesteCos, total, numarArticole }}>
+    <CosContext.Provider value={{ cos, adaugaInCos, stergeItem, actualizeazaCantitate, golesteCos, total, numarArticole, cosDeschis, deschideCos: () => setCosDeschis(true), inchideCos: () => setCosDeschis(false) }}>
       {children}
     </CosContext.Provider>
   );

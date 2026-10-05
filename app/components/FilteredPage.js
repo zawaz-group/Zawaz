@@ -1,100 +1,52 @@
-"use client";
 import Link from "next/link";
-import NavBar from "./NavBar";
-import Footer from "./Footer";
+import PageShell, { PageHeading } from "./PageShell";
 import ProdusCard from "./ProdusCard";
+import { COLOR_MAP, GRADIENT_NEGRU_ALB, esteGradient } from "../lib/culori";
 
-const COLOR_MAP = {
-  "Negru": "#1a1a1a", "Alb": "#f5f5f5", "Gri": "#9e9e9e", "Argintiu": "#c0c0c0",
-  "Roz": "#f48fb1", "Albastru": "#42a5f5", "Verde": "#66bb6a", "Portocaliu": "#ffa726",
-  "Rosu": "#ef5350", "Galben": "#ffee58", "Mov": "#ab47bc", "Maro": "#8d6e63", "Bej": "#d7ccc8",
-};
+const TIPURI = { culoare: "Culoare", tema: "Temă", ocazie: "Ocazie" };
 
 export default function FilteredPage({ type, value, produse }) {
-  const typeLabels = { culoare: "Culoare", tema: "Temă", ocazie: "Ocazie" };
-  const typeLabel = typeLabels[type] || type;
+  const tip = TIPURI[type] || type;
 
-  const bannerBg =
-    type === "culoare" ? (COLOR_MAP[value] || "#e8e4de") :
-    type === "tema" ? "#1e2235" :
-    "#EEF2EC";
+  const titlu =
+    type === "culoare" ? { title: "Produse", accent: value } : type === "tema" ? { title: "Stil", accent: value } : { title: "", accent: value };
 
-  const bannerTextColor =
-    type === "culoare"
-      ? (["Alb", "Gri", "Bej", "Argintiu", "Galben"].includes(value) ? "#1D2820" : "#fff")
-      : type === "tema" ? "#fff" : "#1D2820";
+  const bulina = type === "culoare" ? (esteGradient(value) ? GRADIENT_NEGRU_ALB : COLOR_MAP[value]) : null;
 
   return (
-    <div style={{ background: "#F7F7F4", minHeight: "100vh" }}>
-      <NavBar />
+    <PageShell>
+      {bulina && (
+        <span
+          aria-hidden
+          className="mb-4 block h-12 w-12 rounded-full border border-white/30 shadow-[0_0.25rem_1rem_rgba(0,0,0,0.5)]"
+          style={{ background: bulina }}
+        />
+      )}
+      <PageHeading
+        crumbs={[{ label: "Acasă", href: "/" }, { label: "Produse", href: "/produse" }, { label: `${tip}: ${value}` }]}
+        title={titlu.title}
+        accent={titlu.accent}
+        description={`${produse.length} ${produse.length === 1 ? "produs găsit" : "produse găsite"}`}
+      />
 
-      {/* Banner */}
-      <div style={{
-        background: bannerBg,
-        padding: "clamp(48px, 8vw, 80px) clamp(20px, 4vw, 64px) clamp(40px, 6vw, 64px)",
-        position: "relative",
-        overflow: "hidden",
-      }}>
-        {type === "culoare" && (
-          <div style={{
-            position: "absolute", inset: 0,
-            background: `radial-gradient(ellipse at 70% 50%, ${COLOR_MAP[value] || "#e8e4de"} 0%, ${COLOR_MAP[value] || "#e8e4de"}88 60%, transparent 100%)`,
-            opacity: 0.4,
-          }} />
-        )}
-        <div style={{ maxWidth: 1280, margin: "0 auto", position: "relative", zIndex: 1 }}>
-          {/* Breadcrumb */}
-          <div style={{ display: "flex", alignItems: "center", gap: 8, marginBottom: 20 }}>
-            <Link href="/" style={{ color: bannerTextColor, opacity: 0.6, fontSize: 13, textDecoration: "none" }}>Acasă</Link>
-            <span style={{ color: bannerTextColor, opacity: 0.4, fontSize: 13 }}>/</span>
-            <Link href={`/${type}`} style={{ color: bannerTextColor, opacity: 0.6, fontSize: 13, textDecoration: "none" }}>{typeLabel}</Link>
-            <span style={{ color: bannerTextColor, opacity: 0.4, fontSize: 13 }}>/</span>
-            <span style={{ color: bannerTextColor, fontSize: 13, fontWeight: 600 }}>{value}</span>
-          </div>
-
-          {type === "culoare" && (
-            <span style={{
-              display: "inline-flex", alignItems: "center", justifyContent: "center",
-              width: 56, height: 56, borderRadius: "50%", marginBottom: 16,
-              background: COLOR_MAP[value] || "#ccc",
-              border: value === "Alb" ? "2px solid #DCE4D9" : "none",
-              boxShadow: "0 4px 16px rgba(0,0,0,0.2)",
-            }} />
-          )}
-
-          <h1 style={{
-            fontSize: "clamp(32px, 5vw, 64px)",
-            fontWeight: 900,
-            color: bannerTextColor,
-            margin: "0 0 12px",
-            lineHeight: 1.05,
-            letterSpacing: "-0.03em",
-          }}>
-            {type === "culoare" && `Produse ${value}`}
-            {type === "tema" && `Stil ${value}`}
-            {type === "ocazie" && value}
-          </h1>
-          <p style={{ color: bannerTextColor, opacity: 0.7, fontSize: 16, margin: 0 }}>
-            {produse.length} {produse.length === 1 ? "produs găsit" : "produse găsite"}
-          </p>
-        </div>
-      </div>
-
-      {/* Products */}
-      <main style={{ maxWidth: 1280, margin: "0 auto", padding: "clamp(40px, 6vw, 64px) clamp(20px, 4vw, 64px)" }}>
+      <div className="mt-8 lg:mt-[2.4vw]">
         {produse.length === 0 ? (
-          <div style={{ textAlign: "center", padding: "80px 0", color: "#5D695F" }}>
-            <p style={{ fontSize: 18, fontWeight: 600 }}>Niciun produs găsit.</p>
-            <Link href="/" style={{ marginTop: 16, display: "inline-block", padding: "12px 24px", background: "#2C662D", color: "#fff", borderRadius: 10, textDecoration: "none", fontWeight: 700 }}>Înapoi acasă</Link>
+          <div className="py-16 text-center">
+            <p className="text-[1.125rem] font-semibold text-white/80">Niciun produs găsit.</p>
+            <Link href="/produse" className="btn-gold mt-5 h-11 px-7 text-[0.875rem]">
+              Vezi toate produsele
+            </Link>
           </div>
         ) : (
-          <div style={{ display: "grid", gridAutoRows: "1fr", gridTemplateColumns: "repeat(auto-fill, minmax(240px, 1fr))", gap: 32 }}>
-            {produse.map(p => <ProdusCard key={p.id} produs={p} />)}
-          </div>
+          <ul className="grid grid-cols-2 gap-x-4 gap-y-7 md:grid-cols-3 lg:grid-cols-4 lg:gap-x-[1.3vw] lg:gap-y-[2.4vw]">
+            {produse.map(p => (
+              <li key={p.id}>
+                <ProdusCard produs={p} />
+              </li>
+            ))}
+          </ul>
         )}
-      </main>
-
-      <Footer />
-    </div>
+      </div>
+    </PageShell>
   );
 }

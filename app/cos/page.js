@@ -1,16 +1,13 @@
 "use client";
 import { useState } from "react";
-import NavBar from "../components/NavBar";
-import Footer from "../components/Footer";
 import Link from "next/link";
+import PageShell, { PageHeading } from "../components/PageShell";
+import { ArrowLeft, Cart, Check, Close, Minus, Plus } from "../components/icons";
 import { useCos } from "../context/CosContext";
 import { imaginePrincipala } from "../lib/imagini";
 
-const inputStyle = {
-  width: "100%", padding: "12px 14px", border: "1.5px solid #DCE4D9",
-  borderRadius: 8, fontSize: 15, outline: "none", boxSizing: "border-box",
-  fontFamily: "inherit", transition: "border 0.2s",
-};
+const lbl = "mb-1.5 block text-[0.75rem] font-semibold text-white/80";
+const eroareCls = "mt-1 text-[0.75rem] text-[#ff7a6e]";
 
 export default function CosPage() {
   const { cos, stergeItem, actualizeazaCantitate, total, numarArticole, golesteCos } = useCos();
@@ -56,157 +53,157 @@ export default function CosPage() {
 
   if (etapa === "confirmat") {
     return (
-      <>
-        <NavBar />
-        <main style={{ minHeight: "70vh", maxWidth: 560, margin: "0 auto", padding: "var(--section-padding)", textAlign: "center" }}>
-          <div style={{ marginBottom: 24, display: "flex", justifyContent: "center" }}><svg width="72" height="72" viewBox="0 0 24 24" fill="none" stroke="#22c55e" strokeWidth={1.5} xmlns="http://www.w3.org/2000/svg"><circle cx="12" cy="12" r="10"/><path strokeLinecap="round" strokeLinejoin="round" d="M9 12l2 2 4-4"/></svg></div>
-          <h1 style={{ fontSize: 28, fontWeight: 800, color: "#1D2820", marginBottom: 12 }}>Comandă plasată!</h1>
-          <p style={{ color: "#5D695F", fontSize: 16, lineHeight: 1.7, marginBottom: 36 }}>
-            Îți mulțumim, <b>{form.nume}</b>! Comanda ta a fost primită și te vom contacta în curând.
+      <PageShell narrow>
+        <div className="py-10 text-center">
+          <span className="mx-auto mb-6 grid h-20 w-20 place-items-center rounded-full border-2 border-gold-bright text-gold-bright shadow-[0_0_1.5rem_rgba(244,200,74,0.3)]">
+            <Check className="h-10 w-10" />
+          </span>
+          <h1 className="font-display text-[max(34px,3.4vw)] font-extrabold italic uppercase leading-none">
+            Comandă <span className="gold-text">plasată!</span>
+          </h1>
+          <p className="mx-auto mb-9 mt-4 max-w-[30rem] text-[1rem] leading-relaxed text-white/80">
+            Îți mulțumim, <b className="text-white">{form.nume}</b>! Comanda ta a fost primită și te vom contacta în curând.
           </p>
-          <Link href="/" style={{ display: "inline-block", background: "#2C662D", color: "#fff", padding: "14px 36px", borderRadius: 10, fontWeight: 700, fontSize: 14, textDecoration: "none", letterSpacing: "0.08em", textTransform: "uppercase" }}>
+          <Link href="/" className="btn-gold h-12 px-9 text-[0.875rem] uppercase tracking-[0.08em]">
             Înapoi acasă
           </Link>
-        </main>
-        <Footer />
-      </>
+        </div>
+      </PageShell>
     );
   }
 
   if (etapa === "formular") {
     return (
-      <>
-        <NavBar />
-        <main style={{ minHeight: "70vh", maxWidth: 600, margin: "0 auto", padding: "var(--section-padding)" }}>
-          <button onClick={() => setEtapa("cos")} style={{ background: "none", border: "none", cursor: "pointer", fontSize: 14, color: "#5D695F", marginBottom: 32, padding: 0, fontWeight: 600 }}>
-            ← Înapoi la coș
-          </button>
-          <h1 style={{ fontSize: 28, fontWeight: 800, color: "#1D2820", marginBottom: 8 }}>Detalii livrare</h1>
-          <p style={{ color: "#5D695F", fontSize: 14, marginBottom: 36 }}>Completează datele pentru a finaliza comanda</p>
+      <PageShell narrow>
+        <button type="button" onClick={() => setEtapa("cos")} className="mb-6 inline-flex cursor-pointer items-center gap-2 text-[0.875rem] font-semibold text-white/70 transition hover:text-gold-bright">
+          <ArrowLeft className="h-4 w-4" /> Înapoi la coș
+        </button>
+        <PageHeading title="Detalii" accent="livrare" description="Completează datele pentru a finaliza comanda." />
 
-          <div style={{ display: "flex", flexDirection: "column", gap: 20 }}>
-            <div className="form-2col">
-              <div>
-                <label style={{ fontSize: 13, fontWeight: 700, color: "#1D2820", display: "block", marginBottom: 6 }}>Nume *</label>
-                <input style={{ ...inputStyle, borderColor: erori.nume ? "#dc2626" : "#DCE4D9" }} value={form.nume} onChange={e => set("nume", e.target.value)} placeholder="Popescu" />
-                {erori.nume && <p style={{ color: "#dc2626", fontSize: 12, margin: "4px 0 0" }}>{erori.nume}</p>}
-              </div>
-              <div>
-                <label style={{ fontSize: 13, fontWeight: 700, color: "#1D2820", display: "block", marginBottom: 6 }}>Prenume *</label>
-                <input style={{ ...inputStyle, borderColor: erori.prenume ? "#dc2626" : "#DCE4D9" }} value={form.prenume} onChange={e => set("prenume", e.target.value)} placeholder="Ion" />
-                {erori.prenume && <p style={{ color: "#dc2626", fontSize: 12, margin: "4px 0 0" }}>{erori.prenume}</p>}
-              </div>
-            </div>
-
+        <div className="mt-8 flex flex-col gap-5">
+          <div className="grid gap-4 sm:grid-cols-2">
             <div>
-              <label style={{ fontSize: 13, fontWeight: 700, color: "#1D2820", display: "block", marginBottom: 6 }}>Email <span style={{ color: "#5D695F", fontWeight: 400 }}>(opțional)</span></label>
-              <input style={{ ...inputStyle, borderColor: erori.email ? "#dc2626" : "#DCE4D9" }} type="email" value={form.email} onChange={e => set("email", e.target.value)} placeholder="ion@gmail.com" />
-              {erori.email && <p style={{ color: "#dc2626", fontSize: 12, margin: "4px 0 0" }}>{erori.email}</p>}
+              <label htmlFor="c-nume" className={lbl}>Nume *</label>
+              <input id="c-nume" className="field" aria-invalid={!!erori.nume} value={form.nume} onChange={e => set("nume", e.target.value)} placeholder="Popescu" autoComplete="family-name" />
+              {erori.nume && <p className={eroareCls}>{erori.nume}</p>}
             </div>
-
             <div>
-              <label style={{ fontSize: 13, fontWeight: 700, color: "#1D2820", display: "block", marginBottom: 6 }}>Adresă de livrare *</label>
-              <textarea style={{ ...inputStyle, height: 90, resize: "vertical" }} value={form.adresa} onChange={e => set("adresa", e.target.value)} placeholder="Str. Exemplu nr. 10, București, jud. Ilfov" />
-              {erori.adresa && <p style={{ color: "#dc2626", fontSize: 12, margin: "4px 0 0" }}>{erori.adresa}</p>}
+              <label htmlFor="c-prenume" className={lbl}>Prenume *</label>
+              <input id="c-prenume" className="field" aria-invalid={!!erori.prenume} value={form.prenume} onChange={e => set("prenume", e.target.value)} placeholder="Ion" autoComplete="given-name" />
+              {erori.prenume && <p className={eroareCls}>{erori.prenume}</p>}
             </div>
-
-            <div style={{ background: "#EEF2EC", borderRadius: 12, padding: "20px" }}>
-              <p style={{ fontWeight: 700, fontSize: 14, color: "#1D2820", marginBottom: 12 }}>Sumar comandă</p>
-              {cos.map(i => (
-                <div key={i.key} style={{ display: "flex", justifyContent: "space-between", fontSize: 13, color: "#5D695F", marginBottom: 6 }}>
-                  <span>{i.produs.name} x{i.cantitate}</span>
-                  <span>{(i.produs.price * i.cantitate).toLocaleString("ro-RO")} lei</span>
-                </div>
-              ))}
-              <div style={{ borderTop: "1px solid #DCE4D9", marginTop: 12, paddingTop: 12, display: "flex", justifyContent: "space-between", fontWeight: 800, fontSize: 15 }}>
-                <span>Total</span>
-                <span>{total.toLocaleString("ro-RO")} lei</span>
-              </div>
-            </div>
-
-            <button
-              onClick={trimiteComanda}
-              disabled={trimis}
-              style={{ background: trimis ? "#5D695F" : "#2C662D", color: "#fff", padding: "16px", borderRadius: 10, fontWeight: 800, fontSize: 15, border: "none", cursor: trimis ? "not-allowed" : "pointer", letterSpacing: "0.1em", textTransform: "uppercase" }}
-            >
-              {trimis ? "Se trimite..." : `Plasează comanda — ${total.toLocaleString("ro-RO")} lei`}
-            </button>
           </div>
-        </main>
-        <Footer />
-      </>
+
+          <div>
+            <label htmlFor="c-email" className={lbl}>Email <span className="font-normal text-white/50">(opțional)</span></label>
+            <input id="c-email" className="field" aria-invalid={!!erori.email} type="email" value={form.email} onChange={e => set("email", e.target.value)} placeholder="ion@gmail.com" autoComplete="email" />
+            {erori.email && <p className={eroareCls}>{erori.email}</p>}
+          </div>
+
+          <div>
+            <label htmlFor="c-adresa" className={lbl}>Adresă de livrare *</label>
+            <textarea id="c-adresa" className="field h-24 resize-y" aria-invalid={!!erori.adresa} value={form.adresa} onChange={e => set("adresa", e.target.value)} placeholder="Str. Exemplu nr. 10, Chișinău" autoComplete="street-address" />
+            {erori.adresa && <p className={eroareCls}>{erori.adresa}</p>}
+          </div>
+
+          <div className="panel p-5">
+            <p className="mb-3 text-[0.875rem] font-bold text-gold-bright">Sumar comandă</p>
+            {cos.map(i => (
+              <div key={i.key} className="mb-1.5 flex justify-between gap-4 text-[0.8125rem] text-white/75">
+                <span>{i.produs.name} x{i.cantitate}</span>
+                <span className="shrink-0">{(i.produs.price * i.cantitate).toLocaleString("ro-RO")} lei</span>
+              </div>
+            ))}
+            <div className="mt-3 flex justify-between border-t border-gold/20 pt-3 text-[0.9375rem] font-extrabold">
+              <span>Total</span>
+              <span className="text-gold-bright">{total.toLocaleString("ro-RO")} lei</span>
+            </div>
+          </div>
+
+          <button type="button" onClick={trimiteComanda} disabled={trimis} className="btn-gold h-14 px-6 text-[0.9375rem] uppercase tracking-[0.08em]">
+            {trimis ? "Se trimite..." : `Plasează comanda — ${total.toLocaleString("ro-RO")} lei`}
+          </button>
+        </div>
+      </PageShell>
     );
   }
 
   return (
-    <>
-      <NavBar />
-      <main style={{ minHeight: "70vh", maxWidth: "var(--container)", margin: "0 auto", padding: "var(--section-padding)" }}>
-        <h1 className="cos-title" style={{ fontSize: 28, fontWeight: 800, color: "#1D2820", marginBottom: 40 }}>Coșul tău ({numarArticole})</h1>
+    <PageShell>
+      <PageHeading
+        crumbs={[{ label: "Acasă", href: "/" }, { label: "Coș" }]}
+        title="Coșul"
+        accent={`tău (${numarArticole})`}
+      />
 
-        {cos.length === 0 ? (
-          <div style={{ textAlign: "center", paddingTop: 60, display: "flex", flexDirection: "column", alignItems: "center", gap: 16 }}>
-            <svg xmlns="http://www.w3.org/2000/svg" width="56" height="56" fill="none" viewBox="0 0 24 24" stroke="#ccc" strokeWidth={1.2}>
-              <path strokeLinecap="round" d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z" />
-              <path strokeLinecap="round" d="M3 6h18" />
-              <path strokeLinecap="round" d="M16 10a4 4 0 01-8 0" />
-            </svg>
-            <p style={{ color: "#5D695F", fontSize: 15 }}>Coșul tău este gol.</p>
-            <Link href="/" style={{ display: "inline-block", background: "#2C662D", color: "#fff", padding: "12px 32px", borderRadius: 8, fontWeight: 700, fontSize: 13, textDecoration: "none", letterSpacing: "0.08em", textTransform: "uppercase" }}>
-              Continuă cumpărăturile
-            </Link>
-          </div>
-        ) : (
-          <div className="cos-main-grid">
-            <div style={{ display: "flex", flexDirection: "column", gap: 20 }}>
-              {cos.map(item => (
-                <div key={item.key} style={{ display: "flex", gap: 20, padding: "20px 0", borderBottom: "1px solid #DCE4D9", alignItems: "flex-start" }}>
-                  {imaginePrincipala(item.produs) && <img src={imaginePrincipala(item.produs)} alt={item.produs.name} style={{ width: 100, height: 100, objectFit: "cover", borderRadius: 10, background: "#f5f5f5", flexShrink: 0 }} />}
-                  <div style={{ flex: 1, display: "flex", flexDirection: "column", gap: 6 }}>
-                    <p style={{ margin: 0, fontWeight: 700, fontSize: 16, color: "#1D2820" }}>{item.produs.name}</p>
-                    {item.culoare && <p style={{ margin: 0, fontSize: 13, color: "#5D695F" }}>Culoare: {item.culoare}</p>}
-                    {item.marime && <p style={{ margin: 0, fontSize: 13, color: "#5D695F" }}>Mărime: {item.marime}</p>}
-                    <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginTop: 8 }}>
-                      <div style={{ display: "flex", alignItems: "center", border: "1px solid #DCE4D9", borderRadius: 6, overflow: "hidden" }}>
-                        <button onClick={() => actualizeazaCantitate(item.key, item.cantitate - 1)} style={{ width: 32, height: 32, background: "none", border: "none", cursor: "pointer", fontSize: 16, fontWeight: 700 }}>−</button>
-                        <span style={{ padding: "0 14px", fontSize: 14, fontWeight: 600 }}>{item.cantitate}</span>
-                        <button onClick={() => actualizeazaCantitate(item.key, item.cantitate + 1)} style={{ width: 32, height: 32, background: "none", border: "none", cursor: "pointer", fontSize: 16, fontWeight: 700 }}>+</button>
+      {cos.length === 0 ? (
+        <div className="flex flex-col items-center gap-4 pt-14 text-center">
+          <Cart className="h-14 w-14 text-gold/60" strokeWidth={1.2} />
+          <p className="text-[0.9375rem] text-white/70">Coșul tău este gol.</p>
+          <Link href="/produse" className="btn-gold h-11 px-8 text-[0.8125rem] uppercase tracking-[0.08em]">
+            Continuă cumpărăturile
+          </Link>
+        </div>
+      ) : (
+        <div className="mt-8 grid items-start gap-8 lg:mt-[2.4vw] lg:grid-cols-[minmax(0,1fr)_24rem] lg:gap-[3vw]">
+          <ul className="flex flex-col">
+            {cos.map(item => {
+              const img = imaginePrincipala(item.produs);
+              return (
+                <li key={item.key} className="flex items-start gap-5 border-b border-white/10 py-5 first:pt-0">
+                  {img && (
+                    // eslint-disable-next-line @next/next/no-img-element
+                    <Link href={`/produse/${item.produs.id}`} className="block aspect-[1336/1096] w-32 shrink-0 overflow-hidden rounded-xl border border-gold/25 bg-[radial-gradient(70%_70%_at_50%_45%,rgba(244,200,74,0.1),transparent_75%),linear-gradient(180deg,#0b120e,#050a07)] sm:w-40">
+                      <img src={img} alt={item.produs.name} className="h-full w-full object-contain p-[4%]" />
+                    </Link>
+                  )}
+                  <div className="flex flex-1 flex-col gap-1.5">
+                    <Link href={`/produse/${item.produs.id}`} className="text-[1rem] font-bold text-white transition hover:text-gold-bright">{item.produs.name}</Link>
+                    {item.culoare && <p className="text-[0.8125rem] text-white/60">Culoare: {item.culoare}</p>}
+                    {item.marime && <p className="text-[0.8125rem] text-white/60">Mărime: {item.marime}</p>}
+                    <div className="mt-2 flex items-center justify-between">
+                      <div className="flex items-center overflow-hidden rounded-lg border border-gold/30">
+                        <button type="button" aria-label="Scade cantitatea" onClick={() => actualizeazaCantitate(item.key, item.cantitate - 1)} className="grid h-9 w-9 cursor-pointer place-items-center text-gold-bright transition hover:bg-brand/50">
+                          <Minus className="h-4 w-4" />
+                        </button>
+                        <span className="min-w-9 text-center text-[0.875rem] font-semibold">{item.cantitate}</span>
+                        <button type="button" aria-label="Crește cantitatea" onClick={() => actualizeazaCantitate(item.key, item.cantitate + 1)} className="grid h-9 w-9 cursor-pointer place-items-center text-gold-bright transition hover:bg-brand/50">
+                          <Plus className="h-4 w-4" />
+                        </button>
                       </div>
-                      <div style={{ display: "flex", alignItems: "center", gap: 16 }}>
-                        <span style={{ fontWeight: 700, fontSize: 15 }}>{(item.produs.price * item.cantitate).toLocaleString("ro-RO")} lei</span>
-                        <button onClick={() => stergeItem(item.key)} style={{ background: "none", border: "none", cursor: "pointer", color: "#5D695F" }}>
-                          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2}><path strokeLinecap="round" d="M18 6L6 18M6 6l12 12"/></svg>
+                      <div className="flex items-center gap-4">
+                        <span className="text-[0.9375rem] font-extrabold text-gold-bright">{(item.produs.price * item.cantitate).toLocaleString("ro-RO")} lei</span>
+                        <button type="button" aria-label={`Șterge ${item.produs.name} din coș`} onClick={() => stergeItem(item.key)} className="cursor-pointer text-white/60 transition hover:text-gold-bright">
+                          <Close className="h-[1.125rem] w-[1.125rem]" />
                         </button>
                       </div>
                     </div>
                   </div>
-                </div>
-              ))}
-            </div>
+                </li>
+              );
+            })}
+          </ul>
 
-            <div className="cos-sticky" style={{ background: "#EEF2EC", borderRadius: 16, padding: 28, position: "sticky", top: 80 }}>
-              <p style={{ fontWeight: 800, fontSize: 16, color: "#1D2820", marginBottom: 20 }}>Sumar comandă</p>
-              {cos.map(i => (
-                <div key={i.key} style={{ display: "flex", justifyContent: "space-between", fontSize: 14, color: "#5D695F", marginBottom: 8 }}>
-                  <span>{i.produs.name} x{i.cantitate}</span>
-                  <span>{(i.produs.price * i.cantitate).toLocaleString("ro-RO")} lei</span>
-                </div>
-              ))}
-              <div style={{ borderTop: "1px solid #DCE4D9", marginTop: 16, paddingTop: 16, display: "flex", justifyContent: "space-between", fontWeight: 800, fontSize: 16, marginBottom: 24 }}>
-                <span>Total</span>
-                <span>{total.toLocaleString("ro-RO")} lei</span>
+          <div className="panel p-7 lg:sticky lg:top-8">
+            <p className="mb-5 text-[1rem] font-extrabold uppercase tracking-[0.04em]">
+              Sumar <span className="text-gold-bright">comandă</span>
+            </p>
+            {cos.map(i => (
+              <div key={i.key} className="mb-2 flex justify-between gap-4 text-[0.875rem] text-white/75">
+                <span>{i.produs.name} x{i.cantitate}</span>
+                <span className="shrink-0">{(i.produs.price * i.cantitate).toLocaleString("ro-RO")} lei</span>
               </div>
-              <button
-                onClick={() => setEtapa("formular")}
-                style={{ width: "100%", background: "#2C662D", color: "#fff", padding: "15px", borderRadius: 10, fontWeight: 800, fontSize: 14, border: "none", cursor: "pointer", letterSpacing: "0.08em", textTransform: "uppercase" }}
-              >
-                Finalizează comanda
-              </button>
+            ))}
+            <div className="mb-6 mt-4 flex justify-between border-t border-gold/20 pt-4 text-[1rem] font-extrabold">
+              <span>Total</span>
+              <span className="text-gold-bright">{total.toLocaleString("ro-RO")} lei</span>
             </div>
+            <button type="button" onClick={() => setEtapa("formular")} className="btn-gold h-14 w-full text-[0.875rem] uppercase tracking-[0.08em]">
+              Finalizează comanda
+            </button>
           </div>
-        )}
-      </main>
-      <Footer />
-    </>
+        </div>
+      )}
+    </PageShell>
   );
 }

@@ -1,27 +1,42 @@
-import { Geist, Geist_Mono } from "next/font/google";
+import { Manrope, Barlow_Condensed, Caveat, Orbitron } from "next/font/google";
 import "./globals.css";
 import { CosProvider } from "./context/CosContext";
+import FloatingCart from "./components/FloatingCart";
 import FloatingWidgets from "./components/FloatingWidgets";
 import { SITE_URL } from "./lib/site";
 
-const geistSans = Geist({
-  variable: "--font-geist-sans",
-  subsets: ["latin"],
+const manrope = Manrope({
+  variable: "--font-manrope",
+  subsets: ["latin", "latin-ext"],
 });
 
-const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
+const barlow = Barlow_Condensed({
+  variable: "--font-barlow",
+  subsets: ["latin", "latin-ext"],
+  weight: ["800"],
+  style: ["italic"],
+});
+
+const caveat = Caveat({
+  variable: "--font-caveat",
+  subsets: ["latin", "latin-ext"],
+  weight: ["600"],
+});
+
+const orbitron = Orbitron({
+  variable: "--font-orbitron",
   subsets: ["latin"],
+  weight: ["800"],
 });
 
 export const metadata = {
   metadataBase: new URL(SITE_URL),
   title: {
-    default: "Paradox Craft – Stative și pușculițe din lemn, create cu pasiune",
+    default: "Paradox Craft — Pușculițe creative și produse handmade",
     template: "%s | Paradox Craft",
   },
   description:
-    "Paradox Craft – stative pentru telefon și pușculițe din lemn natural, lucrate manual în Moldova. Design autentic, calitate premium, cadouri personalizate pentru orice ocazie.",
+    "Pușculițe unice, realizate din materiale premium, cu design modern și detalii distinctive. Cadoul perfect pentru pasiunile tale.",
   keywords: [
     "stative din lemn",
     "pușculițe din lemn",
@@ -32,7 +47,6 @@ export const metadata = {
     "stativ telefon birou",
     "decor din lemn natural",
     "cadou aniversare",
-    "Paradox Craft",
     "Paradox Craft",
     "lemn natural",
     "bambus",
@@ -49,24 +63,24 @@ export const metadata = {
     locale: "ro_RO",
     url: SITE_URL,
     siteName: "Paradox Craft",
-    title: "Paradox Craft – Stative și pușculițe din lemn, create cu pasiune",
+    title: "Paradox Craft — Pușculițe creative și produse handmade",
     description:
-      "Stative pentru telefon și pușculițe din lemn natural, lucrate manual. Design autentic, calitate premium, cadouri personalizate.",
+      "Pușculițe unice, realizate din materiale premium, cu design modern și detalii distinctive.",
     images: [
       {
-        url: "/hero-1.png",
+        url: "/hero.png",
         width: 1200,
         height: 630,
-        alt: "Paradox Craft – produse din lemn",
+        alt: "Paradox Craft – pușculiță cu drapelul Moldovei",
       },
     ],
   },
   twitter: {
     card: "summary_large_image",
-    title: "Paradox Craft – Stative și pușculițe din lemn",
+    title: "Paradox Craft — Pușculițe creative și produse handmade",
     description:
-      "Stative pentru telefon și pușculițe din lemn natural, lucrate manual cu pasiune.",
-    images: ["/hero-1.png"],
+      "Pușculițe unice, realizate din materiale premium, cu design modern și detalii distinctive.",
+    images: ["/hero.png"],
   },
   robots: {
     index: true,
@@ -83,7 +97,7 @@ export const metadata = {
 };
 
 export const viewport = {
-  themeColor: "#183A22",
+  themeColor: "#03140f",
   width: "device-width",
   initialScale: 1,
 };
@@ -92,14 +106,13 @@ export default function RootLayout({ children }) {
   return (
     <html
       lang="ro"
-      style={{ margin: 0, padding: 0, height: "100%" }}
+      className={`${manrope.variable} ${barlow.variable} ${caveat.variable} ${orbitron.variable} antialiased`}
     >
-      <body style={{ margin: 0, padding: 0, height: "100%" }} suppressHydrationWarning>
+      <body className="min-h-screen bg-forest-950 text-white" suppressHydrationWarning>
         <CosProvider>
-          <div style={{ overflowX: "hidden" }}>
-            {children}
-          </div>
+          {children}
           <FloatingWidgets />
+          <FloatingCart />
         </CosProvider>
       </body>
     </html>

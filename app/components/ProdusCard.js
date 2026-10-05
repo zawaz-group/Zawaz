@@ -1,170 +1,100 @@
 "use client";
-import { useState } from "react";
-import { useRouter } from "next/navigation";
+
 import Link from "next/link";
+import { useState } from "react";
 import { useCos } from "../context/CosContext";
 import { imaginePrincipala } from "../lib/imagini";
+import { Check, Cart, Heart } from "./icons";
 
-export default function ProdusCard({ produs }) {
-  const [favorit, setFavorit] = useState(false);
+/**
+ * Cardul de produs din design. `compact` = varianta mică din carusel
+ * (titlu scurt, buton de coș rotund pe telefon).
+ */
+export default function ProdusCard({ produs, compact = false }) {
+  const [liked, setLiked] = useState(false);
   const [adaugat, setAdaugat] = useState(false);
-  const [hovered, setHovered] = useState(false);
-  const [selectedCuloare] = useState(produs.culori?.[0] || null);
   const { adaugaInCos } = useCos();
-  const router = useRouter();
 
-  const hasDiscount = !!produs.oldPrice;
-  const discountAmount = hasDiscount ? produs.oldPrice - produs.price : 0;
-  const discountPercent = hasDiscount ? Math.round((1 - produs.price / produs.oldPrice) * 100) : 0;
-  const currentImg = imaginePrincipala(produs);
+  const imagine = imaginePrincipala(produs);
+  const culoare = produs.culori?.[0] || null;
+  const areReducere = !!produs.oldPrice && produs.oldPrice > produs.price;
+  const procent = areReducere ? Math.round((1 - produs.price / produs.oldPrice) * 100) : 0;
   const esteNou = produs.tags?.includes("produse-noi");
+  const href = `/produse/${produs.id}`;
 
-  const specs = [selectedCuloare, produs.tema?.[0]].filter(Boolean).join(" / ");
-
-  const handleCart = (e) => {
-    e.preventDefault();
-    adaugaInCos(produs, selectedCuloare, null);
+  const handleCart = () => {
+    adaugaInCos(produs, culoare, null);
     setAdaugat(true);
     setTimeout(() => setAdaugat(false), 1800);
   };
 
-  const handleQuickBuy = (e) => {
-    e.preventDefault();
-    adaugaInCos(produs, selectedCuloare, null);
-    router.push("/cos");
-  };
-
-  const handleFavorit = (e) => {
-    e.preventDefault();
-    setFavorit((f) => !f);
-  };
+  const text = compact ? "text-[0.625rem] sm:text-[0.8125rem]" : "text-[0.8125rem]";
 
   return (
-    <div
-      className="pcard"
-      onMouseEnter={() => setHovered(true)}
-      onMouseLeave={() => setHovered(false)}
-      style={{
-        display: "flex", flexDirection: "column", gap: 10, position: "relative",
-        // height: 100% + info-ul care creste + butoanele impinse jos fac toate
-        // cardurile de pe rand sa se termine la aceeasi linie, chiar daca unele
-        // au rand de reducere sau nume pe doua randuri, iar altele nu.
-        height: "100%",
-        background: "transparent", borderRadius: 14, padding: 10,
-        border: hovered ? "1px solid #DCE4D9" : "1px solid transparent",
-        transition: "border-color 0.2s ease"
-      }}
-    >
-      <Link href={`/produse/${produs.id}`} style={{ textDecoration: "none" }}>
-        <div style={{ position: "relative", width: "100%", aspectRatio: "1/1", overflow: "hidden", borderRadius: 10, background: "#f5f5f5" }}>
-          {currentImg && (
+    <div className="group flex h-full flex-col">
+      <div className="relative aspect-[1336/1096] overflow-hidden rounded-xl border border-gold/15 bg-[radial-gradient(70%_70%_at_50%_45%,rgba(244,200,74,0.1),transparent_75%),linear-gradient(180deg,#0b120e,#050a07)] shadow-[0_0_1.125rem_rgba(31,106,54,0.25)] transition group-hover:border-gold/50">
+        <Link href={href} aria-label={produs.name} className="absolute inset-0">
+          {imagine && (
+            // eslint-disable-next-line @next/next/no-img-element
             <img
-              src={currentImg}
-              alt={produs.name}
-              style={{ width: "100%", height: "100%", objectFit: "cover", display: "block" }}
+              src={imagine}
+              alt={`${produs.name} — Paradox Craft`}
+              loading="lazy"
+              className="h-full w-full object-contain p-[3%] transition-transform duration-500 group-hover:scale-[1.04]"
             />
           )}
-
-          {esteNou && (
-            <span className="pcard-badge" style={{ position: "absolute", top: 8, left: 8, background: "#4338ca", color: "#fff", fontSize: 10, fontWeight: 700, padding: "3px 10px", borderRadius: 20, textTransform: "uppercase", letterSpacing: "0.06em" }}>
-              Nou
-            </span>
-          )}
-        </div>
-      </Link>
-
-      <button
-        onClick={handleFavorit}
-        className="pcard-fav"
-        style={{
-          position: "absolute", top: 18, right: 18, width: 32, height: 32,
-          background: "rgba(255,255,255,0.9)", border: "none", borderRadius: "50%",
-          cursor: "pointer", display: "flex", alignItems: "center", justifyContent: "center",
-          boxShadow: "0 2px 8px rgba(0,0,0,0.12)", zIndex: 10
-        }}
-        aria-label="Adaugă la favorite"
-      >
-        <svg width="17" height="17" viewBox="0 0 24 24" fill={favorit ? "#dc2626" : "none"} stroke={favorit ? "#dc2626" : "#555"} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-          <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/>
-        </svg>
-      </button>
-
-      <div className="pcard-info" style={{ display: "flex", flexDirection: "column", gap: 6, padding: "2px 4px 4px", flex: 1 }}>
-        <Link href={`/produse/${produs.id}`} style={{ textDecoration: "none" }}>
-          <p className="pcard-name" style={{ fontSize: 16, fontWeight: 700, color: "#1D2820", margin: 0 }}>{produs.name}</p>
         </Link>
 
-        {specs && (
-          <p style={{ fontSize: 12, color: "#5D695F", margin: 0 }}>{specs}</p>
-        )}
-
-        {hasDiscount && (
-          <div style={{ display: "flex", alignItems: "center", gap: 7, flexWrap: "wrap" }}>
-            <p style={{ fontSize: 13, color: "#5D695F", textDecoration: "line-through", margin: 0 }}>
-              {produs.oldPrice.toLocaleString("ro-RO")} lei
-            </p>
-            <span style={{ background: "#dc2626", color: "#fff", fontSize: 13, fontWeight: 800, padding: "3px 9px", borderRadius: 5, whiteSpace: "nowrap" }}>
-              -{discountAmount.toLocaleString("ro-RO")} lei
-            </span>
-            <span style={{ background: "#fde2e2", color: "#dc2626", fontSize: 13, fontWeight: 800, padding: "3px 9px", borderRadius: 5, whiteSpace: "nowrap" }}>
-              -{discountPercent}%
-            </span>
+        {(esteNou || areReducere) && (
+          <div className="pointer-events-none absolute left-1 top-1 flex flex-col items-start gap-1 lg:left-2 lg:top-2">
+            {esteNou && (
+              <span className="rounded-full bg-brand px-2 py-0.5 text-[0.5625rem] font-extrabold uppercase tracking-[0.06em] text-white sm:text-[0.625rem]">Nou</span>
+            )}
+            {areReducere && (
+              <span className="rounded-full bg-[#e03c2f] px-2 py-0.5 text-[0.5625rem] font-extrabold text-white sm:text-[0.625rem]">-{procent}%</span>
+            )}
           </div>
         )}
 
-        <div className="pcard-price-row" style={{ display: "flex", alignItems: "baseline", gap: 4 }}>
-          <p className="pcard-price" style={{ fontSize: 24, fontWeight: 800, color: "#1D2820", margin: 0 }}>
-            {produs.price.toLocaleString("ro-RO")}
-          </p>
-          <span style={{ fontSize: 14, fontWeight: 600, color: "#1D2820" }}>lei</span>
-        </div>
+        <button
+          type="button"
+          aria-label={liked ? `Scoate ${produs.name} de la favorite` : `Adaugă ${produs.name} la favorite`}
+          aria-pressed={liked}
+          onClick={() => setLiked((v) => !v)}
+          className={`absolute right-1 top-1 grid h-6 w-6 place-items-center rounded-full bg-black/50 backdrop-blur transition hover:text-gold-bright lg:right-2 lg:top-2 lg:h-8 lg:w-8 ${liked ? "text-gold-bright" : "text-white"}`}
+        >
+          <Heart className="h-3.5 w-3.5 lg:h-[1.125rem] lg:w-[1.125rem]" fill={liked ? "currentColor" : "none"} />
+        </button>
+      </div>
 
-        {/* marginTop: auto impinge butoanele la baza cardului, indiferent cate
-            randuri de text sau de reducere are produsul deasupra. */}
-        <div className="pcard-actions" style={{ display: "flex", gap: 8, marginTop: "auto", paddingTop: 6 }}>
-          <button
-            onClick={handleCart}
-            className="pcard-cart-btn"
-            style={{
-              flex: 1, display: "flex", alignItems: "center", justifyContent: "center", gap: 5,
-              padding: "8px 5px",
-              background: adaugat ? "#16a34a" : "#2C662D",
-              color: "#fff", fontSize: 11, fontWeight: 700, whiteSpace: "nowrap",
-              border: "none", borderRadius: 9, cursor: "pointer",
-              transition: "background 0.3s"
-            }}
-          >
-            {adaugat ? (
-              "✓ Adăugat!"
-            ) : (
-              <>
-                <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#fff" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                  <circle cx="9" cy="21" r="1"/>
-                  <circle cx="20" cy="21" r="1"/>
-                  <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/>
-                </svg>
-                Adaugă în coș
-              </>
-            )}
-          </button>
-          <button
-            onClick={handleQuickBuy}
-            className="pcard-buy-btn"
-            style={{
-              flex: 1, display: "flex", alignItems: "center", justifyContent: "center", gap: 5,
-              padding: "7px 5px",
-              background: "#fff",
-              border: "1.5px solid #1D2820", borderRadius: 9, cursor: "pointer",
-              lineHeight: 1.15
-            }}
-          >
-            <span style={{ fontSize: 12, color: "#D5B358" }}>⚡</span>
-            <span style={{ display: "flex", flexDirection: "column", alignItems: "flex-start" }}>
-              <span style={{ fontSize: 11, fontWeight: 700, color: "#1D2820", whiteSpace: "nowrap" }}>Cumpără rapid</span>
-              <span className="pcard-buy-sub" style={{ fontSize: 8, fontWeight: 400, color: "#5D695F", whiteSpace: "nowrap" }}>Într-un click</span>
-            </span>
-          </button>
+      <div className="mt-2 flex flex-1 items-start justify-between gap-1 lg:mt-3 lg:gap-2">
+        <div className="min-w-0">
+          <h3 className={`line-clamp-2 font-semibold leading-snug text-white lg:text-[max(12px,0.9vw)] ${text}`}>
+            <Link href={href} className="transition hover:text-gold-bright">{produs.name}</Link>
+          </h3>
+          <p className={`mt-0.5 flex flex-wrap items-baseline gap-x-2 font-extrabold text-gold-bright lg:text-[max(12px,0.9vw)] ${text}`}>
+            <span>{produs.price.toLocaleString("ro-RO")} lei</span>
+            {areReducere && <span className="text-[0.85em] font-semibold text-white/50 line-through">{produs.oldPrice.toLocaleString("ro-RO")} lei</span>}
+          </p>
         </div>
+        <button
+          type="button"
+          aria-label={`Adaugă ${produs.name} în coș`}
+          onClick={handleCart}
+          className={`grid shrink-0 place-items-center transition hover:shadow-[0_0_0.875rem_rgba(31,106,54,0.8)] ${
+            adaugat
+              ? "bg-brand text-white"
+              : compact
+                ? "bg-gold-bright text-forest-950 sm:border sm:border-gold/50 sm:bg-brand/40 sm:text-gold-bright"
+                : "border border-gold/50 bg-brand/40 text-gold-bright hover:bg-brand"
+          } ${compact ? "h-6 w-6 rounded-full sm:h-9 sm:w-9 sm:rounded-lg" : "h-9 w-9 rounded-lg"}`}
+        >
+          {adaugat ? (
+            <Check className={compact ? "h-3.5 w-3.5 sm:h-[1.125rem] sm:w-[1.125rem]" : "h-[1.125rem] w-[1.125rem]"} />
+          ) : (
+            <Cart className={compact ? "h-3.5 w-3.5 sm:h-[1.125rem] sm:w-[1.125rem]" : "h-[1.125rem] w-[1.125rem]"} />
+          )}
+        </button>
       </div>
     </div>
   );

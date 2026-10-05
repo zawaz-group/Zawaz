@@ -1,34 +1,35 @@
-import NavBar from "../components/NavBar";
-import Footer from "../components/Footer";
 import Link from "next/link";
+import PageShell, { PageHeading } from "../components/PageShell";
 
 export default function ContPage() {
   return (
-    <>
-      <NavBar />
-      <main style={{ minHeight: "70vh", maxWidth: 480, margin: "0 auto", padding: "var(--section-padding)" }}>
-        <h1 style={{ fontSize: 28, fontWeight: 800, color: "#1D2820", marginBottom: 8, textAlign: "center" }}>Contul meu</h1>
-        <p style={{ color: "#5D695F", fontSize: 14, textAlign: "center", marginBottom: 40 }}>Autentifică-te pentru a accesa comenzile și setările contului.</p>
+    <PageShell narrow>
+      <PageHeading
+        title="Contul"
+        accent="meu"
+        description="Autentifică-te pentru a accesa comenzile și setările contului."
+        center
+      />
 
-        <div style={{ background: "#fafafa", border: "1px solid #DCE4D9", borderRadius: 16, padding: "36px 32px", display: "flex", flexDirection: "column", gap: 16 }}>
-          <div style={{ display: "flex", flexDirection: "column", gap: 6 }}>
-            <label style={{ fontSize: 12, fontWeight: 700, color: "#5D695F", textTransform: "uppercase", letterSpacing: "0.08em" }}>Email</label>
-            <input type="email" placeholder="adresa@email.com" style={{ padding: "11px 14px", border: "1.5px solid #DCE4D9", borderRadius: 8, fontSize: 14, outline: "none", fontFamily: "inherit", color: "#1D2820" }} />
-          </div>
-          <div style={{ display: "flex", flexDirection: "column", gap: 6 }}>
-            <label style={{ fontSize: 12, fontWeight: 700, color: "#5D695F", textTransform: "uppercase", letterSpacing: "0.08em" }}>Parolă</label>
-            <input type="password" placeholder="••••••••" style={{ padding: "11px 14px", border: "1.5px solid #DCE4D9", borderRadius: 8, fontSize: 14, outline: "none", fontFamily: "inherit", color: "#1D2820" }} />
-          </div>
-          <button style={{ background: "#2C662D", color: "#fff", border: "none", borderRadius: 8, padding: "13px 0", fontWeight: 700, fontSize: 13, textTransform: "uppercase", letterSpacing: "0.1em", cursor: "pointer", marginTop: 8 }}>
-            Autentificare
-          </button>
-          <p style={{ textAlign: "center", fontSize: 13, color: "#5D695F", margin: 0 }}>
-            Nu ai cont?{" "}
-            <Link href="/cont/inregistrare" style={{ color: "#1D2820", fontWeight: 700, textDecoration: "none" }}>Înregistrează-te</Link>
-          </p>
+      <div className="panel mx-auto mt-10 flex max-w-[30rem] flex-col gap-4 p-8">
+        <div className="flex flex-col gap-1.5">
+          <label htmlFor="cont-email" className="text-[0.75rem] font-bold uppercase tracking-[0.08em] text-white/70">Email</label>
+          <input id="cont-email" type="email" placeholder="adresa@email.com" autoComplete="email" className="field" />
         </div>
-      </main>
-      <Footer />
-    </>
+        <div className="flex flex-col gap-1.5">
+          <label htmlFor="cont-parola" className="text-[0.75rem] font-bold uppercase tracking-[0.08em] text-white/70">Parolă</label>
+          <input id="cont-parola" type="password" placeholder="••••••••" autoComplete="current-password" className="field" />
+        </div>
+        <button type="button" className="btn-gold mt-2 h-12 text-[0.8125rem] uppercase tracking-[0.1em]">
+          Autentificare
+        </button>
+        <p className="text-center text-[0.8125rem] text-white/70">
+          Nu ai cont?{" "}
+          <Link href="/cont/inregistrare" className="font-bold text-gold-bright transition hover:underline">
+            Înregistrează-te
+          </Link>
+        </p>
+      </div>
+    </PageShell>
   );
 }

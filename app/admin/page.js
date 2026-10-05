@@ -40,6 +40,7 @@ const CAI_ICONITE = {
   faq: <><circle cx="12" cy="12" r="9" /><path d="M9.2 9.3a2.9 2.9 0 0 1 5.6 1c0 1.9-2.8 2.4-2.8 4" /><path d="M12 17.5h.01" /></>,
   setari: <><circle cx="12" cy="12" r="3" /><path d="M19.4 15a1.6 1.6 0 0 0 .3 1.8l.1.1a2 2 0 1 1-2.8 2.8l-.1-.1a1.6 1.6 0 0 0-1.8-.3 1.6 1.6 0 0 0-1 1.5V21a2 2 0 1 1-4 0v-.1A1.6 1.6 0 0 0 9 19.4a1.6 1.6 0 0 0-1.8.3l-.1.1a2 2 0 1 1-2.8-2.8l.1-.1a1.6 1.6 0 0 0 .3-1.8 1.6 1.6 0 0 0-1.5-1H3a2 2 0 1 1 0-4h.1A1.6 1.6 0 0 0 4.6 9a1.6 1.6 0 0 0-.3-1.8l-.1-.1a2 2 0 1 1 2.8-2.8l.1.1a1.6 1.6 0 0 0 1.8.3H9a1.6 1.6 0 0 0 1-1.5V3a2 2 0 1 1 4 0v.1a1.6 1.6 0 0 0 1 1.5 1.6 1.6 0 0 0 1.8-.3l.1-.1a2 2 0 1 1 2.8 2.8l-.1.1a1.6 1.6 0 0 0-.3 1.8V9a1.6 1.6 0 0 0 1.5 1H21a2 2 0 1 1 0 4h-.1a1.6 1.6 0 0 0-1.5 1Z" /></>,
   administratori: <><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2" /><circle cx="9" cy="7" r="4" /><path d="M22 21v-2a4 4 0 0 0-3-3.9" /><path d="M16 3.1a4 4 0 0 1 0 7.8" /></>,
+  categorii: <><rect x="3" y="3" width="7" height="7" rx="1.5" /><rect x="14" y="3" width="7" height="7" rx="1.5" /><rect x="3" y="14" width="7" height="7" rx="1.5" /><rect x="14" y="14" width="7" height="7" rx="1.5" /></>,
   logo: <path d="M13 2 4.5 13.5H11l-1 8.5 8.5-11.5H12l1-8.5Z" />,
   site: <><circle cx="12" cy="12" r="9" /><path d="M3 12h18" /><path d="M12 3a15 15 0 0 1 0 18 15 15 0 0 1 0-18Z" /></>,
   iesire: <><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4" /><path d="m16 17 5-5-5-5" /><path d="M21 12H9" /></>,
@@ -193,7 +194,7 @@ function unionOptiuni(a, b) {
   }
   return out;
 }
-const emptyProdus = { id: "", name: "", price: "", oldPrice: "", category: "stative", tags: [], img: "", imagini: [], descriere: "", culori: [], imaginiCulori: {}, tema: [], ocazie: [] };
+const emptyProdus = { id: "", name: "", price: "", oldPrice: "", category: "pusculite", subcategorie: "", tags: [], img: "", imagini: [], descriere: "", culori: [], imaginiCulori: {}, tema: [], ocazie: [] };
 
 /* Peste pragul asta redimensionam imaginea in browser inainte de upload.
    Doua motive, amandoua reale:
@@ -587,7 +588,7 @@ function ProdusForm({ initial, onSave, onClose }) {
   // schimbare — ar ramane pe produs valori care nici nu mai apar in formular.
   function schimbaTip(tipNou) {
     setP(x => x.category === tipNou ? x : ({
-      ...x, category: tipNou, culori: [], imaginiCulori: {}, tema: [], ocazie: [],
+      ...x, category: tipNou, subcategorie: "", culori: [], imaginiCulori: {}, tema: [], ocazie: [],
     }));
   }
 
@@ -620,6 +621,13 @@ function ProdusForm({ initial, onSave, onClose }) {
     // vechi decat adaugarea locala) ar sterge-o din nou din state.
     fetch("/api/optiuni").then(r => r.json()).then(d => setOptiuni(unionOptiuni(optiuniRef.current, d))).catch(() => {});
   }, []);
+
+  // Subcategoriile fiecarei categorii se definesc in sectiunea Categorii.
+  const [detaliiCat, setDetaliiCat] = useState([]);
+  useEffect(() => {
+    fetch("/api/categorii").then(r => r.json()).then(d => setDetaliiCat(Array.isArray(d) ? d : [])).catch(() => {});
+  }, []);
+  const subcategoriiTip = (detaliiCat.find(c => c.slug === p.category)?.subcategorii) || [];
 
   async function salveazaOptiuni(next) {
     setOptiuni(next);
@@ -756,6 +764,19 @@ function ProdusForm({ initial, onSave, onClose }) {
             schimbaTip(value);
           }} />
         </div>
+      </SectionBlock>
+
+      {/* Subcategorie */}
+      <SectionBlock title="Subcategorie">
+        {subcategoriiTip.length === 0 ? (
+          <span style={{ fontSize: 12, color: C.muted }}>Categoria aceasta nu are subcategorii. Le adaugi din secțiunea Categorii.</span>
+        ) : (
+          <div style={{ display: "flex", gap: 8, flexWrap: "wrap" }}>
+            {subcategoriiTip.map(sc => (
+              <Pill key={sc} label={sc} active={p.subcategorie === sc} onClick={() => set("subcategorie")(p.subcategorie === sc ? "" : sc)} />
+            ))}
+          </div>
+        )}
       </SectionBlock>
 
       {/* Categorie navigare */}
@@ -1610,11 +1631,164 @@ function SectionAdministratori() {
   );
 }
 
+/* ─── CATEGORII ─── */
+const lista = v => (Array.isArray(v) ? v : []);
+
+async function citesteOptiuni() {
+  const x = await fetch("/api/optiuni").then(r => r.json()).catch(() => ({}));
+  return Array.isArray(x) ? {} : x;
+}
+function salveazaOptiuniGlobale(o) {
+  return fetch("/api/optiuni", { method: "PUT", headers: { "Content-Type": "application/json" }, body: JSON.stringify(o) });
+}
+
+function CategorieForm({ initial, existente, onSave, onClose }) {
+  const nou = !initial.slug;
+  const [c, setC] = useState({ slug: "", label: "", descriere: "", img: "", subcategorii: [], ...initial });
+  const [salvez, setSalvez] = useState(false);
+  const set = k => v => setC(x => ({ ...x, [k]: v }));
+  const titluEditabil = nou || initial.custom;
+
+  async function save() {
+    const label = c.label.trim();
+    if (!label) { alert("Completează titlul categoriei."); return; }
+    const slug = nou ? slugify(label) : c.slug;
+    if (!slug) { alert("Titlul nu este valid."); return; }
+    if (nou && existente.includes(slug)) { alert("Există deja o categorie cu acest nume."); return; }
+    setSalvez(true);
+    try {
+      const body = { slug, label, descriere: c.descriere.trim(), img: c.img, subcategorii: lista(c.subcategorii) };
+      const exista = !nou && initial.inColectie;
+      const res = await fetch(exista ? `/api/categorii/${slug}` : "/api/categorii", {
+        method: exista ? "PUT" : "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify(body),
+      });
+      if (!res.ok) { const d = await res.json().catch(() => ({})); alert(d.error || `Eroare ${res.status}`); return; }
+      // O categorie noua (sau una custom redenumita) devine si "Tip produs", ca sa poata fi aleasa pe produse.
+      if (nou || initial.custom) {
+        const optiuni = await citesteOptiuni();
+        const tipuri = lista(optiuni.tipuriProdus);
+        const urm = tipuri.some(t => t.value === slug)
+          ? tipuri.map(t => (t.value === slug ? { ...t, label } : t))
+          : [...tipuri, { value: slug, label }];
+        await salveazaOptiuniGlobale({ ...optiuni, tipuriProdus: urm });
+      }
+      onSave();
+    } finally {
+      setSalvez(false);
+    }
+  }
+
+  return (
+    <div>
+      {titluEditabil
+        ? <Input label="Titlu" value={c.label} onChange={set("label")} placeholder="ex. Decoruri" />
+        : <p style={{ margin: "0 0 12px", fontSize: 15, fontWeight: 800 }}>{c.label}</p>}
+      <Textarea label="Paragraf scurt (apare pe cardul categoriei)" value={c.descriere} onChange={set("descriere")} rows={2} />
+      <ImageUpload label="Imagine" value={c.img} onChange={set("img")} height={140} />
+
+      <SectionBlock title="Subcategorii (doar titlu)">
+        <div style={{ display: "flex", gap: 8, flexWrap: "wrap", alignItems: "center" }}>
+          {lista(c.subcategorii).map(sc => (
+            <Pill key={sc} label={sc} onClick={() => {}} onDelete={() => set("subcategorii")(lista(c.subcategorii).filter(x => x !== sc))} />
+          ))}
+          <AdaugaEticheta placeholder="Subcategorie nouă…" onAdd={t => {
+            if (lista(c.subcategorii).some(x => x.toLowerCase() === t.toLowerCase())) return;
+            set("subcategorii")([...lista(c.subcategorii), t]);
+          }} />
+        </div>
+        <p style={{ margin: "8px 0 0", fontSize: 11, color: C.muted }}>
+          Pe site, o subcategorie apare doar dacă are cel puțin un produs. Produsele își aleg subcategoria din formularul de produs.
+        </p>
+      </SectionBlock>
+
+      <div style={{ display: "flex", gap: 10, justifyContent: "flex-end" }}>
+        <button onClick={onClose} style={btnGhost}>Anulează</button>
+        <button onClick={save} disabled={salvez} style={btnPrimary}>{salvez ? "Se salvează…" : "Salvează"}</button>
+      </div>
+    </div>
+  );
+}
+
+function SectionCategorii() {
+  const [date, setDate] = useState(null);
+  const [editing, setEditing] = useState(null);
+  const [confirm, setConfirm] = useState(null);
+
+  const load = () => Promise.all(["produse", "optiuni", "categorii"].map(n => fetch(`/api/${n}`).then(r => r.json())))
+    .then(([produse, optiuni, colectie]) => setDate({ produse: lista(produse), optiuni: Array.isArray(optiuni) ? {} : optiuni, colectie: lista(colectie) }))
+    .catch(() => setDate({ produse: [], optiuni: {}, colectie: [] }));
+  useEffect(() => { load(); }, []);
+
+  if (!date) return <p style={{ color: C.muted }}>Se încarcă…</p>;
+
+  const ascunse = new Set(date.optiuni.ascunse?.tipuriProdus || []);
+  const tipuri = [
+    ...CATEGORII_TIP.filter(t => !ascunse.has(t.value)).map(t => ({ ...t, custom: false })),
+    ...lista(date.optiuni.tipuriProdus).map(t => ({ ...t, custom: true })),
+  ];
+  const randuri = tipuri.map(t => {
+    const d = date.colectie.find(c => c.slug === t.value);
+    return {
+      slug: t.value, custom: t.custom, inColectie: !!d,
+      label: d?.label || t.label, descriere: d?.descriere || "", img: d?.img || "", subcategorii: lista(d?.subcategorii),
+      nr: date.produse.filter(p => p.category === t.value).length,
+    };
+  });
+
+  async function del(r) {
+    if (r.inColectie) await fetch(`/api/categorii/${r.slug}`, { method: "DELETE" });
+    const optiuni = await citesteOptiuni();
+    await salveazaOptiuniGlobale({ ...optiuni, tipuriProdus: lista(optiuni.tipuriProdus).filter(t => t.value !== r.slug) });
+    load();
+  }
+
+  return (
+    <div>
+      <p style={{ margin: "0 0 16px", fontSize: 13, color: C.muted, maxWidth: 640 }}>
+        Categoriile apar pe site în meniul „Produse” și la „Categorii principale”, dar doar dacă au cel puțin un produs.
+        Titlul, paragraful și imaginea se văd pe cardul categoriei.
+      </p>
+      <div style={{ marginBottom: 20 }}><button onClick={() => setEditing({})} style={btnPrimary}>+ Categorie nouă</button></div>
+      <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(260px, 1fr))", gap: 16 }}>
+        {randuri.map(r => (
+          <div key={r.slug} style={{ ...card, padding: 0, overflow: "hidden", marginBottom: 0 }}>
+            {r.img
+              ? <img src={r.img} alt="" style={{ width: "100%", height: 130, objectFit: "cover", display: "block" }} />
+              : <div style={{ height: 130, background: C.bg, display: "flex", alignItems: "center", justifyContent: "center", color: C.muted, fontSize: 12 }}>Fără imagine</div>}
+            <div style={{ padding: 14 }}>
+              <p style={{ margin: "0 0 4px", fontWeight: 800, fontSize: 15 }}>{r.label}</p>
+              <p style={{ margin: "0 0 10px", color: C.muted, fontSize: 13, minHeight: 18 }}>{r.descriere || "—"}</p>
+              <div style={{ display: "flex", gap: 6, flexWrap: "wrap", marginBottom: 10 }}>
+                <Badge color={r.nr > 0 ? C.success : C.muted}>{r.nr} {r.nr === 1 ? "produs" : "produse"}</Badge>
+                <Badge color={r.nr > 0 ? C.success : C.muted}>{r.nr > 0 ? "Vizibilă pe site" : "Ascunsă (fără produse)"}</Badge>
+              </div>
+              {r.subcategorii.length > 0 && (
+                <p style={{ margin: "0 0 10px", fontSize: 12, color: C.muted }}>Subcategorii: {r.subcategorii.join(", ")}</p>
+              )}
+              <div style={{ display: "flex", gap: 8 }}>
+                <button onClick={() => setEditing(r)} style={{ ...btnGhost, padding: "5px 12px", fontSize: 12 }}><Iconita nume="editeaza" size={13} /> Edit</button>
+                {r.custom && <button onClick={() => setConfirm(r)} style={btnDanger}><Iconita nume="sterge" size={13} /></button>}
+              </div>
+            </div>
+          </div>
+        ))}
+      </div>
+      {editing !== null && <Modal title={editing.slug ? "Editează categoria" : "Categorie nouă"} onClose={() => setEditing(null)}>
+        <CategorieForm initial={editing} existente={randuri.map(r => r.slug)} onSave={() => { load(); setEditing(null); }} onClose={() => setEditing(null)} />
+      </Modal>}
+      {confirm && <Confirm
+        message={`Ștergi categoria „${confirm.label}”?${confirm.nr > 0 ? ` Cele ${confirm.nr} produse din ea nu se șterg, dar categoria dispare de pe site.` : ""}`}
+        onYes={() => { del(confirm); setConfirm(null); }} onNo={() => setConfirm(null)} />}
+    </div>
+  );
+}
+
 /* ─── ROOT ─── */
 
 const SECTIONS = [
   { id: "Dashboard", icon: "dashboard", label: "Dashboard" },
   { id: "Produse", icon: "produse", label: "Produse" },
+  { id: "Categorii", icon: "categorii", label: "Categorii" },
   { id: "Hero", icon: "hero", label: "Hero Slider" },
   { id: "Blog", icon: "blog", label: "Blog" },
   { id: "Recenzii", icon: "recenzii", label: "Recenzii" },
@@ -1725,6 +1899,7 @@ export default function AdminPage() {
         <div style={{ padding: 28 }}>
           {section === "Dashboard" && <SectionDashboard onNav={setSection} />}
           {section === "Produse" && <SectionProduse />}
+          {section === "Categorii" && <SectionCategorii />}
           {section === "Hero" && <SectionHero />}
           {section === "Blog" && <SectionBlog />}
           {section === "Recenzii" && <SectionRecenzii />}

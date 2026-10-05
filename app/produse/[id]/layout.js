@@ -25,7 +25,7 @@ export async function generateMetadata({ params }) {
     ? produs.img.startsWith("http")
       ? produs.img
       : `${SITE_URL}${produs.img}`
-    : "/hero-1.png";
+    : "/hero.png";
 
   return {
     title: produs.name,
