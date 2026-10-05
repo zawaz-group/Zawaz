@@ -29,7 +29,7 @@ export default function Hero({ slides = [] }) {
   return (
     <section className="relative isolate overflow-hidden bg-black lg:h-[37.7vw]">
       {/* Fundal cinematic. Pe telefon începe sub bara de sus și are înălțime fixă. */}
-      <div className="relative mt-12 h-[19rem] max-sm:mt-0 max-sm:h-[51rem] sm:h-[28rem] lg:absolute lg:inset-x-0 lg:top-[2.4vw] lg:-z-10 lg:mt-0 lg:h-[36.5vw] lg:[mask-image:linear-gradient(to_bottom,transparent_0,#000_5%)]">
+      <div className="relative mt-16 h-[19rem] max-sm:mt-0 max-sm:h-[51rem] sm:h-[28rem] lg:absolute lg:inset-x-0 lg:top-[2.4vw] lg:-z-10 lg:mt-0 lg:h-[36.5vw] lg:[mask-image:linear-gradient(to_bottom,transparent_0,#000_5%)]">
         {areSlides ? (
           <HeroSlider slides={slides} />
         ) : (
@@ -37,12 +37,13 @@ export default function Hero({ slides = [] }) {
             <source media="(min-width: 640px)" srcSet={srcSetLat} />
             <source media="(max-width: 639px)" srcSet={srcSetTelefon} />
             {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img {...imgProps} className="object-cover object-[50%_60%] sm:object-[88%_center] lg:object-[100%_center]" />
+            <img {...imgProps} className="object-cover object-[85%_60%] sm:object-[88%_center] lg:object-[100%_center]" />
           </picture>
         )}
       </div>
       {/* Umbră pentru lizibilitatea textului: sus pe telefon, în stânga pe desktop */}
       {!areSlides && <div className="absolute inset-x-0 top-0 -z-10 h-[27rem] bg-gradient-to-b from-black/75 via-black/35 to-transparent sm:hidden" />}
+      {!areSlides && <div className="absolute inset-x-0 top-[34rem] -z-10 h-[17rem] bg-gradient-to-t from-black/80 via-black/40 to-transparent sm:hidden" />}
       {!areSlides && (
         <div className="hidden bg-gradient-to-r lg:absolute lg:inset-0 lg:-z-10 lg:block lg:from-black/50 lg:via-transparent lg:to-transparent" />
       )}
@@ -50,12 +51,12 @@ export default function Hero({ slides = [] }) {
 
       {/* Copy */}
       {areSlides ? null : (
-        <div className="px-5 pb-2 pt-6 max-sm:absolute max-sm:inset-x-0 max-sm:top-[4.25rem] max-sm:pt-0 sm:px-8 sm:pt-8 lg:absolute lg:left-[5.5vw] lg:top-[8.6vw] lg:w-auto lg:p-0">
-          <p className="text-[0.875rem] font-extrabold uppercase tracking-[0.12em] text-gold-bright sm:text-[1rem] lg:ml-[1.7vw] lg:text-[max(11px,0.92vw)]">
+        <div className="px-5 pb-2 pt-6 max-sm:absolute max-sm:inset-x-0 max-sm:top-[5.25rem] max-sm:h-[44rem] max-sm:flex max-sm:flex-col max-sm:pt-0 sm:px-8 sm:pt-8 lg:absolute lg:left-[5.5vw] lg:top-[8.6vw] lg:w-auto lg:p-0">
+          <p className="text-[1rem] font-extrabold uppercase tracking-[0.12em] text-gold-bright sm:text-[1rem] lg:ml-[1.7vw] lg:text-[max(11px,0.92vw)]">
             Pușculițe creative
           </p>
 
-          <h1 className="-mt-px -rotate-2 font-display text-[3rem] font-extrabold italic uppercase leading-[0.9] tracking-[-0.03em] text-white drop-shadow-[0_0.375rem_1.125rem_rgba(0,0,0,0.6)] sm:text-[4.5rem] lg:-ml-[0.5vw] lg:-mt-[0.6vw] lg:text-[max(44px,4.4vw)]">
+          <h1 className="-mt-px -rotate-2 font-display text-[min(4.25rem,15vw)] font-extrabold italic uppercase leading-[0.9] tracking-[-0.03em] text-white drop-shadow-[0_0.375rem_1.125rem_rgba(0,0,0,0.6)] sm:text-[4.5rem] lg:-ml-[0.5vw] lg:-mt-[0.6vw] lg:text-[max(44px,4.4vw)]">
             <span className="block">Transformă</span>
             <span className="relative block lg:ml-[0.2vw]">
               Economisirea
@@ -66,12 +67,12 @@ export default function Hero({ slides = [] }) {
             <span className="ml-[22%] block lg:ml-[12.5vw]">
               <span className="relative inline-block">
                 în <span className="gold-text">stil</span>
-                <Crown className="absolute left-full top-[0.2rem] ml-2 h-[2rem] w-[2.4rem] rotate-6 sm:h-[3rem] sm:w-[3.5rem] lg:top-[0.2vw] lg:ml-[0.7vw] lg:h-[2.8vw] lg:w-[3.3vw]" />
+                <Crown className="absolute left-full top-[0.3rem] ml-2 h-[2.6rem] w-[3rem] rotate-6 sm:h-[3rem] sm:w-[3.5rem] lg:top-[0.2vw] lg:ml-[0.7vw] lg:h-[2.8vw] lg:w-[3.3vw]" />
               </span>
             </span>
           </h1>
 
-          <p className="mt-4 text-[1.0625rem] leading-[1.45] text-white/90 sm:text-[1.25rem] lg:ml-[1.5vw] lg:mt-[0.8vw] lg:whitespace-nowrap lg:text-[max(14px,1.17vw)] lg:leading-[1.4]">
+          <p className="mt-4 text-[1.0625rem] leading-[1.45] text-white/95 min-[400px]:text-[1.1875rem] drop-shadow-[0_0.25rem_0.75rem_rgba(0,0,0,0.8)] max-sm:mt-auto sm:text-[1.25rem] lg:ml-[1.5vw] lg:mt-[0.8vw] lg:whitespace-nowrap lg:text-[max(14px,1.17vw)] lg:leading-[1.4]">
             Pușculițe unice, realizate din materiale premium,
             <br className="hidden lg:block" /> cu design modern și detalii distinctive. Cadoul perfect
             <br className="hidden lg:block" /> pentru pasiunile tale.
@@ -79,7 +80,7 @@ export default function Hero({ slides = [] }) {
 
           <Link
             href="/produse"
-            className="btn-gold mt-5 h-12 gap-2 px-7 text-[1rem] sm:h-14 sm:px-9 sm:text-[1.125rem] lg:ml-[1.5vw] lg:mt-[1.5vw] lg:h-[2.8vw] lg:min-h-11 lg:px-[2vw] lg:text-[max(13px,0.98vw)]"
+            className="btn-gold mt-5 h-14 gap-2 self-start px-8 text-[1.125rem] sm:h-14 sm:px-9 sm:text-[1.125rem] lg:ml-[1.5vw] lg:mt-[1.5vw] lg:h-[2.8vw] lg:min-h-11 lg:px-[2vw] lg:text-[max(13px,0.98vw)]"
           >
             Vezi toate produsele
             <ArrowRight className="h-[1.2em] w-[1.2em]" />

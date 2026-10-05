@@ -79,11 +79,11 @@ export default function Header({ defaultOpen = false, categorii: categoriiInitia
     <>
       <CosDrawer open={cosDeschis} onClose={inchideCos} />
 
-      <header className="absolute inset-x-0 top-0 z-50 flex items-start px-3 max-lg:h-12 max-lg:items-center max-lg:bg-[#050a08] lg:pl-[7.6vw] lg:pr-[4.95vw]">
+      <header className="absolute inset-x-0 top-0 z-50 flex items-start px-2.5 min-[400px]:px-3 max-lg:h-16 max-lg:items-center max-lg:bg-[#050a08] lg:pl-[7.6vw] lg:pr-[4.95vw]">
         <Logo className="shrink-0 lg:mt-3" />
 
         {/* Bara întunecată: lipită de sus, colțuri inferioare rotunjite */}
-        <div className="ml-4 flex h-20 flex-1 items-center max-lg:h-12 max-lg:rounded-none max-lg:bg-none max-lg:px-0 rounded-b-[2.4rem] bg-[linear-gradient(90deg,rgba(5,10,8,0)_0%,rgba(5,10,8,0.3)_14%,rgba(5,10,8,0.78)_55%,rgba(5,10,8,0.9)_100%)] pl-[1.0625rem] pr-6 max-lg:justify-end lg:ml-[2.4vw] lg:pr-12">
+        <div className="ml-2 flex h-20 flex-1 items-center min-[400px]:ml-4 max-lg:h-16 max-lg:rounded-none max-lg:bg-none max-lg:px-0 rounded-b-[2.4rem] bg-[linear-gradient(90deg,rgba(5,10,8,0)_0%,rgba(5,10,8,0.3)_14%,rgba(5,10,8,0.78)_55%,rgba(5,10,8,0.9)_100%)] pl-[1.0625rem] pr-6 max-lg:justify-end lg:ml-[2.4vw] lg:pr-12">
           <nav aria-label="Meniu principal" className="hidden items-center text-[0.75rem] font-medium text-white lg:flex">
             <div ref={menuRef} className="relative">
               {categorii.length < 2 ? (
@@ -159,14 +159,14 @@ export default function Header({ defaultOpen = false, categorii: categoriiInitia
                 <Search className="h-5 w-5" />
               </button>
             </form>
-            <button type="button" aria-label="Caută" onClick={() => setMobileOpen(true)} className="mr-4 text-white lg:hidden">
-              <Search className="h-6 w-6" strokeWidth={1.6} />
+            <button type="button" aria-label="Caută" onClick={() => setMobileOpen(true)} className="mr-3.5 text-white min-[400px]:mr-5 lg:hidden">
+              <Search className="h-6 w-6 min-[400px]:h-7 min-[400px]:w-7" strokeWidth={1.6} />
             </button>
-            <Link href="/cont" aria-label="Contul meu" className="mr-4 text-white transition hover:text-gold-bright lg:mr-[1.875rem]">
-              <User className="h-6 w-6 lg:h-[1.875rem] lg:w-[1.875rem]" strokeWidth={1.4} />
+            <Link href="/cont" aria-label="Contul meu" className="mr-3.5 text-white transition hover:text-gold-bright min-[400px]:mr-5 lg:mr-[1.875rem]">
+              <User className="h-6 w-6 min-[400px]:h-7 min-[400px]:w-7 lg:h-[1.875rem] lg:w-[1.875rem]" strokeWidth={1.4} />
             </Link>
             <button type="button" aria-label="Coșul de cumpărături" onClick={deschideCos} className="relative text-white transition hover:text-gold-bright">
-              <Cart className="h-6 w-6 lg:h-[1.875rem] lg:w-[1.875rem]" strokeWidth={1.4} />
+              <Cart className="h-6 w-6 min-[400px]:h-7 min-[400px]:w-7 lg:h-[1.875rem] lg:w-[1.875rem]" strokeWidth={1.4} />
               <span className="absolute -right-2 -top-2 grid h-[1.125rem] min-w-[1.125rem] place-items-center rounded-full bg-gold-bright px-0.5 text-[0.625rem] font-extrabold text-forest-950">
                 {numarArticole}
               </span>
@@ -177,9 +177,9 @@ export default function Header({ defaultOpen = false, categorii: categoriiInitia
               aria-expanded={mobileOpen}
               aria-controls="mobile-menu"
               onClick={() => setMobileOpen((v) => !v)}
-              className="ml-4 grid h-10 w-9 place-items-center text-white lg:hidden"
+              className="ml-3 grid h-10 w-8 place-items-center text-white min-[400px]:ml-4 min-[400px]:w-9 lg:hidden"
             >
-              {mobileOpen ? <Close className="h-6 w-6" /> : <Menu className="h-6 w-6" />}
+              {mobileOpen ? <Close className="h-6 w-6 min-[400px]:h-7 min-[400px]:w-7" /> : <Menu className="h-6 w-6 min-[400px]:h-7 min-[400px]:w-7" />}
             </button>
           </div>
         </div>
@@ -189,7 +189,7 @@ export default function Header({ defaultOpen = false, categorii: categoriiInitia
           <nav
             id="mobile-menu"
             aria-label="Meniu principal"
-            className="absolute inset-x-3 top-[3.25rem] max-h-[calc(100svh-4rem)] overflow-y-auto rounded-2xl border border-gold/30 bg-[#06100c]/95 p-4 shadow-[0_1.25rem_3rem_rgba(0,0,0,0.7)] backdrop-blur-xl lg:hidden"
+            className="absolute inset-x-3 top-[4.5rem] max-h-[calc(100svh-5.5rem)] overflow-y-auto rounded-2xl border border-gold/30 bg-[#06100c]/95 p-4 shadow-[0_1.25rem_3rem_rgba(0,0,0,0.7)] backdrop-blur-xl lg:hidden"
           >
             <form role="search" onSubmit={cauta} className="flex h-12 items-center rounded-full bg-white/[0.12] pl-4 pr-3 text-[0.9375rem] focus-within:ring-1 focus-within:ring-gold/70">
               <input type="search" name="q" aria-label="Caută produse" placeholder="Caută produse..." className="w-full bg-transparent text-white outline-none placeholder:text-white/50" />
